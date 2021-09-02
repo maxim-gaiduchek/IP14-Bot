@@ -12,7 +12,7 @@ public enum WeekCount {
     private static final DateFormat FORMAT_WEEK_COUNT = new SimpleDateFormat("ww");
 
     static {
-        FORMAT_WEEK_COUNT.setTimeZone(TimeZone.getTimeZone("+3"));
+        FORMAT_WEEK_COUNT.setTimeZone(TimeZone.getTimeZone("GMT+3"));
     }
 
     public static WeekCount getCurrentWeekCount() {
