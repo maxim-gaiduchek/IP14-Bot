@@ -3,12 +3,17 @@ package entities.enums;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public enum WeekCount {
 
     FIRST, SECOND;
 
     private static final DateFormat FORMAT_WEEK_COUNT = new SimpleDateFormat("ww");
+
+    static {
+        FORMAT_WEEK_COUNT.setTimeZone(TimeZone.getTimeZone("+3"));
+    }
 
     public static WeekCount getCurrentWeekCount() {
         return getWeekCount(new Date());

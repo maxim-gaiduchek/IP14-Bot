@@ -29,6 +29,11 @@ public class Main extends TelegramLongPollingBot {
     private static final DateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
     private static final DateFormat FORMAT_DATE = new SimpleDateFormat("dd.MM.yyyy");
 
+    static {
+        FORMAT_TIME.setTimeZone(TimeZone.getTimeZone("+3"));
+        FORMAT_DATE.setTimeZone(TimeZone.getTimeZone("+3"));
+    }
+
     private Main() {
         lectures = new ArrayList<>();
 

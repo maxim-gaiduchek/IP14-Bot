@@ -3,6 +3,7 @@ package entities.enums;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public enum WeekDay {
 
@@ -19,6 +20,10 @@ public enum WeekDay {
     private final String prefix;
 
     private static final DateFormat FORMAT = new SimpleDateFormat("EEE");
+
+    static {
+        FORMAT.setTimeZone(TimeZone.getTimeZone("+3"));
+    }
 
     WeekDay(int count, String dayName, String prefix) {
         this.count = count;
