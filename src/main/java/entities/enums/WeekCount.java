@@ -15,6 +15,6 @@ public enum WeekCount {
     }
 
     public static WeekCount getWeekCount(Date date) {
-        return Integer.parseInt(FORMAT_WEEK_COUNT.format(date)) % 2 == 1 ? FIRST : SECOND;
+        return Integer.parseInt(FORMAT_WEEK_COUNT.format(date)) % 2 == 0 ? FIRST : SECOND;
     }
 }
