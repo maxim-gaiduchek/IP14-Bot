@@ -81,7 +81,8 @@ public class Main extends TelegramLongPollingBot {
 
         lectures = Collections.unmodifiableList(lectures);
 
-        System.out.println(new Date());
+        System.out.println(FORMAT_DATE.format(new Date()));
+        System.out.println(FORMAT_TIME.format(new Date()));
         System.out.println(WeekCount.getCurrentWeekCount());
         System.out.println(WeekDay.getCurrentWeekDay());
 
