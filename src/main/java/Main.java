@@ -106,8 +106,8 @@ public class Main extends TelegramLongPollingBot {
         String text = message.getText();
 
         switch (text) {
-            case "/start", "/start@ip-14-bot", "/help", "/help@ip-14-bot" -> sendHelp();
-            case "/today", "/today@ip-14-bot" -> sendSchedule();
+            case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
+            case "/today", "/today@ip_14_bot" -> sendSchedule();
         }
     }
 
@@ -138,7 +138,7 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    case "06:00" -> sendSchedule();
+                    case "04:00" -> sendSchedule();
                     default -> {
                         List<Lecture> lectureList = getLectures();
 
