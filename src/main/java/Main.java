@@ -146,7 +146,7 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    case "04:00" -> sendSchedule();
+                    case "07:00" -> sendSchedule();
                     default -> {
                         List<Lecture> lectureList = getLectures();
 
