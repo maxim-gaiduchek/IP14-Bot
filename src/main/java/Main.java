@@ -21,9 +21,9 @@ public class Main extends TelegramLongPollingBot {
 
     private static List<Lecture> lectures;
 
-    private static final long CHAT_ID = -1001154716814L;
-    private static final String BOT_USERNAME = "ip_14_bot";
-    private static final String BOT_TOKEN = "1985265362:AAFSYrJMhfwFMf7FBciOZO2nROLus3iC9kg";
+    private static final long CHAT_ID = -1001598116577L;
+    private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
+    private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
     private static final DateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
@@ -93,15 +93,11 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void parseMessage(Message message) {
-        if (!message.getNewChatMembers().isEmpty()) {
-            for (User user : message.getNewChatMembers()) {
-                try {
-                    if (user.equals(getMe())) {
-                        sender.leaveChat(message.getChatId());
-                    }
-                } catch (TelegramApiException ignored) {}
-            }
-        } else if (message.isCommand()) {
+        if (message.getChatId() != CHAT_ID) {
+            sender.leaveChat(message.getChatId());
+        }
+
+        if (message.isCommand()) {
             parseCommand(message);
         }
     }
@@ -110,8 +106,8 @@ public class Main extends TelegramLongPollingBot {
         String text = message.getText();
 
         switch (text) {
-            case "/start", "/start@" + BOT_USERNAME, "/help", "/help@" + BOT_USERNAME -> sendHelp();
-            case "/today", "/today@" + BOT_USERNAME -> sendSchedule();
+            case "/start", "/start@ip-14-bot", "/help", "/help@ip-14-bot" -> sendHelp();
+            case "/today", "/today@ip-14-bot" -> sendSchedule();
         }
     }
 
