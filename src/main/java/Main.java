@@ -50,7 +50,7 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "пос. Ліхоузова Т. А.", "-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "доц. Боднарчук С. В.", "303-18", null));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://meet.google.com/mnr-dmok-mhg"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://us02web.zoom.us/j/82677485078"));
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.LECTURE, "пос. Ліхоузова Т. А.", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         // second week
@@ -77,6 +77,8 @@ public class Main extends TelegramLongPollingBot {
         lectures = Collections.unmodifiableList(lectures);
 
         System.out.println(new Date());
+        System.out.println(WeekCount.getCurrentWeekCount());
+        System.out.println(WeekDay.getCurrentWeekDay());
 
         new Executor().start();
     }
