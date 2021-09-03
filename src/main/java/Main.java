@@ -146,10 +146,7 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    case "07:00" -> {
-                        sendSchedule();
-                        delay(60000, start);
-                    }
+                    case "07:00" -> sendSchedule();
                     default -> {
                         List<Lecture> lectureList = getLectures();
 
@@ -167,14 +164,11 @@ public class Main extends TelegramLongPollingBot {
                                     sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
                                 }
                             }
-                            delay(60000, start);
                         }
-
-                        delay(1000, start);
                     }
                 }
 
-
+                delay(60000, start);
             }
         }
 
