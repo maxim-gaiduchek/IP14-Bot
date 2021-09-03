@@ -146,7 +146,10 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    case "07:00" -> sendSchedule();
+                    case "07:00" -> {
+                        sendSchedule();
+                        delay(60000, start);
+                    }
                     default -> {
                         List<Lecture> lectureList = getLectures();
 
@@ -164,15 +167,22 @@ public class Main extends TelegramLongPollingBot {
                                     sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
                                 }
                             }
+                            delay(60000, start);
                         }
+
+                        delay(1000, start);
                     }
                 }
 
-                try {
-                    sleep(60000 - (System.currentTimeMillis() - start));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+            }
+        }
+
+        private void delay(int delay, long startExecutionTime) {
+            try {
+                sleep(delay - (System.currentTimeMillis() - startExecutionTime));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -210,8 +220,6 @@ public class Main extends TelegramLongPollingBot {
                 .append("\n\n");
 
         for (Lecture lecture : lectureList) {
-            LectureCount count = lecture.getLectureCount();
-
             sb.append(lecture.getLectureInfo()).append("\n\n");
         }
 
