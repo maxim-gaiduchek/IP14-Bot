@@ -212,8 +212,7 @@ public class Main extends TelegramLongPollingBot {
         for (Lecture lecture : lectureList) {
             LectureCount count = lecture.getLectureCount();
 
-            sb.append("(").append(count.getStartTime()).append("-").append(count.getEndTime()).append(") ")
-                    .append(lecture.getLectureInfo()).append("\n\n");
+            sb.append(lecture.getLectureInfo()).append("\n\n");
         }
 
         sender.sendStringWithDisabledWebPagePreview(CHAT_ID, sb.toString());
