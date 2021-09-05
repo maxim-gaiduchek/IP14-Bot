@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import utils.SimpleSender;
 
+import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -147,25 +148,7 @@ public class Main extends TelegramLongPollingBot {
 
                 switch (time) {
                     case "07:00" -> sendSchedule();
-                    default -> {
-                        List<Lecture> lectureList = getLectures();
-
-                        for (int i = 0; i < lectureList.size(); i++) {
-                            Lecture lecture = lectureList.get(i);
-                            LectureCount count = lecture.getLectureCount();
-
-                            if (time.equals(count.getStartTime())) {
-                                sendLectureInfo(lecture, "Пара уже начинается:");
-                            } else if (time.equals(count.getEndTime())) {
-                                if (i == lectureList.size() - 1) {
-                                    sender.sendString(CHAT_ID, "Ура, пары завершились");
-                                    sendSchedule();
-                                } else {
-                                    sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
-                                }
-                            }
-                        }
-                    }
+                    default -> sendOnLectureStartsOrEnds(time);
                 }
 
                 delay(60000, start);
@@ -200,7 +183,10 @@ public class Main extends TelegramLongPollingBot {
         List<Lecture> lectureList = getLectures(weekDay, weekCount);
 
         if (lectureList.isEmpty()) {
-            sender.sendStringWithDisabledNotifying(CHAT_ID, "Сегодня выходной. Чиллим, дамы и господа");
+            String msg = weekDay == WeekDay.SUNDAY ?
+                    "Оп оп, выходной, живем живем" : "Сегодня выходной. Чиллим, дамы и господа";
+
+            sender.sendStringWithDisabledNotifying(CHAT_ID, msg);
             return;
         }
 
@@ -226,6 +212,26 @@ public class Main extends TelegramLongPollingBot {
                      lecture.getLectureInfo();
 
         sender.sendString(CHAT_ID, msg);
+    }
+
+    private void sendOnLectureStartsOrEnds(String time) {
+        List<Lecture> lectureList = getLectures();
+
+        for (int i = 0; i < lectureList.size(); i++) {
+            Lecture lecture = lectureList.get(i);
+            LectureCount count = lecture.getLectureCount();
+
+            if (time.equals(count.getStartTime())) {
+                sendLectureInfo(lecture, "Пара уже начинается:");
+            } else if (time.equals(count.getEndTime())) {
+                if (i == lectureList.size() - 1) {
+                    sender.sendString(CHAT_ID, "Ура, пары завершились");
+                    sendSchedule();
+                } else {
+                    sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
+                }
+            }
+        }
     }
 
     // main
