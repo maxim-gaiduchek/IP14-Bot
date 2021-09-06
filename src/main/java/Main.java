@@ -245,14 +245,20 @@ public class Main extends TelegramLongPollingBot {
         try {
             Date now = FORMAT_TIME.parse(FORMAT_TIME.format(new Date()));
 
-            for (int i = 0; i < lectureList.size(); i++) {
-                Lecture lecture = lectureList.get(i);
+            for (Lecture lecture : lectureList) {
                 LectureCount count = lecture.getLectureCount();
                 Date start = FORMAT_TIME.parse(count.getStartTime()), end = FORMAT_TIME.parse(count.getEndTime());
 
                 if (start.before(now) && end.after(now)) {
                     sendLectureInfo(lecture, "Текущая пара:");
-                } else if (end.before(now)) {
+                }
+            }
+
+            for (int i = lectureList.size() - 1; i >= 0; i--) {
+                Lecture lecture = lectureList.get(i);
+                Date end = FORMAT_TIME.parse(lecture.getLectureCount().getEndTime());
+
+                if (end.before(now)) {
                     if (i == lectureList.size() - 1) {
                         sender.sendString(CHAT_ID, "Пары уже закончились");
                     } else {
