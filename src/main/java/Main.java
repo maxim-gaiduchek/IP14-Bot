@@ -221,6 +221,7 @@ public class Main extends TelegramLongPollingBot {
 
             if (time.equals(count.getStartTime())) {
                 sendLectureInfo(lecture, "Пара уже начинается:");
+                return;
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
                     sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
@@ -228,6 +229,7 @@ public class Main extends TelegramLongPollingBot {
                 } else {
                     sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:");
                 }
+                return;
             }
         }
     }
