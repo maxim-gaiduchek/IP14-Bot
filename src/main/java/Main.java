@@ -118,7 +118,7 @@ public class Main extends TelegramLongPollingBot {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
             case "/today", "/today@ip_14_bot" -> sendSchedule();
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo();
-            case "/next_day", "/next-day@ip_14_bot" -> sendNextDaySchedule();
+            case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule();
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms();
         }
     }
