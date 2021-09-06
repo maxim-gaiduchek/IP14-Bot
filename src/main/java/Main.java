@@ -5,15 +5,12 @@ import entities.enums.WeekCount;
 import entities.enums.WeekDay;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import utils.SimpleSender;
 
-import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -108,6 +105,8 @@ public class Main extends TelegramLongPollingBot {
 
         if (message.isCommand()) {
             parseCommand(message);
+        } else if (message.hasText()) {
+            parseText(message);
         }
     }
 
@@ -117,6 +116,15 @@ public class Main extends TelegramLongPollingBot {
         switch (text) {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
             case "/today", "/today@ip_14_bot" -> sendSchedule();
+            case "/mom", "/mom@ip_14_bot" -> mentionMoms();
+        }
+    }
+
+    private void parseText(Message message) {
+        String text = message.getText();
+
+        if (text.contains("@мамочки") || text.contains("@мама")) {
+            mentionMoms() ;
         }
     }
 
@@ -126,6 +134,10 @@ public class Main extends TelegramLongPollingBot {
                 /today - расписание на сегодня""";
 
         sender.sendString(CHAT_ID, msg);
+    }
+
+    private void mentionMoms() {
+        sender.sendString(CHAT_ID, "@ostrich_alexey @Pavelperov @andrey_rand");
     }
 
     // main execution
@@ -179,6 +191,10 @@ public class Main extends TelegramLongPollingBot {
         sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
     }
 
+    private void sendNextDaySchedule() {
+        sendSchedule(WeekDay.getNextWeekDay(), WeekCount.getCurrentWeekCount());
+    }
+
     private void sendSchedule(WeekDay weekDay, WeekCount weekCount) {
         List<Lecture> lectureList = getLectures(weekDay, weekCount);
 
@@ -225,7 +241,7 @@ public class Main extends TelegramLongPollingBot {
                 sendLectureInfo(lecture, "Пара уже начинается:");
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
-                    sender.sendString(CHAT_ID, "Ура, пары завершились");
+                    sender.sendString(CHAT_ID, "Ура, пары завершились!");
                     sendSchedule();
                 } else {
                     sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");

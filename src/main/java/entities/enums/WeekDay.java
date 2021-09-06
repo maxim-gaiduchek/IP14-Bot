@@ -43,6 +43,10 @@ public enum WeekDay {
         return getWeekDay(new Date());
     }
 
+    public static WeekDay getNextWeekDay() {
+        return getWeekDay(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
+    }
+
     public static WeekDay getWeekDay(Date date) {
         String prefix = FORMAT.format(date);
 
