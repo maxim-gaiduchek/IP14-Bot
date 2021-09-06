@@ -131,13 +131,14 @@ public class Main extends TelegramLongPollingBot {
     private void sendHelp() {
         String msg = """
                 /start, /help - все команды
-                /today - расписание на сегодня""";
+                /today - расписание на сегодня
+                /mom - призывает мамочек :З""";
 
         sender.sendString(CHAT_ID, msg);
     }
 
     private void mentionMoms() {
-        sender.sendString(CHAT_ID, "@ostrich_alexey @Pavelperov @andrey_rand");
+        sender.sendString(CHAT_ID, "@ostrich\\_alexey @Pavelperov @andrey_rand");
     }
 
     // main execution
