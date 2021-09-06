@@ -138,7 +138,7 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void mentionMoms() {
-        sender.sendString(CHAT_ID, "@ostrich\\_alexey @Pavelperov @andrey_rand");
+        sender.sendString(CHAT_ID, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
     }
 
     // main execution
