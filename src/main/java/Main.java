@@ -116,23 +116,20 @@ public class Main extends TelegramLongPollingBot {
         switch (text) {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
             case "/today", "/today@ip_14_bot" -> sendSchedule();
-            case "/mom", "/mom@ip_14_bot" -> mentionMoms();
+            // case "/mom", "/mom@ip_14_bot" -> mentionMoms();
         }
     }
 
     private void parseText(Message message) {
         String text = message.getText();
 
-        if (text.contains("@мамочки") || text.contains("@мама")) {
-            mentionMoms() ;
-        }
+        // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms();
     }
 
     private void sendHelp() {
         String msg = """
                 /start, /help - все команды
-                /today - расписание на сегодня
-                /mom - призывает мамочек :З""";
+                /today - расписание на сегодня"""; // /mom - призывает мамочек :З
 
         sender.sendString(CHAT_ID, msg);
     }
@@ -242,10 +239,10 @@ public class Main extends TelegramLongPollingBot {
                 sendLectureInfo(lecture, "Пара уже начинается:");
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
-                    sender.sendString(CHAT_ID, "Ура, пары завершились!");
+                    sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
                     sendSchedule();
                 } else {
-                    sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
+                    sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:");
                 }
             }
         }
