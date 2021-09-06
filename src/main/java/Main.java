@@ -12,6 +12,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import utils.SimpleSender;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -116,6 +117,7 @@ public class Main extends TelegramLongPollingBot {
         switch (text) {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
             case "/today", "/today@ip_14_bot" -> sendSchedule();
+            case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo();
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms();
         }
     }
@@ -129,7 +131,8 @@ public class Main extends TelegramLongPollingBot {
     private void sendHelp() {
         String msg = """
                 /start, /help - все команды
-                /today - расписание на сегодня"""; // /mom - призывает мамочек :З
+                /today - расписание на сегодня
+                /lecture - текущая лекция"""; // /mom - призывает мамочек :З
 
         sender.sendString(CHAT_ID, msg);
     }
@@ -174,17 +177,6 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private List<Lecture> getLectures(WeekDay weekDay, WeekCount weekCount) {
-        return lectures.stream()
-                .filter(lecture -> lecture.getWeekDay() == weekDay && lecture.getWeekCount() == weekCount)
-                .sorted(Comparator.comparing(lecture -> lecture.getLectureCount().getCount()))
-                .toList();
-    }
-
-    private List<Lecture> getLectures() {
-        return getLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
-    }
-
     private void sendSchedule() {
         sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
     }
@@ -194,7 +186,7 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void sendSchedule(WeekDay weekDay, WeekCount weekCount) {
-        List<Lecture> lectureList = getLectures(weekDay, weekCount);
+        List<Lecture> lectureList = getTodayLectures(weekDay, weekCount);
 
         if (lectureList.isEmpty()) {
             String msg = weekDay == WeekDay.SUNDAY ?
@@ -220,16 +212,8 @@ public class Main extends TelegramLongPollingBot {
         sender.sendStringWithDisabledWebPagePreview(CHAT_ID, sb.toString());
     }
 
-    private void sendLectureInfo(Lecture lecture, String startMsg) {
-        String msg = startMsg + "\n" +
-                     "\n" +
-                     lecture.getLectureInfo();
-
-        sender.sendString(CHAT_ID, msg);
-    }
-
     private void sendOnLectureStartsOrEnds(String time) {
-        List<Lecture> lectureList = getLectures();
+        List<Lecture> lectureList = getTodayLectures();
 
         for (int i = 0; i < lectureList.size(); i++) {
             Lecture lecture = lectureList.get(i);
@@ -240,12 +224,61 @@ public class Main extends TelegramLongPollingBot {
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
                     sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
-                    sendSchedule();
+                    sendNextDaySchedule();
                 } else {
                     sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:");
                 }
             }
         }
+    }
+
+    private void sendCurrentLectureInfo() {
+        List<Lecture> lectureList = getTodayLectures();
+
+        if (lectureList.isEmpty()) {
+            sender.sendString(CHAT_ID, "Сегодня лекций нет");
+            return;
+        }
+
+        try {
+            Date now = FORMAT_TIME.parse(FORMAT_TIME.format(new Date()));
+
+            for (int i = 0; i < lectureList.size(); i++) {
+                Lecture lecture = lectureList.get(i);
+                LectureCount count = lecture.getLectureCount();
+                Date start = FORMAT_TIME.parse(count.getStartTime()), end = FORMAT_TIME.parse(count.getEndTime());
+
+                if (start.before(now) && end.after(now)) {
+                    sendLectureInfo(lecture, "Текущая пара:");
+                } else if (end.before(now)) {
+                    if (i == lectureList.size() - 1) {
+                        sender.sendString(CHAT_ID, "Пары уже закончились");
+                    } else {
+                        sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
+                    }
+                }
+            }
+        } catch (ParseException ignored) {
+        }
+    }
+
+    private List<Lecture> getTodayLectures(WeekDay weekDay, WeekCount weekCount) {
+        return lectures.stream()
+                .filter(lecture -> lecture.getWeekDay() == weekDay && lecture.getWeekCount() == weekCount)
+                .sorted(Comparator.comparing(lecture -> lecture.getLectureCount().getCount()))
+                .toList();
+    }
+
+    private List<Lecture> getTodayLectures() {
+        return getTodayLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
+    }
+
+    private void sendLectureInfo(Lecture lecture, String startMsg) {
+        String msg = startMsg + "\n" +
+                     "\n" +
+                     lecture.getLectureInfo();
+
+        sender.sendString(CHAT_ID, msg);
     }
 
     // main
