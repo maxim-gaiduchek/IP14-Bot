@@ -134,7 +134,7 @@ public class Main extends TelegramLongPollingBot {
                 /start, /help - все команды
                 /today - расписание на сегодня
                 /lecture - текущая лекция
-                /next_day - расписание на следующий день"""; // /mom - призывает мамочек :З
+                /next\\_day - расписание на следующий день"""; // /mom - призывает мамочек :З
 
         sender.sendString(CHAT_ID, msg);
     }
