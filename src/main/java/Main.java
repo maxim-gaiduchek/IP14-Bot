@@ -118,7 +118,7 @@ public class Main extends TelegramLongPollingBot {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
             case "/today", "/today@ip_14_bot" -> sendSchedule();
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo();
-            case "/next-day", "/next-day@ip_14_bot" -> sendNextDaySchedule();
+            case "/next_day", "/next-day@ip_14_bot" -> sendNextDaySchedule();
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms();
         }
     }
@@ -134,7 +134,7 @@ public class Main extends TelegramLongPollingBot {
                 /start, /help - все команды
                 /today - расписание на сегодня
                 /lecture - текущая лекция
-                /next-day - расписание на следующий день"""; // /mom - призывает мамочек :З
+                /next_day - расписание на следующий день"""; // /mom - призывает мамочек :З
 
         sender.sendString(CHAT_ID, msg);
     }
