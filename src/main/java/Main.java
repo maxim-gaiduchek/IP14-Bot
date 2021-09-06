@@ -185,13 +185,18 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void sendNextDaySchedule() {
-        WeekDay day = WeekDay.getCurrentWeekDay();
+        WeekDay now = WeekDay.getCurrentWeekDay();
         WeekCount count = WeekCount.getCurrentWeekCount();
 
-        for (int i = day.getCount(); i <= day.getCount() + 14; i++) {
+        for (int i = now.getCount() + 1; i <= now.getCount() + 14; i++) {
+            WeekDay day = WeekDay.getWeekDayByCounter(i);
+
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
-            if (!getLectures(day, count).isEmpty()) sendSchedule(day, count);
+            if (!getLectures(day, count).isEmpty()) {
+                sendSchedule(day, count);
+                break;
+            }
         }
     }
 
