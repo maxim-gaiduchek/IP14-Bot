@@ -47,6 +47,16 @@ public enum WeekDay {
         return getWeekDay(new Date(new Date().getTime() + 24 * 60 * 60 * 1000));
     }
 
+    public static WeekDay getWeekDayByCounter(int count) {
+        count %= 7;
+
+        for (WeekDay day : values()) {
+            if (day.count == count) return day;
+        }
+
+        return null;
+    }
+
     public static WeekDay getWeekDay(Date date) {
         String prefix = FORMAT.format(date);
 

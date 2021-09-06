@@ -118,6 +118,7 @@ public class Main extends TelegramLongPollingBot {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
             case "/today", "/today@ip_14_bot" -> sendSchedule();
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo();
+            case "/next-day", "/next-day@ip_14_bot" -> sendNextDaySchedule();
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms();
         }
     }
@@ -132,7 +133,8 @@ public class Main extends TelegramLongPollingBot {
         String msg = """
                 /start, /help - все команды
                 /today - расписание на сегодня
-                /lecture - текущая лекция"""; // /mom - призывает мамочек :З
+                /lecture - текущая лекция
+                /next-day - расписание на следующий день"""; // /mom - призывает мамочек :З
 
         sender.sendString(CHAT_ID, msg);
     }
@@ -183,11 +185,18 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void sendNextDaySchedule() {
-        sendSchedule(WeekDay.getNextWeekDay(), WeekCount.getCurrentWeekCount());
+        WeekDay day = WeekDay.getCurrentWeekDay();
+        WeekCount count = WeekCount.getCurrentWeekCount();
+
+        for (int i = day.getCount(); i <= day.getCount() + 14; i++) {
+            if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
+
+            if (!getLectures(day, count).isEmpty()) sendSchedule(day, count);
+        }
     }
 
     private void sendSchedule(WeekDay weekDay, WeekCount weekCount) {
-        List<Lecture> lectureList = getTodayLectures(weekDay, weekCount);
+        List<Lecture> lectureList = getLectures(weekDay, weekCount);
 
         if (lectureList.isEmpty()) {
             String msg = weekDay == WeekDay.SUNDAY ?
@@ -273,7 +282,7 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private List<Lecture> getTodayLectures(WeekDay weekDay, WeekCount weekCount) {
+    private List<Lecture> getLectures(WeekDay weekDay, WeekCount weekCount) {
         return lectures.stream()
                 .filter(lecture -> lecture.getWeekDay() == weekDay && lecture.getWeekCount() == weekCount)
                 .sorted(Comparator.comparing(lecture -> lecture.getLectureCount().getCount()))
@@ -281,7 +290,7 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private List<Lecture> getTodayLectures() {
-        return getTodayLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
+        return getLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
     }
 
     private void sendLectureInfo(Lecture lecture, String startMsg) {
