@@ -65,7 +65,7 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FORTH, WeekCount.SECOND, "Основи здорового способу життя (2-10)", LectureType.LECTURE, "доц. Міщук Д. М.", "302-18", "https://us05web.zoom.us/j/7931740671?pwd=eGxlZ2FJaXhoQi9EUG9mTVZJTDhQdz09"));
 
         lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.SECOND, WeekCount.SECOND, "Іноземна мова 1. Практичний курс іноземної мови І", LectureType.PRACTICE, "вик. Бойко І. В.", "227-18", "https://us04web.zoom.us/j/74293924008?pwd=dDlEVDhVR3U1U1d3L3lkTXVqOXpmdz09"));
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "доц. Круглова Н. В.", "231-18", null));
+        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "доц. Круглова Н. В.", "231-18", "https://us02web.zoom.us/j/86872250596?pwd=L2VDVG85U0psQk5mM0M5QmIvUm1DQT09"));
 
         lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.THIRD, WeekCount.SECOND, "Лінійна алгебра та аналітична геометрія", LectureType.PRACTICE, "доц. Круглова Н. В.", "227-18", "https://t.me/joinchat/XD8d4dK3rqxlNGQy"));
 
