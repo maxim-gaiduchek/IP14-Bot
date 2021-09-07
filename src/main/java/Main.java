@@ -214,7 +214,7 @@ public class Main extends TelegramLongPollingBot {
         long millisInDay = 24L * 60 * 60 * 1000;
         long diff = (day.getCount() - currentDay.getCount()) * millisInDay;
 
-        if (count == WeekCount.getCurrentWeekCount()) {
+        if (count != WeekCount.getCurrentWeekCount()) {
             diff += 7 * millisInDay;
         }
 
