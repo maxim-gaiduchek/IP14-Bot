@@ -199,28 +199,35 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private void sendSchedule(WeekDay weekDay, WeekCount weekCount) {
-        List<Lecture> lectureList = getLectures(weekDay, weekCount);
+    private void sendSchedule(WeekDay day, WeekCount count) {
+        List<Lecture> lectureList = getLectures(day, count);
 
         if (lectureList.isEmpty()) {
-            String msg = weekDay == WeekDay.SUNDAY ?
+            String msg = day == WeekDay.SUNDAY ?
                     "Оп оп, выходной, живем живем" : "Сегодня выходной. Чиллим, дамы и господа";
 
             sender.sendStringWithDisabledNotifying(CHAT_ID, msg);
             return;
         }
 
-        Date now = new Date();
+        WeekDay currentDay = WeekDay.getCurrentWeekDay();
+        long millisInDay = 24L * 60 * 60 * 1000;
+        long diff = (day.getCount() - currentDay.getCount()) * millisInDay;
 
-        StringBuilder sb = new StringBuilder(weekDay.getDayName())
+        if (count == WeekCount.getCurrentWeekCount()) {
+            diff += 7 * millisInDay;
+        }
+
+        Date date = new Date(new Date().getTime() + diff);
+
+        StringBuilder sb = new StringBuilder(day.getDayName())
                 .append(", ")
-                .append(FORMAT_DATE.format(now))
+                .append(FORMAT_DATE.format(date))
                 .append(", ")
-                .append(weekCount == WeekCount.FIRST ? "Первая неделя" : "Вторая неделя")
-                .append("\n\n");
+                .append(count == WeekCount.FIRST ? "Первая неделя" : "Вторая неделя");
 
         for (Lecture lecture : lectureList) {
-            sb.append(lecture.getLectureInfo()).append("\n\n");
+            sb.append("\n\n").append(lecture.getLectureInfo());
         }
 
         sender.sendStringWithDisabledWebPagePreview(CHAT_ID, sb.toString());
@@ -282,6 +289,8 @@ public class Main extends TelegramLongPollingBot {
                     return;
                 }
             }
+
+            sendLectureInfo(lectureList.get(0), "Первая пара:");
         } catch (ParseException ignored) {
         }
     }
@@ -302,7 +311,7 @@ public class Main extends TelegramLongPollingBot {
                      "\n" +
                      lecture.getLectureInfo();
 
-        sender.sendString(CHAT_ID, msg);
+        sender.sendStringWithDisabledWebPagePreview(CHAT_ID, msg);
     }
 
     // main
