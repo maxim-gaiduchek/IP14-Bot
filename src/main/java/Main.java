@@ -137,8 +137,13 @@ public class Main extends TelegramLongPollingBot {
 
     private void parseText(Message message) {
         String text = message.getText();
+        Long chatId = message.getChatId();
 
-        // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms();
+        if (text.contains("1000-7")) {
+            deadInsideCounter(chatId);
+        }
+
+        // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);
     }
 
     private void sendHelp(Long chatId) {
@@ -154,6 +159,12 @@ public class Main extends TelegramLongPollingBot {
     private void mentionMoms(Long chatId) {
         if (CHAT_ID.equals(chatId)){
             sender.sendString(chatId, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
+        }
+    }
+
+    private void deadInsideCounter(Long chatId) {
+        for (int i = 1000; i > 0; i -= 7) {
+            sender.sendString(chatId, i + "-7");
         }
     }
 
