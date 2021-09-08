@@ -19,8 +19,9 @@ import java.util.*;
 public class Main extends TelegramLongPollingBot {
 
     private static List<Lecture> lectures;
+    private static Map<String, String> birthdays;
 
-    private static final long CHAT_ID = -1001598116577L;
+    private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
@@ -34,6 +35,20 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private Main() {
+        setLectures();
+        setBirthdays();
+
+        System.out.println(FORMAT_DATE.format(new Date()));
+        System.out.println(FORMAT_TIME.format(new Date()));
+        System.out.println(WeekCount.getCurrentWeekCount());
+        System.out.println(WeekDay.getCurrentWeekDay());
+
+        new Executor().start();
+    }
+
+    // settings
+
+    private void setLectures() {
         lectures = new ArrayList<>();
 
         // first week
@@ -78,13 +93,10 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.LECTURE, "пос. Ліхоузова Т. А.", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures = Collections.unmodifiableList(lectures);
+    }
 
-        System.out.println(FORMAT_DATE.format(new Date()));
-        System.out.println(FORMAT_TIME.format(new Date()));
-        System.out.println(WeekCount.getCurrentWeekCount());
-        System.out.println(WeekDay.getCurrentWeekDay());
+    public static void setBirthdays() {
 
-        new Executor().start();
     }
 
     // parsing
@@ -99,7 +111,7 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void parseMessage(Message message) {
-        if (message.getChatId() != CHAT_ID) {
+        if (CHAT_ID.equals(message.getChatId()) && !message.isUserMessage()) {
             sender.leaveChat(message.getChatId());
         }
 
@@ -112,13 +124,14 @@ public class Main extends TelegramLongPollingBot {
 
     private void parseCommand(Message message) {
         String text = message.getText();
+        Long chatId = message.getChatId();
 
         switch (text) {
-            case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp();
-            case "/today", "/today@ip_14_bot" -> sendSchedule();
-            case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo();
-            case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule();
-            // case "/mom", "/mom@ip_14_bot" -> mentionMoms();
+            case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp(chatId);
+            case "/today", "/today@ip_14_bot" -> sendSchedule(chatId);
+            case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
+            case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
+            // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
         }
     }
 
@@ -128,18 +141,20 @@ public class Main extends TelegramLongPollingBot {
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms();
     }
 
-    private void sendHelp() {
+    private void sendHelp(Long chatId) {
         String msg = """
                 /start, /help - все команды
                 /today - расписание на сегодня
                 /lecture - текущая лекция
                 /next\\_day - расписание на следующий день"""; // /mom - призывает мамочек :З
 
-        sender.sendString(CHAT_ID, msg);
+        sender.sendString(chatId, msg);
     }
 
-    private void mentionMoms() {
-        sender.sendString(CHAT_ID, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
+    private void mentionMoms(Long chatId) {
+        if (CHAT_ID.equals(chatId)){
+            sender.sendString(chatId, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
+        }
     }
 
     // main execution
@@ -160,10 +175,10 @@ public class Main extends TelegramLongPollingBot {
 
                 String time = FORMAT_TIME.format(now);
 
-                if (time.equals("07:00")) {
-                    sendSchedule();
-                } else {
-                    sendOnLectureStartsOrEnds(time);
+                switch (time) {
+                    case "07:00" -> sendSchedule(CHAT_ID);
+                    case "08:00" -> sendBirthday();
+                    default -> sendOnLectureStartsOrEnds(time);
                 }
 
                 delay(60000, start);
@@ -179,11 +194,13 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private void sendSchedule() {
-        sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
+    // lectures
+
+    private void sendSchedule(Long chatId) {
+        sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount(), chatId);
     }
 
-    private void sendNextDaySchedule() {
+    private void sendNextDaySchedule(Long chatId) {
         WeekDay now = WeekDay.getCurrentWeekDay();
         WeekCount count = WeekCount.getCurrentWeekCount();
 
@@ -193,26 +210,25 @@ public class Main extends TelegramLongPollingBot {
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
             if (!getLectures(day, count).isEmpty()) {
-                sendSchedule(day, count);
+                sendSchedule(day, count, chatId);
                 break;
             }
         }
     }
 
-    private void sendSchedule(WeekDay day, WeekCount count) {
+    private void sendSchedule(WeekDay day, WeekCount count, Long chatId) {
         List<Lecture> lectureList = getLectures(day, count);
 
         if (lectureList.isEmpty()) {
             String msg = day == WeekDay.SUNDAY ?
                     "Оп оп, выходной, живем живем" : "Сегодня выходной. Чиллим, дамы и господа";
 
-            sender.sendStringWithDisabledNotifying(CHAT_ID, msg);
+            sender.sendStringWithDisabledNotifying(chatId, msg);
             return;
         }
 
-        WeekDay currentDay = WeekDay.getCurrentWeekDay();
         long millisInDay = 24L * 60 * 60 * 1000;
-        long diff = (day.getCount() - currentDay.getCount()) * millisInDay;
+        long diff = (day.getCount() - WeekDay.getCurrentWeekDay().getCount()) * millisInDay;
 
         if (count != WeekCount.getCurrentWeekCount()) {
             diff += 7 * millisInDay;
@@ -230,7 +246,7 @@ public class Main extends TelegramLongPollingBot {
             sb.append("\n\n").append(lecture.getLectureInfo());
         }
 
-        sender.sendStringWithDisabledWebPagePreview(CHAT_ID, sb.toString());
+        sender.sendStringWithDisabledWebPagePreview(chatId, sb.toString());
     }
 
     private void sendOnLectureStartsOrEnds(String time) {
@@ -241,25 +257,25 @@ public class Main extends TelegramLongPollingBot {
             LectureCount count = lecture.getLectureCount();
 
             if (time.equals(count.getStartTime())) {
-                sendLectureInfo(lecture, "Пара уже начинается:");
+                sendLectureInfo(lecture, "Пара уже начинается:", CHAT_ID);
                 return;
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
                     sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
-                    sendNextDaySchedule();
+                    sendNextDaySchedule(CHAT_ID);
                 } else {
-                    sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:");
+                    sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:", CHAT_ID);
                 }
                 return;
             }
         }
     }
 
-    private void sendCurrentLectureInfo() {
+    private void sendCurrentLectureInfo(Long chatId) {
         List<Lecture> lectureList = getTodayLectures();
 
         if (lectureList.isEmpty()) {
-            sender.sendString(CHAT_ID, "Сегодня лекций нет");
+            sender.sendString(chatId, "Сегодня лекций нет");
             return;
         }
 
@@ -271,7 +287,7 @@ public class Main extends TelegramLongPollingBot {
                 Date start = FORMAT_TIME.parse(count.getStartTime()), end = FORMAT_TIME.parse(count.getEndTime());
 
                 if (start.before(now) && end.after(now)) {
-                    sendLectureInfo(lecture, "Текущая пара:");
+                    sendLectureInfo(lecture, "Текущая пара:", chatId);
                     return;
                 }
             }
@@ -282,15 +298,15 @@ public class Main extends TelegramLongPollingBot {
 
                 if (end.before(now)) {
                     if (i == lectureList.size() - 1) {
-                        sender.sendString(CHAT_ID, "Пары уже закончились");
+                        sender.sendString(chatId, "Пары уже закончились");
                     } else {
-                        sendLectureInfo(lectureList.get(i + 1), "Следущая пара:");
+                        sendLectureInfo(lectureList.get(i + 1), "Следущая пара:", chatId);
                     }
                     return;
                 }
             }
 
-            sendLectureInfo(lectureList.get(0), "Первая пара:");
+            sendLectureInfo(lectureList.get(0), "Первая пара:", chatId);
         } catch (ParseException ignored) {
         }
     }
@@ -306,12 +322,18 @@ public class Main extends TelegramLongPollingBot {
         return getLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
     }
 
-    private void sendLectureInfo(Lecture lecture, String startMsg) {
+    private void sendLectureInfo(Lecture lecture, String startMsg, Long chatId) {
         String msg = startMsg + "\n" +
                      "\n" +
                      lecture.getLectureInfo();
 
-        sender.sendStringWithDisabledWebPagePreview(CHAT_ID, msg);
+        sender.sendStringWithDisabledWebPagePreview(chatId, msg);
+    }
+
+    // birthdays
+
+    private void sendBirthday() {
+
     }
 
     // main
