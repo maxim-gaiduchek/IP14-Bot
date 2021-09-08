@@ -85,7 +85,7 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.THIRD, WeekCount.SECOND, "Лінійна алгебра та аналітична геометрія", LectureType.PRACTICE, "доц. Круглова Н. В.", "227-18", "https://t.me/joinchat/XD8d4dK3rqxlNGQy"));
 
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.FIRST, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LABORATORY, "ст.вик. Новікова П. А.", "422-18", null));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.SECOND, "Українська мова за професійним спрямуванням", LectureType.PRACTICE, "ст.вик. Сидоренко Л. М.", "231-18", null));
+        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.SECOND, "Українська мова за професійним спрямуванням", LectureType.PRACTICE, "ст.вик. Сидоренко Л. М.", "231-18", "https://us02web.zoom.us/j/85471143932?pwd=bTlCQ3BCL0RsbWdrOWtwVlcrbUxaZz09"));
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "пос. Ліхоузова Т. А.", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "доц. Боднарчук С. В.", "303-18", null));
