@@ -163,9 +163,13 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void deadInsideCounter(Long chatId) {
+        StringBuilder sb = new StringBuilder();
+
         for (int i = 1000; i > 0; i -= 7) {
-            sender.sendString(chatId, i + "-7");
+            sb.append(i).append("-7\n");
         }
+
+        sender.sendString(chatId, sb.toString());
     }
 
     // main execution
