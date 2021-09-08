@@ -111,7 +111,7 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void parseMessage(Message message) {
-        if (CHAT_ID.equals(message.getChatId()) && !message.isUserMessage()) {
+        if (!CHAT_ID.equals(message.getChatId()) && !message.isUserMessage()) {
             sender.leaveChat(message.getChatId());
         }
 
