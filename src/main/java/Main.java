@@ -157,12 +157,17 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void mentionMoms(Long chatId) {
-        if (CHAT_ID.equals(chatId)){
+        if (CHAT_ID.equals(chatId)) {
             sender.sendString(chatId, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
         }
     }
 
     private void deadInsideCounter(Long chatId) {
+        String[] gifs = {
+                "CgACAgIAAxkBAAMyYTidYQbdbN0sj5K3bENvUcfHFYQAAj4PAALZVshJ2VLdBycx3rsgBA",
+                "CgACAgQAAxkBAAMzYTidz9kdbAmLBBx3KPXxJpD-hP0AAm8CAAL0-ZRSkouI48_Rcc0gBA",
+                "CgACAgQAAxkBAAM4YTieppYSpAOWMqXmy-GDZDqB0FwAAnoCAAIIDiVRYRFfu24qKYcgBA"
+        };
         StringBuilder sb = new StringBuilder();
 
         for (int i = 1000; i > 0; i -= 7) {
@@ -170,6 +175,7 @@ public class Main extends TelegramLongPollingBot {
         }
 
         sender.sendString(chatId, sb.toString());
+        sender.sendDocument(chatId, gifs[new Random().nextInt(gifs.length)]);
     }
 
     // main execution
