@@ -1,4 +1,5 @@
 import entities.Lecture;
+import entities.User;
 import entities.enums.LectureCount;
 import entities.enums.LectureType;
 import entities.enums.WeekCount;
@@ -19,7 +20,7 @@ import java.util.*;
 public class Main extends TelegramLongPollingBot {
 
     private static List<Lecture> lectures;
-    private static Map<String, String> birthdays;
+    private static List<User> users;
 
     private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
@@ -36,7 +37,7 @@ public class Main extends TelegramLongPollingBot {
 
     private Main() {
         setLectures();
-        setBirthdays();
+        setUsers();
 
         System.out.println(FORMAT_DATE.format(new Date()));
         System.out.println(FORMAT_TIME.format(new Date()));
@@ -69,7 +70,7 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "пос. Ліхоузова Т. А.", "-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "доц. Боднарчук С. В.", "303-18", null));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://us02web.zoom.us/j/82677485078"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.LECTURE, "пос. Ліхоузова Т. А.", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         // second week
@@ -89,14 +90,52 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "пос. Ліхоузова Т. А.", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "доц. Боднарчук С. В.", "303-18", null));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://meet.google.com/mnr-dmok-mhg"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.LECTURE, "пос. Ліхоузова Т. А.", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures = Collections.unmodifiableList(lectures);
     }
 
-    public static void setBirthdays() {
+    public static void setUsers() {
+        users = new ArrayList<>();
 
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Саши Жабы", null, "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+
+        users = Collections.unmodifiableList(users);
     }
 
     // parsing
