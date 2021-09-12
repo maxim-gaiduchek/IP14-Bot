@@ -267,7 +267,7 @@ public class Main extends TelegramLongPollingBot {
         for (int i = now.getCount() + 1; i <= now.getCount() + 14; i++) {
             WeekDay day = WeekDay.getWeekDayByCounter(i);
 
-            if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
+            if (i == 7) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
             if (!getLectures(day, count).isEmpty()) {
                 sendSchedule(day, count, chatId);
