@@ -398,7 +398,7 @@ public class Main extends TelegramLongPollingBot {
         Date now = new Date();
         String date = FORMAT_DAY.format(now);
         int year = Integer.parseInt(FORMAT_DATE.format(now).substring(6));
-        List<User> birthdayUsers = users.stream().filter(user -> date.equals(user.getBirthdayDate())).toList()
+        List<User> birthdayUsers = users.stream().filter(user -> date.equals(user.getBirthdayDate())).toList();
 
         for (User user : birthdayUsers) {
             String msg = "Сегодня у " + user.getNameWithLink() + " День рождения! " +
