@@ -48,7 +48,7 @@ public enum WeekDay {
     }
 
     public static WeekDay getWeekDayByCounter(int count) {
-        count %= 7;
+        count = count % 7 + 1;
 
         for (WeekDay day : values()) {
             if (day.count == count) return day;
