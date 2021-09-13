@@ -402,7 +402,7 @@ public class Main extends TelegramLongPollingBot {
 
         for (User user : birthdayUsers) {
             String msg = "Сегодня у " + user.getNameWithLink() + " День рождения! " +
-                         "Ей (или ему, я не дифференциировал) исполняется " + user.getAge(year) + " годиков!";
+                         "Ей (ему) исполняется " + user.getAge(year) + " годиков!";
 
             sender.sendString(CHAT_ID, msg);
             sender.sendString(CHAT_ID, user.getBirthdayCommand());
