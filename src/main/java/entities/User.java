@@ -1,27 +1,44 @@
 package entities;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class User {
 
-    private String name;
-    private String link;
-    private String birthday;
+    private final String name;
+    private final Long chatId;
+    private final String username;
+    private final String birthday;
 
-    public User(String name, String link, String birthday) {
+    public User(String name, Long chatId, String username, String birthday) {
         this.name = name;
-        this.link = link;
+        this.chatId = chatId;
+        this.username = username;
         this.birthday = birthday;
     }
 
     // getters
 
     public String getNameWithLink() {
-        return link == null ? name : ("[" + name + "](https://t.me/" + link + ")");
+        if (chatId != null && chatId != 0) return "[" + name + "](tg://user?id=" + chatId + ")";
+        if (username != null && !"".equals(username)) return "[" + name + "](https://t.me/" + username + ")";
+        return name;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getBirthdayDate() {
+        return birthday.substring(0, 5);
+    }
+
+    public int getAge(int currentYear) {
+        return currentYear - Integer.parseInt(birthday.substring(6));
+    }
+
+    public String getBirthdayCommand() {
+        return "/" + (username != null ? (username + "_") : "") + "s_dr";
     }
 
     // core
@@ -31,16 +48,16 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
 
-        if (!Objects.equals(name, user.name)) return false;
-        if (!Objects.equals(link, user.link)) return false;
-        return Objects.equals(birthday, user.birthday);
+        if (!name.equals(user.name)) return false;
+        return Objects.equals(chatId, user.chatId);
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (link != null ? link.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        int result = name.hashCode();
+
+        result = 31 * result + (chatId != null ? chatId.hashCode() : 0);
+
         return result;
     }
 
@@ -48,7 +65,8 @@ public class User {
     public String toString() {
         return "User{" +
                "name='" + name + '\'' +
-               ", link='" + link + '\'' +
+               ", chatId=" + chatId +
+               ", username='" + username + '\'' +
                ", birthday='" + birthday + '\'' +
                '}';
     }

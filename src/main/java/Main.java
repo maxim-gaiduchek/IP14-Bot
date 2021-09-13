@@ -28,6 +28,7 @@ public class Main extends TelegramLongPollingBot {
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
     private static final DateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
+    private static final DateFormat FORMAT_DAY = new SimpleDateFormat("dd.MM");
     private static final DateFormat FORMAT_DATE = new SimpleDateFormat("dd.MM.yyyy");
 
     static {
@@ -99,41 +100,42 @@ public class Main extends TelegramLongPollingBot {
     public static void setUsers() {
         users = new ArrayList<>();
 
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Саши Жабы", null, "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Мадины", "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Мадины", 875442644L, "adzhigeldieva", "11.07.2004"));
+        users.add(new User("Саши Жабы", 419822524L, null, "25.03.2004"));
+        users.add(new User("Прокопенко Алексея", 1074626451L, null, "20.10.2003"));
+        users.add(new User("Басана Антона", null, "MX1010A", "09.04.2004"));
+        users.add(new User("качка Максима", 728198715L, null, "17.05.2004"));
+        users.add(new User("Максима Крестика", 505457346L, "saxxxarius", "28.05.2004"));
+        users.add(new User("Кати", null, null, "28.05.2004"));
+        users.add(new User("Дианы", 624403801L, null, "07.02.2004"));
+        users.add(new User("Владека", null, "allovasneslishno", "07.05.2003"));
+        users.add(new User("Андрея", 462070828L, "andrew_kachmar", "17.06.2004"));
+        users.add(new User("Кости", 397694208L, "VodilaFireFox", "18.05.2004"));
+        users.add(new User("Анжелы", 666150454L, "krishapoehala", "02.04.2004"));
+        users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
+        users.add(new User("Юли", 791497946L, "jkull", "13.06.2004"));
+        users.add(new User("Легезы Алексея", 818757464L, null, "12.02.2004"));
+        users.add(new User("Лопоши Максима", 799710883L, null, "03.10.2004"));
+        users.add(new User("Влада (он же дотер)", 523580673L, "zxcvenorezqwe", "26.05.2004"));
+        users.add(new User("Ильи", 544390218L, "illia_ms", "03.11.2003"));
+        // users.add(new User("Нездолій Владислав", 621926590L, null, "07.07.2004"));
+        users.add(new User("Паши", null, "smartfool", "13.07.2004"));
+        users.add(new User("Инги", 1767368044L, "shipperlion", "06.09.2004"));
+        users.add(new User("Леры", 839392609L, null, "10.04.2004"));
+        users.add(new User("Дани", 1989997739L, "honey_ittsya", "18.03.2003"));
+        users.add(new User("Артура", 788249877L, "turrik29", "29.09.2003"));
+        users.add(new User("Юры", 581128827L, "fakeeq", "13.08.2004"));
+        users.add(new User("Ромы", 680225687L, "Galvinor", "26.06.2004"));
+        users.add(new User("Филиппа", null, "dumpling_from_ar", "26.11.2003"));
+        users.add(new User("Саши", 564720531L, "ISashaKhI", "22.06.2004"));
+        users.add(new User("Артема", null, "Cobalt4555", "24.04.2004"));
+        users.add(new User("Миши", 885083447L, "miiixerrr", "20.12.2004"));
+        users.add(new User("Щербацкого Антона", 538402282L, "Ent0niyY", "19.01.2004"));
+
+        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
+        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
+        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
+        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
 
         users = Collections.unmodifiableList(users);
     }
@@ -393,7 +395,18 @@ public class Main extends TelegramLongPollingBot {
     // birthdays
 
     private void sendBirthday() {
+        Date now = new Date();
+        String date = FORMAT_DAY.format(now);
+        int year = Integer.parseInt(FORMAT_DATE.format(now).substring(6));
+        List<User> birthdayUsers = users.stream().filter(user -> date.equals(user.getBirthdayDate())).toList()
 
+        for (User user : birthdayUsers) {
+            String msg = "Сегодня у " + user.getNameWithLink() + " День рождения! " +
+                         "Ей (или ему, я не дифференциировал) исполняется " + user.getAge(year) + " годиков!";
+
+            sender.sendString(CHAT_ID, msg);
+            sender.sendString(CHAT_ID, user.getBirthdayCommand());
+        }
     }
 
     // main
