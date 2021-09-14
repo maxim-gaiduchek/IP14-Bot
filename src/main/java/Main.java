@@ -61,8 +61,8 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FORTH, WeekCount.FIRST, "Основи здорового способу життя (2-10)", LectureType.LECTURE, "доц. Міщук Д. М.", "302-18", null));
 
         lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.FIRST, WeekCount.FIRST, "Екологічна безпека та цивільний захист", LectureType.PRACTICE, "ст.вик. Землянська О. В.", "102-22", "https://t.me/joinchat/S-36qYDMY9NjMGMy"));
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.SECOND, WeekCount.FIRST, "Іноземна мова 1. Практичний курс іноземної мови І", LectureType.PRACTICE, "вик. Бойко І. В.", "-18", "https://us04web.zoom.us/j/74293924008?pwd=dDlEVDhVR3U1U1d3L3lkTXVqOXpmdz09"));
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "доц. Круглова Н. В.", "-18", null));
+        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.SECOND, WeekCount.FIRST, "Іноземна мова 1. Практичний курс іноземної мови І", LectureType.PRACTICE, "вик. Бойко І. В.", "227-18", "https://us04web.zoom.us/j/74293924008?pwd=dDlEVDhVR3U1U1d3L3lkTXVqOXpmdz09"));
+        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "доц. Круглова Н. В.", "231-18", null));
 
         lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи здорового способу життя", LectureType.PRACTICE, "доц. Міщук Д. М.", "-18", null));
 
