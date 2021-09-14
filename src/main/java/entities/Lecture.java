@@ -34,7 +34,7 @@ public class Lecture {
     // getters
 
     public String getLectureInfo() {
-        return "*" + name + "*\n" +
+        return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
                type.getName() + "\n" +
                "Аудитория: " + room + ", препод: " + lecturer + "\n" +
                (type == LectureType.LECTURE ? ("Онлайн, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика очная");
