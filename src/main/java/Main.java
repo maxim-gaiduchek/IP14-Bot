@@ -173,6 +173,11 @@ public class Main extends TelegramLongPollingBot {
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
             case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
             case "/monday", "/monday@ip_14_bot" -> sendSchedule(WeekDay.MONDAY, WeekCount.getCurrentWeekCount(), chatId);
+            case "/tuesday", "/tuesday@ip_14_bot" -> sendSchedule(WeekDay.TUESDAY, WeekCount.getCurrentWeekCount(), chatId);
+            case "/wednesday", "/wednesday@ip_14_bot" -> sendSchedule(WeekDay.WEDNESDAY, WeekCount.getCurrentWeekCount(), chatId);
+            case "/thursday", "/thursday@ip_14_bot" -> sendSchedule(WeekDay.THURSDAY, WeekCount.getCurrentWeekCount(), chatId);
+            case "/friday", "/friday@ip_14_bot" -> sendSchedule(WeekDay.FRIDAY, WeekCount.getCurrentWeekCount(), chatId);
+            // case "/saturday", "/saturday@ip_14_bot" -> sendSchedule(WeekDay.SATURDAY, WeekCount.getCurrentWeekCount(), chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
         }
     }
@@ -193,7 +198,8 @@ public class Main extends TelegramLongPollingBot {
                 /start, /help - все команды
                 /today - расписание на сегодня
                 /lecture - текущая лекция
-                /next\\_day - расписание на следующий день"""; // /mom - призывает мамочек :З
+                /next\\_day - расписание на следующий день
+                /monday, ..., /friday - расписание на пн-пт"""; // /mom - призывает мамочек :З
 
         sender.sendString(chatId, msg);
     }
