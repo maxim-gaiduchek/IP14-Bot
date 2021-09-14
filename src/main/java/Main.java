@@ -64,7 +64,8 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.SECOND, WeekCount.FIRST, "Іноземна мова 1. Практичний курс іноземної мови І", LectureType.PRACTICE, "вик. Бойко І. В.", "227-18", "https://us04web.zoom.us/j/74293924008?pwd=dDlEVDhVR3U1U1d3L3lkTXVqOXpmdz09"));
         lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "доц. Круглова Н. В.", "231-18", null));
 
-        lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи здорового способу життя", LectureType.PRACTICE, "доц. Міщук Д. М.", "-18", null));
+        lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи здорового способу життя", LectureType.PRACTICE, "Міщук Діана Миколаївна", "231-18", null));
+        lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.THIRD, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.PRACTICE, "Вітковська Ірина Іванівна", "200-18", null));
 
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.FIRST, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LABORATORY, "ас. Лебідь С. О.", "26-18", null));
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.FIRST, "Алгоритми та структури даних 1. Основи алгоритмізації", LectureType.LABORATORY, "ст.вик. Вітковська І. І.", "417-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
