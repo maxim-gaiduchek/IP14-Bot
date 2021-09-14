@@ -172,6 +172,7 @@ public class Main extends TelegramLongPollingBot {
             case "/today", "/today@ip_14_bot" -> sendSchedule(chatId);
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
             case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
+            case "/monday", "/monday@ip_14_bot" -> sendSchedule(WeekDay.MONDAY, WeekCount.getCurrentWeekCount(), chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
         }
     }
