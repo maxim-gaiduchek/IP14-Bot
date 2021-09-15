@@ -202,7 +202,7 @@ public class Main extends TelegramLongPollingBot {
                 /lecture - текущая лекция
                 /next\\_day - расписание на следующий день
                 /monday, /tuesday, /wednesday, /thursday, /friday - расписание на пн-пт
-                /minutes_left - сколько минут осталось до конца пары или начала новой
+                /minutes\\_left - сколько минут осталось до конца пары или начала новой
 
                 Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
@@ -391,7 +391,7 @@ public class Main extends TelegramLongPollingBot {
             }
         }
 
-        sendLectureInfo(lectureList.get(0), "Пара уже начинается:", CHAT_ID);
+        // sendLectureInfo(lectureList.get(0), "Пара уже начинается:", CHAT_ID);
     }
 
     private void sendCurrentLectureInfo(Long chatId) {
