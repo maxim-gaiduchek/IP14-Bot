@@ -36,8 +36,8 @@ public class Lecture {
     public String getLectureInfo() {
         return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
                type.getName() + "\n" +
-               "Аудитория: " + room + ", препод: " + lecturer + "\n" +
-               (type == LectureType.LECTURE ? ("Онлайн, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика очная");
+               "*Аудитория:* " + room + ", *препод:* " + lecturer + "\n" +
+               (type == LectureType.LECTURE ? ("*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика *очная*");
     }
 
     public WeekDay getWeekDay() {
