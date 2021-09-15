@@ -227,7 +227,7 @@ public class Main extends TelegramLongPollingBot {
                 if (start.before(now) && end.after(now)) {
                     int minutes = (int) Math.floor((end.getTime() - now.getTime()) / (60.0 * 1000));
 
-                    sender.sendString(chatId, "До конца пары осталось: " + minutes);
+                    sender.sendString(chatId, "До конца пары осталось: " + minutes + " минут(ы)");
                     return;
                 }
             }
@@ -245,7 +245,7 @@ public class Main extends TelegramLongPollingBot {
 
                         int minutes = (int) Math.floor((now.getTime() - start.getTime()) / (60.0 * 1000));
 
-                        sender.sendString(chatId, "До начала новой пары осталось: " + minutes);
+                        sender.sendString(chatId, "До начала новой пары осталось: " + minutes + " минут(ы)");
                     }
                     return;
                 }
