@@ -200,7 +200,7 @@ public class Main extends TelegramLongPollingBot {
                 /today - расписание на сегодня
                 /lecture - текущая лекция
                 /next\\_day - расписание на следующий день
-                /monday, ... , /friday - расписание на пн-пт
+                /monday, /tuesday, /wednesday, /thursday, /friday - расписание на пн-пт
 
                 Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
