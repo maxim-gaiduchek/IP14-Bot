@@ -202,7 +202,7 @@ public class Main extends TelegramLongPollingBot {
                 /next\\_day - расписание на следующий день
                 /monday, ... , /friday - расписание на пн-пт
 
-                Бот также может отвечать в лс: @ip_14_bot"""; // /mom - призывает мамочек :З
+                Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
         sender.sendString(chatId, msg);
     }
