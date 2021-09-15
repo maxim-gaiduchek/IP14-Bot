@@ -179,6 +179,7 @@ public class Main extends TelegramLongPollingBot {
             case "/thursday", "/thursday@ip_14_bot" -> sendSchedule(WeekDay.THURSDAY, WeekCount.getCurrentWeekCount(), chatId);
             case "/friday", "/friday@ip_14_bot" -> sendSchedule(WeekDay.FRIDAY, WeekCount.getCurrentWeekCount(), chatId);
             // case "/saturday", "/saturday@ip_14_bot" -> sendSchedule(WeekDay.SATURDAY, WeekCount.getCurrentWeekCount(), chatId);
+            case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
         }
     }
@@ -201,10 +202,58 @@ public class Main extends TelegramLongPollingBot {
                 /lecture - текущая лекция
                 /next\\_day - расписание на следующий день
                 /monday, /tuesday, /wednesday, /thursday, /friday - расписание на пн-пт
+                /minutes_left - сколько минут осталось до конца пары или начала новой
 
                 Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
         sender.sendString(chatId, msg);
+    }
+
+    private void sendMinutesLeft(Long chatId) {
+        List<Lecture> lectureList = getTodayLectures();
+
+        if (lectureList.isEmpty()) {
+            sender.sendString(chatId, "Сегодня лекций нет");
+            return;
+        }
+
+        try {
+            Date now = FORMAT_TIME.parse(FORMAT_TIME.format(new Date()));
+
+            for (Lecture lecture : lectureList) {
+                LectureCount count = lecture.getLectureCount();
+                Date start = FORMAT_TIME.parse(count.getStartTime()), end = FORMAT_TIME.parse(count.getEndTime());
+
+                if (start.before(now) && end.after(now)) {
+                    int minutes = (int) Math.floor((end.getTime() - now.getTime()) / (60.0 * 1000));
+
+                    sender.sendString(chatId, "До конца пары осталось: " + minutes);
+                    return;
+                }
+            }
+
+            for (int i = lectureList.size() - 1; i >= 0; i--) {
+                Lecture lecture = lectureList.get(i);
+                Date end = FORMAT_TIME.parse(lecture.getLectureCount().getEndTime());
+
+                if (end.before(now)) {
+                    if (i == lectureList.size() - 1) {
+                        sender.sendString(chatId, "Пары уже закончились");
+                    } else {
+                        Lecture nextLecture = lectureList.get(i + 1);
+                        Date start = FORMAT_TIME.parse(nextLecture.getLectureCount().getStartTime());
+
+                        int minutes = (int) Math.floor((now.getTime() - start.getTime()) / (60.0 * 1000));
+
+                        sender.sendString(chatId, "До начала новой пары осталось: " + minutes);
+                    }
+                    return;
+                }
+            }
+
+            sendLectureInfo(lectureList.get(0), "Первая пара:", chatId);
+        } catch (ParseException ignored) {
+        }
     }
 
     private void mentionMoms(Long chatId) {
@@ -341,6 +390,8 @@ public class Main extends TelegramLongPollingBot {
                 return;
             }
         }
+
+        sendLectureInfo(lectureList.get(0), "Пара уже начинается:", CHAT_ID);
     }
 
     private void sendCurrentLectureInfo(Long chatId) {
