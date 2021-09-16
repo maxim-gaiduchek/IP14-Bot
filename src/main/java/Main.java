@@ -71,9 +71,9 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.FIRST, "Алгоритми та структури даних 1. Основи алгоритмізації", LectureType.LABORATORY, "Мартинова Оксана Петрівна", "417-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "Ліхоузова Тетяна Анатоліївна", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "доц. Боднарчук С. В.", "303-18", null));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.LECTURE, "пос. Ліхоузова Т. А.", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "Боднарчук Семен Володимирович", "303-18", "https://www.youtube.com/channel/UC2xqkl7Ic5BV5jGCVC8OznQ"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "Муха Ірина Павлівна", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.LECTURE, "Ліхоузова Тетяна Анатоліївна", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         // second week
 
