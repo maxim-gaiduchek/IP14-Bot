@@ -243,7 +243,7 @@ public class Main extends TelegramLongPollingBot {
                         Lecture nextLecture = lectureList.get(i + 1);
                         Date start = FORMAT_TIME.parse(nextLecture.getLectureCount().getStartTime());
 
-                        int minutes = (int) Math.floor((now.getTime() - start.getTime()) / (60.0 * 1000));
+                        int minutes = (int) Math.floor((start.getTime() - now.getTime()) / (60.0 * 1000));
 
                         sender.sendString(chatId, "До начала новой пары осталось: " + minutes + " минут(ы)");
                     }
