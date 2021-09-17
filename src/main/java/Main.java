@@ -91,9 +91,9 @@ public class Main extends TelegramLongPollingBot {
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.SECOND, "Українська мова за професійним спрямуванням", LectureType.PRACTICE, "ст.вик. Сидоренко Л. М.", "231-18", "https://us02web.zoom.us/j/85471143932?pwd=bTlCQ3BCL0RsbWdrOWtwVlcrbUxaZz09"));
         lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "пос. Ліхоузова Т. А.", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "доц. Боднарчук С. В.", "303-18", null));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "доц. Муха І. П.", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.LECTURE, "пос. Ліхоузова Т. А.", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "Боднарчук Семен Володимирович", "303-18", "https://www.youtube.com/channel/UC2xqkl7Ic5BV5jGCVC8OznQ"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "Муха Ірина Павлівна", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
+        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.LECTURE, "Ліхоузова Тетяна Анатоліївна", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures = Collections.unmodifiableList(lectures);
     }
