@@ -325,16 +325,27 @@ public class Main extends TelegramLongPollingBot {
         WeekDay now = WeekDay.getCurrentWeekDay();
         WeekCount count = WeekCount.getCurrentWeekCount();
 
+        System.out.println(now);
+        System.out.println(count);
+        System.out.println();
+
         for (int i = now.getCount() + 1; i <= now.getCount() + 14; i++) {
             WeekDay day = WeekDay.getWeekDayByCounter(i);
 
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
+            System.out.println("i = " + i);
+            System.out.println(day);
+            System.out.println(count);
+            System.out.println();
+
             if (!getLectures(day, count).isEmpty()) {
                 sendSchedule(day, count, chatId);
-                break;
+                return;
             }
         }
+
+        sender.sendString(chatId, "Лекций вообще нет");
     }
 
     private void sendSchedule(WeekDay day, WeekCount count, Long chatId) {
