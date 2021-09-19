@@ -20,7 +20,12 @@ public enum WeekCount {
     }
 
     public static WeekCount getWeekCount(Date date) {
-        System.out.println(Integer.parseInt(FORMAT_WEEK_COUNT.format(date)));
-        return Integer.parseInt(FORMAT_WEEK_COUNT.format(date)) % 2 == 0 ? FIRST : SECOND;
+        int week = Integer.parseInt(FORMAT_WEEK_COUNT.format(date));
+
+        if (WeekDay.getCurrentWeekDay() == WeekDay.SUNDAY) {
+            return week % 2 == 0 ? SECOND : FIRST;
+        }
+
+        return week % 2 == 0 ? FIRST : SECOND;
     }
 }
