@@ -34,10 +34,12 @@ public class Lecture {
     // getters
 
     public String getLectureInfo() {
+        boolean isOnline = type == LectureType.LECTURE;
+
         return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
                type.getName() + "\n" +
-               "*Аудитория:* " + room + ", *препод:* " + lecturer + "\n" +
-               (type == LectureType.LECTURE ? ("*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика *очная*");
+               "*Препод:* " + lecturer + (!isOnline ? (", *аудитория:* " + room) : "") + "\n" +
+               (isOnline ? ("*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика *очная*");
     }
 
     public WeekDay getWeekDay() {
