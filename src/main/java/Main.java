@@ -25,6 +25,8 @@ public class Main extends TelegramLongPollingBot {
     private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
+    /*private static final String BOT_USERNAME = System.getenv("TEST_BOT_TELEGRAM_USERNAME");
+    private static final String BOT_TOKEN = System.getenv("TEST_BOT_TELEGRAM_TOKEN");*/
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
     private static final DateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
@@ -87,9 +89,9 @@ public class Main extends TelegramLongPollingBot {
 
         lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.THIRD, WeekCount.SECOND, "Лінійна алгебра та аналітична геометрія", LectureType.PRACTICE, "Круглова Наталія Володимирівна", "227-18", "https://t.me/joinchat/XD8d4dK3rqxlNGQy"));
 
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.FIRST, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LABORATORY, "Камінська Поліна Анатоліївна", "422-18", null));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.FIRST, "Українська мова за професійним спрямуванням", LectureType.PRACTICE, "Сидоренко Лілія Миколаївна", "231-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "Ліхоузова Тетяна Анатоліївна", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
+        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.FIRST, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LABORATORY, "Камінська Поліна Анатоліївна", "422-18", null));
+        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.SECOND, "Українська мова за професійним спрямуванням", LectureType.PRACTICE, "Сидоренко Лілія Миколаївна", "231-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
+        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "Ліхоузова Тетяна Анатоліївна", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
 
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "Боднарчук Семен Володимирович", "303-18", "https://www.youtube.com/channel/UC2xqkl7Ic5BV5jGCVC8OznQ"));
         lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "Муха Ірина Павлівна", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
