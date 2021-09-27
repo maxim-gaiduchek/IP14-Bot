@@ -58,7 +58,7 @@ public class Main extends TelegramLongPollingBot {
         // first week
 
         lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FIRST, WeekCount.FIRST, "Алгоритми та структури даних 1. Основи алгоритмізації", LectureType.LECTURE, "ст.вик. Вітковська І. І.", "302-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.SECOND, WeekCount.FIRST, "Українська мова за професійним спрямуванням", LectureType.LECTURE, "доц. Кривенко С. М.", "302-18", "https://us06web.zoom.us/j/85098351516?pwd=MFdyem9kc0E3ZG5xVmc5dVl1Z0Ftdz09"));
+        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.SECOND, WeekCount.FIRST, "Українська мова за професійним спрямуванням", LectureType.LECTURE, "доц. Кривенко С. М.", "302-18", "https://us06web.zoom.us/j/82224704701?pwd=UXg0RjVnQnZKUlZxZVNRMjJpUjlTQT09"));
         lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.THIRD, WeekCount.FIRST, "Лінійна алгебра та аналітична геометрія", LectureType.LECTURE, "доц. Круглова Н. В.", "302-18", "https://t.me/joinchat/XD8d4dK3rqxlNGQy"));
         lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FORTH, WeekCount.FIRST, "Основи здорового способу життя (2-10)", LectureType.LECTURE, "доц. Міщук Д. М.", "302-18", null));
 
