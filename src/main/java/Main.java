@@ -175,12 +175,12 @@ public class Main extends TelegramLongPollingBot {
             case "/today", "/today@ip_14_bot" -> sendSchedule(chatId);
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
             case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
-            case "/monday", "/monday@ip_14_bot" -> sendSchedule(WeekDay.MONDAY, WeekCount.getCurrentWeekCount(), chatId);
-            case "/tuesday", "/tuesday@ip_14_bot" -> sendSchedule(WeekDay.TUESDAY, WeekCount.getCurrentWeekCount(), chatId);
-            case "/wednesday", "/wednesday@ip_14_bot" -> sendSchedule(WeekDay.WEDNESDAY, WeekCount.getCurrentWeekCount(), chatId);
-            case "/thursday", "/thursday@ip_14_bot" -> sendSchedule(WeekDay.THURSDAY, WeekCount.getCurrentWeekCount(), chatId);
-            case "/friday", "/friday@ip_14_bot" -> sendSchedule(WeekDay.FRIDAY, WeekCount.getCurrentWeekCount(), chatId);
-            // case "/saturday", "/saturday@ip_14_bot" -> sendSchedule(WeekDay.SATURDAY, WeekCount.getCurrentWeekCount(), chatId);
+            case "/monday", "/monday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
+            case "/tuesday", "/tuesday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.TUESDAY, chatId);
+            case "/wednesday", "/wednesday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.WEDNESDAY, chatId);
+            case "/thursday", "/thursday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.THURSDAY, chatId);
+            case "/friday", "/friday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.FRIDAY, chatId);
+            // case "/saturday", "/saturday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
             case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
         }
@@ -339,6 +339,20 @@ public class Main extends TelegramLongPollingBot {
         }
 
         sender.sendString(chatId, "Лекций вообще нет");
+    }
+
+    private void sendWeekDaySchedule(WeekDay day, Long chatId) {
+        WeekDay now = WeekDay.getCurrentWeekDay();
+        WeekCount count = WeekCount.getCurrentWeekCount();
+
+        for (int i = now.getCount() + 1; i <= now.getCount() + 14; i++) {
+            if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
+
+            if (!getLectures(day, count).isEmpty()) {
+                sendSchedule(day, count, chatId);
+                return;
+            }
+        }
     }
 
     private void sendSchedule(WeekDay day, WeekCount count, Long chatId) {
