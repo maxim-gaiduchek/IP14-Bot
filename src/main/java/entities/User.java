@@ -37,7 +37,7 @@ public class User {
     }
 
     public String getBirthdayCommand() {
-        return "/" + (username != null ? (username + "_") : "") + "s_dr";
+        return "/" + (username != null ? (username + "\\_") : "") + "s\\_dr";
     }
 
     // core
