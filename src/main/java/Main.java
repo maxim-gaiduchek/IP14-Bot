@@ -1,9 +1,13 @@
+import datasource.DatasourceConfig;
+import datasource.services.DBService;
 import entities.Lecture;
 import entities.User;
 import entities.enums.LectureCount;
 import entities.enums.LectureType;
 import entities.enums.WeekCount;
 import entities.enums.WeekDay;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,15 +23,15 @@ import java.util.*;
 
 public class Main extends TelegramLongPollingBot {
 
-    private static List<Lecture> lectures;
-    private static List<User> users;
-
     private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
     /*private static final String BOT_USERNAME = System.getenv("TEST_BOT_TELEGRAM_USERNAME");
     private static final String BOT_TOKEN = System.getenv("TEST_BOT_TELEGRAM_TOKEN");*/
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
+
+    private static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(DatasourceConfig.class);
+    private final DBService service = (DBService) CONTEXT.getBean("service");
 
     private static final DateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
     private static final DateFormat FORMAT_DAY = new SimpleDateFormat("dd.MM");
@@ -39,108 +43,12 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private Main() {
-        setLectures();
-        setUsers();
-
         System.out.println(FORMAT_DATE.format(new Date()));
         System.out.println(FORMAT_TIME.format(new Date()));
         System.out.println(WeekCount.getCurrentWeekCount());
         System.out.println(WeekDay.getCurrentWeekDay());
 
         new Executor().start();
-    }
-
-    // settings
-
-    private void setLectures() {
-        lectures = new ArrayList<>();
-
-        // first week
-
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FIRST, WeekCount.FIRST, "Алгоритми та структури даних 1. Основи алгоритмізації", LectureType.LECTURE, "ст.вик. Вітковська І. І.", "302-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.SECOND, WeekCount.FIRST, "Українська мова за професійним спрямуванням", LectureType.LECTURE, "доц. Кривенко С. М.", "302-18", "https://us06web.zoom.us/j/82224704701?pwd=UXg0RjVnQnZKUlZxZVNRMjJpUjlTQT09"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.THIRD, WeekCount.FIRST, "Лінійна алгебра та аналітична геометрія", LectureType.LECTURE, "доц. Круглова Н. В.", "302-18", "https://us02web.zoom.us/j/84953634271?pwd=TzMzS2lNNUQyNUlHZW1uTStNbjA4QT09"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FORTH, WeekCount.FIRST, "Основи здорового способу життя (2-10)", LectureType.LECTURE, "доц. Міщук Д. М.", "302-18", "https://bbb.kpi.ua/b/69d-mff-dfw"));
-
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.FIRST, WeekCount.FIRST, "Екологічна безпека та цивільний захист", LectureType.PRACTICE, "ст.вик. Землянська О. В.", "102-22", "https://t.me/joinchat/S-36qYDMY9NjMGMy"));
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.SECOND, WeekCount.FIRST, "Іноземна мова 1. Практичний курс іноземної мови І", LectureType.PRACTICE, "вик. Бойко І. В.", "227-18", "https://us04web.zoom.us/j/74293924008?pwd=dDlEVDhVR3U1U1d3L3lkTXVqOXpmdz09"));
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "доц. Круглова Н. В.", "231-18", null));
-
-        lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи здорового способу життя", LectureType.PRACTICE, "Міщук Діана Миколаївна", "231-18", null));
-        lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.THIRD, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.PRACTICE, "Вітковська Ірина Іванівна", "200-18", null));
-
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.FIRST, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LABORATORY, "Камінська Поліна Анатоліївна", "422-18", null));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.FIRST, "Алгоритми та структури даних 1. Основи алгоритмізації", LectureType.LABORATORY, "Мартинова Оксана Петрівна", "417-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "Ліхоузова Тетяна Анатоліївна", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
-
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.FIRST, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "Боднарчук Семен Володимирович", "303-18", "https://www.youtube.com/channel/UC2xqkl7Ic5BV5jGCVC8OznQ"));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.FIRST, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "Муха Ірина Павлівна", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.FIRST, "Комп'ютерна дискретна математика", LectureType.LECTURE, "Ліхоузова Тетяна Анатоліївна", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
-
-        // second week
-
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FIRST, WeekCount.SECOND, "Алгоритми та структури даних 1. Основи алгоритмізації", LectureType.LECTURE, "Вітковська Ірина Іванівна", "302-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.SECOND, WeekCount.SECOND, "Екологічна безпека та цивільний захист", LectureType.LECTURE, "Праховнік Наталія Артурівна", "302-18", "https://meet.google.com/kii-ftbx-vim"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.THIRD, WeekCount.SECOND, "Лінійна алгебра та аналітична геометрія", LectureType.LECTURE, "Круглова Наталія Володимирівна", "302-18", "https://us02web.zoom.us/j/84953634271?pwd=TzMzS2lNNUQyNUlHZW1uTStNbjA4QT09"));
-        lectures.add(new Lecture(WeekDay.MONDAY, LectureCount.FORTH, WeekCount.SECOND, "Основи здорового способу життя (2-10)", LectureType.LECTURE, "Міщук Діана Миколаївна", "302-18", "https://bbb.kpi.ua/b/69d-mff-dfw"));
-
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.SECOND, WeekCount.SECOND, "Іноземна мова 1. Практичний курс іноземної мови І", LectureType.PRACTICE, "Бойко Ірина Віталіївна", "227-18", "https://us04web.zoom.us/j/74293924008?pwd=dDlEVDhVR3U1U1d3L3lkTXVqOXpmdz09"));
-        lectures.add(new Lecture(WeekDay.TUESDAY, LectureCount.THIRD, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.PRACTICE, "Круглова Наталія Володимирівна", "231-18", "https://us02web.zoom.us/j/86872250596?pwd=L2VDVG85U0psQk5mM0M5QmIvUm1DQT09"));
-
-        lectures.add(new Lecture(WeekDay.WEDNESDAY, LectureCount.THIRD, WeekCount.SECOND, "Лінійна алгебра та аналітична геометрія", LectureType.PRACTICE, "Круглова Наталія Володимирівна", "227-18", "https://t.me/joinchat/XD8d4dK3rqxlNGQy"));
-
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.FIRST, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LABORATORY, "Камінська Поліна Анатоліївна", "422-18", null));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.SECOND, WeekCount.SECOND, "Українська мова за професійним спрямуванням", LectureType.PRACTICE, "Сидоренко Лілія Миколаївна", "231-18", "https://teams.microsoft.com/l/meetup-join/19%3Ad5119507f5ae4485bfc288df012ab877%40thread.tacv2/1630333406988?context=%7B%22Tid%22%3A%22d595e6a1-b90f-4cc6-b12b-1db7f331d222%22%2C%22Oid%22%3A%22aaa7729f-5f32-4c2a-b228-795e6c3fcb15%22%7D"));
-        lectures.add(new Lecture(WeekDay.THURSDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.PRACTICE, "Ліхоузова Тетяна Анатоліївна", "431-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
-
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.FIRST, WeekCount.SECOND, "Математичний аналіз 1. Диференціальне числення", LectureType.LECTURE, "Боднарчук Семен Володимирович", "303-18", "https://www.youtube.com/channel/UC2xqkl7Ic5BV5jGCVC8OznQ"));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.SECOND, WeekCount.SECOND, "Основи програмування 1. Базові конструкції", LectureType.LECTURE, "Муха Ірина Павлівна", "303-18", "https://zoom.us/j/99775394017?pwd=aGhXMDlYZUd4K0h5aDVBbGdyZmY3QT09"));
-        lectures.add(new Lecture(WeekDay.FRIDAY, LectureCount.THIRD, WeekCount.SECOND, "Комп'ютерна дискретна математика", LectureType.LECTURE, "Ліхоузова Тетяна Анатоліївна", "303-18", "https://t.me/joinchat/SWwPzWYpJ9dJsvCE"));
-
-        lectures = Collections.unmodifiableList(lectures);
-    }
-
-    public static void setUsers() {
-        users = new ArrayList<>();
-
-        users.add(new User("Мадины", 875442644L, "adzhigeldieva", "11.07.2004"));
-        users.add(new User("Саши Жабы", 419822524L, null, "25.03.2004"));
-        users.add(new User("Прокопенко Алексея", 1074626451L, null, "20.10.2003"));
-        users.add(new User("Басана Антона", null, "MX1010A", "09.04.2004"));
-        users.add(new User("качка Максима", 728198715L, null, "17.05.2004"));
-        users.add(new User("Максима Крестика", 505457346L, "saxxxarius", "28.05.2004"));
-        users.add(new User("Кати", null, null, "28.05.2004"));
-        users.add(new User("Дианы", 624403801L, null, "07.02.2004"));
-        users.add(new User("Владека", null, "allovasneslishno", "07.05.2003"));
-        users.add(new User("Андрея", 462070828L, "andrew_kachmar", "17.06.2004"));
-        users.add(new User("Кости", 397694208L, "VodilaFireFox", "18.05.2004"));
-        users.add(new User("Анжелы", 666150454L, "krishapoehala", "02.04.2004"));
-        users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
-        users.add(new User("Юли", 791497946L, "jkull", "13.06.2004"));
-        users.add(new User("Легезы Алексея", 818757464L, null, "12.02.2004"));
-        users.add(new User("Лопоши Максима", 799710883L, null, "03.10.2004"));
-        users.add(new User("Влада (он же дотер)", 523580673L, "zxcvenorezqwe", "26.05.2004"));
-        users.add(new User("Ильи", 544390218L, "illia_ms", "03.11.2003"));
-        // users.add(new User("Нездолій Владислав", 621926590L, null, "07.07.2004"));
-        users.add(new User("Паши", null, "smartfool", "13.07.2004"));
-        users.add(new User("Инги", 1767368044L, "shipperlion", "06.09.2004"));
-        users.add(new User("Леры", 839392609L, null, "10.04.2004"));
-        users.add(new User("Дани", 1989997739L, "honey_ittsya", "18.03.2003"));
-        users.add(new User("Артура", 788249877L, "turrik29", "29.09.2003"));
-        users.add(new User("Юры", 581128827L, "fakeeq", "13.08.2004"));
-        users.add(new User("Ромы", 680225687L, "Galvinor", "26.06.2004"));
-        users.add(new User("Филиппа", null, "dumpling_from_ar", "26.11.2003"));
-        users.add(new User("Саши", 564720531L, "ISashaKhI", "22.06.2004"));
-        users.add(new User("Артема", null, "Cobalt4555", "24.04.2004"));
-        users.add(new User("Миши", 885083447L, "miiixerrr", "20.12.2004"));
-        users.add(new User("Щербацкого Антона", 538402282L, "Ent0niyY", "19.01.2004"));
-
-        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
-        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
-        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
-        // users.add(new User("Тимура", 1893274358L, "tym0704", "07.07.2004"));
-
-        users = Collections.unmodifiableList(users);
     }
 
     // parsing
@@ -332,7 +240,7 @@ public class Main extends TelegramLongPollingBot {
 
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
-            if (!getLectures(day, count).isEmpty()) {
+            if (!service.getAllLectures(day, count).isEmpty()) {
                 sendSchedule(day, count, chatId);
                 return;
             }
@@ -348,7 +256,7 @@ public class Main extends TelegramLongPollingBot {
         for (int i = now.getCount() + 1; i <= now.getCount() + 14; i++) {
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
-            if (!getLectures(day, count).isEmpty()) {
+            if (!service.getAllLectures(day, count).isEmpty()) {
                 sendSchedule(day, count, chatId);
                 return;
             }
@@ -356,7 +264,7 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void sendSchedule(WeekDay day, WeekCount count, Long chatId) {
-        List<Lecture> lectureList = getLectures(day, count);
+        List<Lecture> lectureList = service.getAllLectures(day, count);
 
         if (lectureList.isEmpty()) {
             String msg = day == WeekDay.SUNDAY ?
@@ -452,21 +360,14 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private List<Lecture> getLectures(WeekDay weekDay, WeekCount weekCount) {
-        return lectures.stream()
-                .filter(lecture -> lecture.getWeekDay() == weekDay && lecture.getWeekCount() == weekCount)
-                .sorted(Comparator.comparing(lecture -> lecture.getLectureCount().getCount()))
-                .toList();
-    }
-
     private List<Lecture> getTodayLectures() {
-        return getLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
+        return service.getAllLectures(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount());
     }
 
     private void sendLectureInfo(Lecture lecture, String startMsg, Long chatId) {
         String msg = startMsg + "\n" +
-                     "\n" +
-                     lecture.getLectureInfo();
+                "\n" +
+                lecture.getLectureInfo();
 
         sender.sendStringWithDisabledWebPagePreview(chatId, msg);
     }
@@ -478,14 +379,12 @@ public class Main extends TelegramLongPollingBot {
         String date = FORMAT_DAY.format(now);
         int year = Integer.parseInt(FORMAT_DATE.format(now).substring(6));
 
-        for (User user : users) {
-            if (date.equals(user.getBirthdayDate())) {
-                String msg = "Сегодня у " + user.getNameWithLink() + " День рождения! " +
-                        "Ей (ему) исполняется " + user.getAge(year) + " годиков!";
+        for (User user : service.getUsersByBirthday(date)) {
+            String msg = user.getNameWithLink() + " сегодня празднует свой *День рождения!* " +
+                    "Ей (ему) исполняется *" + user.getAge(year) + "* годиков!";
 
-                sender.sendString(CHAT_ID, msg);
-                sender.sendString(CHAT_ID, user.getBirthdayCommand());
-            }
+            sender.sendString(CHAT_ID, msg);
+            sender.sendString(CHAT_ID, user.getBirthdayCommand());
         }
     }
 

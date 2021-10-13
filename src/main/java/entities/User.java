@@ -1,13 +1,31 @@
 package entities;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public class User {
 
-    private final String name;
-    private final Long chatId;
-    private final String username;
-    private final String birthday;
+    @Id
+    @Column(name = "chat_id")
+    private Long chatId;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "birthday")
+    private String birthday;
+
+    public User() {
+
+    }
 
     public User(String name, Long chatId, String username, String birthday) {
         this.name = name;

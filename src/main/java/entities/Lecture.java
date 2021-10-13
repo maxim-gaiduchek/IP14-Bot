@@ -5,19 +5,49 @@ import entities.enums.LectureType;
 import entities.enums.WeekCount;
 import entities.enums.WeekDay;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "lectures")
 public class Lecture {
 
-    private final String name;
-    private final LectureType type;
-    private final String lecturer;
-    private final String room;
-    private final String link;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private String id;
 
-    private final WeekDay weekDay;
-    private final LectureCount lectureCount;
-    private final WeekCount weekCount;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private LectureType type;
+
+    @Column(name = "lecturer")
+    private String lecturer;
+
+    @Column(name = "room")
+    private String room;
+
+    @Column(name = "link")
+    private String link;
+
+    @Column(name = "week_day")
+    @Enumerated(EnumType.ORDINAL)
+    private WeekDay weekDay;
+
+    @Column(name = "lecture_count")
+    @Enumerated(EnumType.ORDINAL)
+    private LectureCount lectureCount;
+
+    @Column(name = "week_count")
+    @Enumerated(EnumType.ORDINAL)
+    private WeekCount weekCount;
+
+    public Lecture() {
+
+    }
 
     public Lecture(WeekDay weekDay, LectureCount lectureCount, WeekCount weekCount,
                    String name, LectureType type, String lecturer, String room, String link) {
