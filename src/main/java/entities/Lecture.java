@@ -15,7 +15,7 @@ public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -67,9 +67,14 @@ public class Lecture {
         boolean isOnline = type == LectureType.LECTURE;
 
         return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
-               type.getName() + "\n" +
-               "*Препод:* " + lecturer + (!isOnline ? (", *аудитория:* " + room) : "") + "\n" +
-               (isOnline ? ("*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика *очная*");
+                type.getName() + "\n" +
+                "*Препод:* " + lecturer + (!isOnline ? (", *аудитория:* " + room) : "") + "\n" +
+                "*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет");
+
+        /*return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
+                type.getName() + "\n" +
+                "*Препод:* " + lecturer + (!isOnline ? (", *аудитория:* " + room) : "") + "\n" +
+                (isOnline ? ("*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика *очная*");*/
     }
 
     public WeekDay getWeekDay() {
@@ -117,14 +122,14 @@ public class Lecture {
     @Override
     public String toString() {
         return "Lecture{" +
-               "name='" + name + '\'' +
-               ", type='" + type + '\'' +
-               ", lecturer='" + lecturer + '\'' +
-               ", room='" + room + '\'' +
-               ", link='" + link + '\'' +
-               ", weekDay=" + weekDay +
-               ", lectureCount=" + lectureCount +
-               ", weekCount=" + weekCount +
-               '}';
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", lecturer='" + lecturer + '\'' +
+                ", room='" + room + '\'' +
+                ", link='" + link + '\'' +
+                ", weekDay=" + weekDay +
+                ", lectureCount=" + lectureCount +
+                ", weekCount=" + weekCount +
+                '}';
     }
 }
