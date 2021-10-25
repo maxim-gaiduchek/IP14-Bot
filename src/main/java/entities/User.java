@@ -1,5 +1,7 @@
 package entities;
 
+import utils.Formatter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -37,9 +39,13 @@ public class User {
     // getters
 
     public String getNameWithLink() {
-        if (chatId != null && chatId != 0) return "[" + name + "](tg://user?id=" + chatId + ")";
-        if (username != null && !"".equals(username)) return "[" + name + "](https://t.me/" + username + ")";
-        return name;
+        if (chatId != null && chatId != 0) {
+            return "[" + Formatter.formatTelegramText(name) + "](tg://user?id=" + chatId + ")";
+        }
+        if (username != null && !"".equals(username)) {
+            return "[" + Formatter.formatTelegramText(name) + "](https://t.me/" + username + ")";
+        }
+        return Formatter.formatTelegramText(name);
     }
 
     public String getUsername() {
