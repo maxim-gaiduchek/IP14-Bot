@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import utils.Formatter;
 import utils.SimpleSender;
 
 import java.text.DateFormat;
@@ -91,6 +92,7 @@ public class Main extends TelegramLongPollingBot {
             // case "/saturday", "/saturday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
             case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
+            case "/lead", "/lead@ip_14_bot" -> mentionLeads(chatId);
         }
     }
 
@@ -113,6 +115,7 @@ public class Main extends TelegramLongPollingBot {
                 /next\\_day - расписание на следующий день
                 /monday, /tuesday, /wednesday, /thursday, /friday - расписание на пн-пт
                 /minutes\\_left - сколько минут осталось до конца пары или начала новой
+                /lead - призывает старост
 
                 Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
@@ -169,6 +172,14 @@ public class Main extends TelegramLongPollingBot {
     private void mentionMoms(Long chatId) {
         if (CHAT_ID.equals(chatId)) {
             sender.sendString(chatId, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
+        }
+    }
+
+    private void mentionLeads(Long chatId) {
+        if (CHAT_ID.equals(chatId)) {
+            User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
+
+            sender.sendString(chatId, Formatter.formatTelegramText(tym.getUsername()) + " " + Formatter.formatTelegramText(sasha.getUsername()));
         }
     }
 

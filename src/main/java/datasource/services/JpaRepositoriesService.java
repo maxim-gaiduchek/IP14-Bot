@@ -25,6 +25,11 @@ public class JpaRepositoriesService implements DBService {
     // users
 
     @Override
+    public User getUser(Long chatId) {
+        return usersRepository.findById(chatId).orElse(null);
+    }
+
+    @Override
     public List<User> getUsersByBirthday(String birthday) {
         return usersRepository.getAllByBirthday(birthday);
     }

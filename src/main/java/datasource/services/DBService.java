@@ -11,6 +11,8 @@ public interface DBService {
 
     // users
 
+    User getUser(Long chatId);
+
     List<User> getUsersByBirthday(String birthday);
 
     // lectures
