@@ -92,7 +92,7 @@ public class Main extends TelegramLongPollingBot {
             // case "/saturday", "/saturday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
             case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
-            case "/lead", "/lead@ip_14_bot" -> mentionLeads(chatId);
+            case "/lead", "/lead@ip_14_bot" -> mentionLeads(chatId, message.getMessageId());
         }
     }
 
@@ -175,11 +175,11 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private void mentionLeads(Long chatId) {
+    private void mentionLeads(Long chatId, Integer messageId) {
         if (CHAT_ID.equals(chatId)) {
             User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
 
-            sender.sendString(chatId, "@" + Formatter.formatTelegramText(tym.getUsername()) + " @" + Formatter.formatTelegramText(sasha.getUsername()));
+            sender.sendString(chatId, "@" + Formatter.formatTelegramText(tym.getUsername()) + " @" + Formatter.formatTelegramText(sasha.getUsername()), messageId);
         }
     }
 
