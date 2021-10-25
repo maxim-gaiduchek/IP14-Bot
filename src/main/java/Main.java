@@ -179,7 +179,7 @@ public class Main extends TelegramLongPollingBot {
         if (CHAT_ID.equals(chatId)) {
             User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
 
-            sender.sendString(chatId, Formatter.formatTelegramText(tym.getUsername()) + " " + Formatter.formatTelegramText(sasha.getUsername()));
+            sender.sendString(chatId, "@" + Formatter.formatTelegramText(tym.getUsername()) + " @" + Formatter.formatTelegramText(sasha.getUsername()));
         }
     }
 
