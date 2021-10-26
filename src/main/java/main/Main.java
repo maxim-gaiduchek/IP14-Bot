@@ -88,18 +88,22 @@ public class Main extends TelegramLongPollingBot {
 
         switch (text) {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp(chatId);
+
             case "/today", "/today@ip_14_bot" -> sendSchedule(chatId);
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
             case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
+
             case "/monday", "/monday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
             case "/tuesday", "/tuesday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.TUESDAY, chatId);
             case "/wednesday", "/wednesday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.WEDNESDAY, chatId);
             case "/thursday", "/thursday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.THURSDAY, chatId);
             case "/friday", "/friday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.FRIDAY, chatId);
-            // case "/saturday", "/saturday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
+            // case "/saturday", "/saturday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.SATURDAY, chatId);
+
             case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
             case "/lead", "/lead@ip_14_bot" -> mentionLeads(chatId, message.getMessageId());
+
             case "/queue", "/queue@ip_14_bot" -> QueueController.sendDisciplineChoose(sender, message);
         }
     }
@@ -110,6 +114,8 @@ public class Main extends TelegramLongPollingBot {
 
         if (text.contains("1000-7")) {
             deadInsideCounter(chatId);
+        } else if (text.startsWith("/set ") && chatId.equals(505457346L)) {
+            QueueController.setInQueue(sender, chatId, text.substring(5));
         }
 
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);

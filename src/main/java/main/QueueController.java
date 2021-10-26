@@ -181,6 +181,33 @@ public class QueueController {
         }
     }
 
+    public static void setInQueue(SimpleSender sender, Long chatId, String text) {
+        try {
+            String[] split = text.split(" ");
+
+            User user = service.getUser(Long.parseLong(split[0]));
+
+            if (user != null) {
+                Discipline discipline = Discipline.valueOf(split[1]);
+                int labNumber = Integer.parseInt(split[2]);
+                int queueNumber = Integer.parseInt(split[3]);
+
+                if (service.isQueueHasUser(user, discipline, labNumber)) {
+                    service.removeQueue(service.getUserQuery(user, discipline, labNumber));
+                }
+
+                Queue queue = new Queue(user, discipline, labNumber, queueNumber);
+
+                service.addQueue(queue);
+                sender.sendString(chatId, queue.toString());
+            } else {
+                sender.sendString(chatId, "user == null");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // keyboards
 
     private static List<List<InlineKeyboardButton>> getDisciplineChooseKeyboard() {
