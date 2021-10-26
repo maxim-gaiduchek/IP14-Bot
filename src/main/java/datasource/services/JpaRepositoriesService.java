@@ -38,6 +38,11 @@ public class JpaRepositoriesService implements DBService {
     }
 
     @Override
+    public List<User> getAllUsers() {
+        return usersRepository.findAll(Sort.by("surname", "name"));
+    }
+
+    @Override
     public List<User> getUsersByBirthday(String birthday) {
         return usersRepository.getAllByBirthday(birthday);
     }

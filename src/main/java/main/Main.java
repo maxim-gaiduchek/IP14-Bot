@@ -5,6 +5,7 @@ import datasource.services.DBService;
 import entities.Lecture;
 import entities.Queue;
 import entities.User;
+import entities.enums.Discipline;
 import entities.enums.LectureCount;
 import entities.enums.WeekCount;
 import entities.enums.WeekDay;
@@ -183,11 +184,9 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void mentionLeads(Long chatId, Integer messageId) {
-        if (CHAT_ID.equals(chatId)) {
-            User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
+        User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
 
-            sender.sendString(chatId, tym.getNameWithLink() + " " + sasha.getNameWithLink(), messageId);
-        }
+        sender.sendString(chatId, tym.getNameWithLink() + " " + sasha.getNameWithLink(), messageId);
     }
 
     private void deadInsideCounter(Long chatId) {

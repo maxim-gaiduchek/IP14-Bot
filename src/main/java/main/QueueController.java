@@ -8,8 +8,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import utils.SimpleSender;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class QueueController {
 
@@ -56,22 +60,29 @@ public class QueueController {
             for (Queue queue : queueList) {
                 User user = queue.getUser();
 
-                sb.append(queue.getQueueNumber())
-                        .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
-                        .append("](tg://user?id=").append(user.getChatId())
-                        .append(") (").append(queue.getLabNumber()).append(" лаба)");
-
                 if (user.getChatId().equals(chatId)) {
-                    sb.append(" _- Вы_");
-                    userInQueues++;
-                }
+                    sb.append(queue.getQueueNumber())
+                            .append(". *").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                            .append("* (").append(queue.getLabNumber()).append(" лаба)").append(" _- Вы_\n");
 
-                sb.append("\n");
+                    userInQueues++;
+                } else {
+                    sb.append(queue.getQueueNumber())
+                            .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                            .append("](tg://user?id=").append(user.getChatId())
+                            .append(") (").append(queue.getLabNumber()).append(" лаба)\n");
+                }
             }
 
             if (userInQueues == 0) {
                 sb.append("\n Вас еще нет в очереди!");
             }
+
+            DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
+            format.setTimeZone(TimeZone.getTimeZone("GMT+3"));
+            String date = format.format(new Date());
+
+            sb.append("\n _Обновлено ").append(date).append("_");
         }
 
         sender.editMessageTextAndInlineKeyboard(

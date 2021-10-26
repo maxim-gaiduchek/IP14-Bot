@@ -15,6 +15,8 @@ public interface DBService {
 
     User getUser(Long chatId);
 
+    List<User> getAllUsers();
+
     List<User> getUsersByBirthday(String birthday);
 
     boolean isUserOfIP14(Long chatId);
