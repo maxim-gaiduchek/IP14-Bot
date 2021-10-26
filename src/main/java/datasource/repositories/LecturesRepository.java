@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface LecturesRepository extends JpaRepository<Lecture, Integer> {
 
-    @Query("SELECT lecture FROM Lecture lecture WHERE lecture.weekDay = ?1 AND lecture.weekCount = ?2")
+    @Query("SELECT lecture FROM Lecture lecture WHERE lecture.weekDay = ?1 AND lecture.weekCount = ?2 ORDER BY lecture.lectureCount")
     List<Lecture> getAllByWeekDayAndWeekCount(WeekDay weekDay, WeekCount weekCount);
 }

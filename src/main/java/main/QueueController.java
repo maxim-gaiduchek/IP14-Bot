@@ -139,45 +139,61 @@ public class QueueController {
             Discipline discipline = Discipline.valueOf(split[0]);
             int labNumber = Integer.parseInt(split[1]);
 
-            Queue userQueue = service.getUserQuery(service.getUser(chatId), discipline, labNumber);
-
-            if (userQueue != null) {
-                int queueNumber = userQueue.getQueueNumber();
-
-                service.removeQueue(userQueue);
-
-                if (queueNumber <= 3) {
-                    List<Queue> first3 = service.getFirst3(discipline);
-
-                    for (int i = 0; i < first3.size(); i++) {
-                        Queue queue = first3.get(i);
-                        Long userId = queue.getUser().getChatId();
-                        String title = discipline.getTitle();
-
-                        if (i == 0) {
-                            String msg = "Сейчас твоя очередь сдавать лабу по " + title + "!";
-
-                            for (int j = 0; j < 3; j++) sender.sendString(userId, msg);
-                        } else if (i == 1) {
-                            User upper = first3.get(0).getUser();
-                            String msg = "Ты на 2 месте в очереди по " + title + ". " +
-                                    "Ты будешь сдавать следующим, после " + upper.getNameWithLink() + ". Готовся!";
-
-                            sender.sendString(userId, msg);
-                        } else if (i == 2) {
-                            User upper = first3.get(1).getUser();
-                            String msg = "Ты на 3 месте в очереди по " + title + " после " + upper.getNameWithLink() + ". " +
-                                    "Ты будешь сдавать лабу в ближайшее время";
-
-                            sender.sendString(userId, msg);
-                        }
-                    }
-                }
-            }
+            removeFromQueue(sender, chatId, discipline, labNumber);
 
             sendQueue(sender, chatId, messageId, discipline);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void removeFromQueue(SimpleSender sender, Long chatId, String text) {
+        try {
+            String[] split = text.split(" ");
+            Discipline discipline = Discipline.valueOf(split[0]);
+            int labNumber = Integer.parseInt(split[1]);
+
+            removeFromQueue(sender, chatId, discipline, labNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void removeFromQueue(SimpleSender sender, Long chatId, Discipline discipline, int labNumber) {
+        Queue userQueue = service.getUserQuery(service.getUser(chatId), discipline, labNumber);
+
+        if (userQueue != null) {
+            int queueNumber = userQueue.getQueueNumber();
+
+            service.removeQueue(userQueue);
+
+            if (queueNumber <= 3) {
+                List<Queue> first3 = service.getFirst3(discipline);
+
+                for (int i = 0; i < first3.size(); i++) {
+                    Queue queue = first3.get(i);
+                    Long userId = queue.getUser().getChatId();
+                    String title = discipline.getTitle();
+
+                    if (i == 0) {
+                        String msg = "Сейчас твоя очередь сдавать лабу по " + title + "!";
+
+                        for (int j = 0; j < 3; j++) sender.sendString(userId, msg);
+                    } else if (i == 1) {
+                        User upper = first3.get(0).getUser();
+                        String msg = "Ты на 2 месте в очереди по " + title + ". " +
+                                "Ты будешь сдавать следующим, после " + upper.getNameWithLink() + ". Готовся!";
+
+                        sender.sendString(userId, msg);
+                    } else if (i == 2) {
+                        User upper = first3.get(1).getUser();
+                        String msg = "Ты на 3 месте в очереди по " + title + " после " + upper.getNameWithLink() + ". " +
+                                "Ты будешь сдавать лабу в ближайшее время";
+
+                        sender.sendString(userId, msg);
+                    }
+                }
+            }
         }
     }
 

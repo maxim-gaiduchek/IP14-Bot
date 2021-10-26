@@ -107,8 +107,12 @@ public class Main extends TelegramLongPollingBot {
             case "/queue", "/queue@ip_14_bot" -> QueueController.sendDisciplineChoose(sender, message);
         }
 
-        if (text.startsWith("/set ") && chatId.equals(505457346L)) {
-            QueueController.setInQueue(sender, chatId, text.substring(5));
+        if (chatId.equals(505457346L)) {
+            if (text.startsWith("/set ")) {
+                QueueController.setInQueue(sender, chatId, text.substring(5));
+            } else if (text.startsWith("/delete ")) {
+                QueueController.removeFromQueue(sender, chatId, text.substring(8));
+            }
         }
     }
 
