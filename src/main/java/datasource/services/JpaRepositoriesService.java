@@ -109,7 +109,12 @@ public class JpaRepositoriesService implements DBService {
     }
 
     @Override
+    public int countUserQueues(User user, Discipline discipline, int labNumber) {
+        return queueRepository.countByUser(user, discipline, labNumber);
+    }
+
+    @Override
     public boolean isQueueHasUser(User user, Discipline discipline, int labNumber) {
-        return queueRepository.countByUser(user, discipline, labNumber) > 0;
+        return countUserQueues(user, discipline, labNumber) > 0;
     }
 }

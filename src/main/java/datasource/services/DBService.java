@@ -43,5 +43,7 @@ public interface DBService {
 
     int countQueue(Discipline discipline);
 
+    int countUserQueues(User user, Discipline discipline, int labNumber);
+
     boolean isQueueHasUser(User user, Discipline discipline, int labNumber);
 }

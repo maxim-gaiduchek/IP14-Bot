@@ -19,6 +19,7 @@ public class QueueController {
 
     private static final DBService service = (DBService) Main.CONTEXT.getBean("service");
 
+    private static final int MAX_QUEUES = 3;
     private static final int ROW_MAX_ELEMENTS = 3;
 
     private QueueController() {
@@ -110,7 +111,8 @@ public class QueueController {
             int labNumber = Integer.parseInt(split[1]);
             User user = service.getUser(chatId);
 
-            if (!service.isQueueHasUser(user, discipline, labNumber)) {
+            if (!service.isQueueHasUser(user, discipline, labNumber)
+                    && service.countUserQueues(user, discipline, labNumber) < MAX_QUEUES) {
                 int countQueue = service.countQueue(discipline);
                 int queueNumber;
 
@@ -201,6 +203,32 @@ public class QueueController {
         return keyboard;
     }
 
+    private static List<List<InlineKeyboardButton>> getEnterOrLeaveQueueKeyboard(Discipline discipline, int userInQueues) {
+        String title = discipline.toString();
+
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> backRow = new ArrayList<>();
+
+        backRow.add(InlineKeyboardButton.builder().text("<< Назад").callbackData("queue-start").build());
+        keyboard.add(backRow);
+
+        if (userInQueues < MAX_QUEUES) {
+            List<InlineKeyboardButton> enterRow = new ArrayList<>();
+
+            enterRow.add(InlineKeyboardButton.builder().text("Встать в очередь").callbackData("add-lab_" + title).build());
+            keyboard.add(enterRow);
+        }
+
+        if (userInQueues > 0) {
+            List<InlineKeyboardButton> exitRow = new ArrayList<>();
+
+            exitRow.add(InlineKeyboardButton.builder().text("Выйти из очереди").callbackData("remove-lab_" + title).build());
+            keyboard.add(exitRow);
+        }
+
+        return keyboard;
+    }
+
     private static List<List<InlineKeyboardButton>> getAddLabNumberKeyboard(Discipline discipline, User user) {
         List<Integer> labNumbers = new ArrayList<>();
         List<Integer> queuedLabNumbers = service.getAllUserQueuedLabNumbers(user);
@@ -237,32 +265,6 @@ public class QueueController {
 
         if (!row.isEmpty()) {
             keyboard.add(row);
-        }
-
-        return keyboard;
-    }
-
-    private static List<List<InlineKeyboardButton>> getEnterOrLeaveQueueKeyboard(Discipline discipline, int userInQueues) {
-        String title = discipline.toString();
-
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<InlineKeyboardButton> backRow = new ArrayList<>();
-
-        backRow.add(InlineKeyboardButton.builder().text("<< Назад").callbackData("queue-start").build());
-        keyboard.add(backRow);
-
-        if (userInQueues < discipline.getMaxLabs()) {
-            List<InlineKeyboardButton> enterRow = new ArrayList<>();
-
-            enterRow.add(InlineKeyboardButton.builder().text("Встать в очередь").callbackData("add-lab_" + title).build());
-            keyboard.add(enterRow);
-        }
-
-        if (userInQueues > 0) {
-            List<InlineKeyboardButton> exitRow = new ArrayList<>();
-
-            exitRow.add(InlineKeyboardButton.builder().text("Выйти из очереди").callbackData("remove-lab_" + title).build());
-            keyboard.add(exitRow);
         }
 
         return keyboard;
