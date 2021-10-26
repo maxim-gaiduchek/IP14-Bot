@@ -74,8 +74,8 @@ public class JpaRepositoriesService implements DBService {
     }
 
     @Override
-    public List<Integer> getAllUserQueuedLabNumbers(User user) {
-        return queueRepository.getAllLabNumbersByUser(user);
+    public List<Integer> getAllUserQueuedLabNumbers(User user, Discipline discipline) {
+        return queueRepository.getAllLabNumbersByUser(user, discipline);
     }
 
     @Override

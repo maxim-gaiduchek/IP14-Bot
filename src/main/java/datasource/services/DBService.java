@@ -31,7 +31,7 @@ public interface DBService {
 
     Queue getLastQueue(Discipline discipline, int labNumber);
 
-    List<Integer> getAllUserQueuedLabNumbers(User user);
+    List<Integer> getAllUserQueuedLabNumbers(User user, Discipline discipline);
 
     List<Queue> getFullQueue(Discipline discipline);
 

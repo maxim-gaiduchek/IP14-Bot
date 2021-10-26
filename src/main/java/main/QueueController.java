@@ -258,7 +258,7 @@ public class QueueController {
 
     private static List<List<InlineKeyboardButton>> getAddLabNumberKeyboard(Discipline discipline, User user) {
         List<Integer> labNumbers = new ArrayList<>();
-        List<Integer> queuedLabNumbers = service.getAllUserQueuedLabNumbers(user);
+        List<Integer> queuedLabNumbers = service.getAllUserQueuedLabNumbers(user, discipline);
 
         for (int i = 1; i <= discipline.getMaxLabs(); i++) {
             if (!queuedLabNumbers.contains(i)) {
@@ -270,7 +270,7 @@ public class QueueController {
     }
 
     private static List<List<InlineKeyboardButton>> getRemoveLabNumberKeyboard(Discipline discipline, User user) {
-        return getLabNumberChooseKeyboard(service.getAllUserQueuedLabNumbers(user), discipline, "remove-lab-num");
+        return getLabNumberChooseKeyboard(service.getAllUserQueuedLabNumbers(user, discipline), discipline, "remove-lab-num");
     }
 
     private static List<List<InlineKeyboardButton>> getLabNumberChooseKeyboard(List<Integer> numbers, Discipline discipline, String query) {
