@@ -147,11 +147,12 @@ public class QueueController {
         }
     }
 
-    public static void removeFromQueue(SimpleSender sender, Long chatId, String text) {
+    public static void removeFromQueue(SimpleSender sender, String text) {
         try {
             String[] split = text.split(" ");
-            Discipline discipline = Discipline.valueOf(split[0]);
-            int labNumber = Integer.parseInt(split[1]);
+            Long chatId = Long.parseLong(split[0]);
+            Discipline discipline = Discipline.valueOf(split[1]);
+            int labNumber = Integer.parseInt(split[2]);
 
             removeFromQueue(sender, chatId, discipline, labNumber);
         } catch (Exception e) {

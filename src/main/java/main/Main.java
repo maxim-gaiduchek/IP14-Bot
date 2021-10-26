@@ -111,7 +111,7 @@ public class Main extends TelegramLongPollingBot {
             if (text.startsWith("/set ")) {
                 QueueController.setInQueue(sender, chatId, text.substring(5));
             } else if (text.startsWith("/delete ")) {
-                QueueController.removeFromQueue(sender, chatId, text.substring(8));
+                QueueController.removeFromQueue(sender, text.substring(8));
             }
         }
     }
