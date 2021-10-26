@@ -1,20 +1,22 @@
+package main;
+
 import datasource.DatasourceConfig;
 import datasource.services.DBService;
 import entities.Lecture;
+import entities.Queue;
 import entities.User;
 import entities.enums.LectureCount;
-import entities.enums.LectureType;
 import entities.enums.WeekCount;
 import entities.enums.WeekDay;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import utils.Formatter;
 import utils.SimpleSender;
 
 import java.text.DateFormat;
@@ -31,7 +33,7 @@ public class Main extends TelegramLongPollingBot {
     private static final String BOT_TOKEN = System.getenv("TEST_BOT_TELEGRAM_TOKEN");*/
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
-    private static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(DatasourceConfig.class);
+    public static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(DatasourceConfig.class);
     private final DBService service = (DBService) CONTEXT.getBean("service");
 
     private static final DateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
@@ -60,8 +62,12 @@ public class Main extends TelegramLongPollingBot {
 
         if (update.hasMessage()) {
             parseMessage(update.getMessage());
+        } else if (update.hasCallbackQuery()) {
+            parseCallbackQuery(update.getCallbackQuery());
         }
     }
+
+    // message parsing
 
     private void parseMessage(Message message) {
         if (!CHAT_ID.equals(message.getChatId()) && !message.isUserMessage()) {
@@ -93,6 +99,7 @@ public class Main extends TelegramLongPollingBot {
             case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
             case "/lead", "/lead@ip_14_bot" -> mentionLeads(chatId, message.getMessageId());
+            case "/queue", "/queue@ip_14_bot" -> QueueController.sendDisciplineChoose(sender, message);
         }
     }
 
@@ -197,6 +204,34 @@ public class Main extends TelegramLongPollingBot {
 
         sender.sendString(chatId, sb.toString());
         sender.sendDocument(chatId, gifs[new Random().nextInt(gifs.length)]);
+    }
+
+    // callback parsing
+
+    private void parseCallbackQuery(CallbackQuery callbackQuery) {
+        Message message = callbackQuery.getMessage();
+        Long chatId = message.getChatId();
+        Integer messageId = message.getMessageId();
+
+        String data = callbackQuery.getData();
+        int index = data.indexOf('_');
+        String query, text = null;
+
+        if (index >= 0) {
+            query = data.substring(0, index);
+            text = data.substring(index + 1);
+        } else {
+            query = data;
+        }
+
+        switch (query) {
+            case "queue-start" -> QueueController.sendDisciplineChoose(sender, chatId, messageId);
+            case "queue" -> QueueController.sendQueue(sender, chatId, messageId, text);
+            case "add-lab" -> QueueController.sendLabNumberChoose(sender, chatId, messageId, text, true);
+            case "add-lab-num" -> QueueController.addInQueue(sender, chatId, messageId, text);
+            case "remove-lab" -> QueueController.sendLabNumberChoose(sender, chatId, messageId, text, false);
+            case "remove-lab-num" -> QueueController.removeFromQueue(sender, chatId, messageId, text);
+        }
     }
 
     // main execution

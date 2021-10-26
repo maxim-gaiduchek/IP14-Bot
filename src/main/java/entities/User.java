@@ -38,14 +38,26 @@ public class User {
 
     // getters
 
+    public Long getChatId() {
+        return chatId;
+    }
+
     public String getNameWithLink() {
         if (chatId != null && chatId != 0) {
-            return "[" + Formatter.formatTelegramText(name) + "](tg://user?id=" + chatId + ")";
+            return "[" + getFormattedName() + "](tg://user?id=" + chatId + ")";
         }
         if (username != null && !"".equals(username)) {
-            return "[" + Formatter.formatTelegramText(name) + "](https://t.me/" + username + ")";
+            return "[" + getFormattedName() + "](https://t.me/" + username + ")";
         }
+        return getFormattedName();
+    }
+
+    public String getFormattedName() {
         return Formatter.formatTelegramText(name);
+    }
+
+    public String getFormattedSurname() {
+        return Formatter.formatTelegramText(surname);
     }
 
     public String getUsername() {
@@ -69,18 +81,24 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        User user = (User) o;
+
+        if (!chatId.equals(user.chatId)) return false;
         if (!name.equals(user.name)) return false;
-        return Objects.equals(chatId, user.chatId);
+        if (!Objects.equals(surname, user.surname)) return false;
+        if (!Objects.equals(username, user.username)) return false;
+        return Objects.equals(birthday, user.birthday);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-
-        result = 31 * result + (chatId != null ? chatId.hashCode() : 0);
-
+        int result = chatId.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         return result;
     }
 

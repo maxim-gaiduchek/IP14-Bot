@@ -29,7 +29,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>Main</mainClass>
+                            <mainClass>main.Main</mainClass>
                             <name>workerBot</name>
                         </program>
                     </programs>

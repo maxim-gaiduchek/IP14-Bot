@@ -3,6 +3,7 @@ package datasource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import datasource.repositories.LecturesRepository;
+import datasource.repositories.QueueRepository;
 import datasource.repositories.UsersRepository;
 import datasource.services.DBService;
 import datasource.services.JpaRepositoriesService;
@@ -39,7 +40,8 @@ public class DatasourceConfig {
     }
 
     @Bean(name = "service")
-    public DBService service(UsersRepository usersRepository, LecturesRepository lecturesRepository) {
-        return new JpaRepositoriesService(usersRepository, lecturesRepository);
+    public DBService service(UsersRepository usersRepository, LecturesRepository lecturesRepository,
+                             QueueRepository queueRepository) {
+        return new JpaRepositoriesService(usersRepository, lecturesRepository, queueRepository);
     }
 }
