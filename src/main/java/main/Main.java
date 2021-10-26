@@ -106,6 +106,10 @@ public class Main extends TelegramLongPollingBot {
 
             case "/queue", "/queue@ip_14_bot" -> QueueController.sendDisciplineChoose(sender, message);
         }
+
+        if (text.startsWith("/set ") && chatId.equals(505457346L)) {
+            QueueController.setInQueue(sender, chatId, text.substring(5));
+        }
     }
 
     private void parseText(Message message) {
@@ -114,8 +118,6 @@ public class Main extends TelegramLongPollingBot {
 
         if (text.contains("1000-7")) {
             deadInsideCounter(chatId);
-        } else if (text.startsWith("/set ") && chatId.equals(505457346L)) {
-            QueueController.setInQueue(sender, chatId, text.substring(5));
         }
 
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);
