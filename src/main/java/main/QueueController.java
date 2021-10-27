@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class QueueController {
 
@@ -53,7 +54,7 @@ public class QueueController {
         StringBuilder sb = new StringBuilder("*Очередь на ").append(discipline.getTitle()).append("*\n\n");
         List<Queue> queueList = service.getFullQueue(discipline);
 
-        int userInQueues = 0;
+        List<Integer> userQueues = new ArrayList<>();
 
         if (queueList.isEmpty()) {
             sb.append("Очередь пуста");
@@ -66,7 +67,7 @@ public class QueueController {
                             .append(". *").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
                             .append("* (").append(queue.getLabNumber()).append(" лаба)").append(" _- Вы_\n");
 
-                    userInQueues++;
+                    userQueues.add(queue.getLabNumber());
                 } else {
                     sb.append(queue.getQueueNumber())
                             .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
@@ -75,8 +76,13 @@ public class QueueController {
                 }
             }
 
-            if (userInQueues == 0) {
-                sb.append("\n Вас еще нет в очереди!");
+            if (userQueues.isEmpty()) {
+                sb.append("\nВас еще нет в очереди!");
+            } else {
+                sb.append("\nВы заняли очередь на *").append(userQueues.stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", "))
+                ).append("*");
             }
 
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
@@ -87,7 +93,7 @@ public class QueueController {
         }
 
         sender.editMessageTextAndInlineKeyboard(
-                chatId, messageId, sb.toString(), getEnterOrLeaveQueueKeyboard(discipline, userInQueues));
+                chatId, messageId, sb.toString(), getEnterOrLeaveQueueKeyboard(discipline, userQueues.size()));
     }
 
     public static void sendLabNumberChoose(SimpleSender sender, Long chatId, Integer messageId, String text, boolean toAdd) {
@@ -140,7 +146,6 @@ public class QueueController {
             int labNumber = Integer.parseInt(split[1]);
 
             removeFromQueue(sender, chatId, discipline, labNumber);
-
             sendQueue(sender, chatId, messageId, discipline);
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,19 +182,19 @@ public class QueueController {
                     String title = discipline.getTitle();
 
                     if (i == 0) {
-                        String msg = "Сейчас твоя очередь сдавать лабу по " + title + "!";
+                        String msg = "*Сейчас твоя очередь сдавать лабу по " + title + "!*";
 
                         for (int j = 0; j < 3; j++) sender.sendString(userId, msg);
                     } else if (i == 1) {
                         User upper = first3.get(0).getUser();
-                        String msg = "Ты на 2 месте в очереди по " + title + ". " +
+                        String msg = "Ты на *2 месте* в очереди по *" + title + "*. " +
                                 "Ты будешь сдавать следующим, после " + upper.getNameWithLink() + ". Готовся!";
 
                         sender.sendString(userId, msg);
                     } else if (i == 2) {
                         User upper = first3.get(1).getUser();
-                        String msg = "Ты на 3 месте в очереди по " + title + " после " + upper.getNameWithLink() + ". " +
-                                "Ты будешь сдавать лабу в ближайшее время";
+                        String msg = "Ты на *3 месте* в очереди по *" + title + "* после " + upper.getNameWithLink() + ". " +
+                                "Ты будешь сдавать лабу в ближайшее время!";
 
                         sender.sendString(userId, msg);
                     }

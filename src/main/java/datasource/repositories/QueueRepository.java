@@ -19,9 +19,14 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
         SELECT queue
         FROM Queue queue
         WHERE queue.discipline = ?1 AND queue.queueNumber > 3
-            AND queue.labNumber = (SELECT MAX(maxQueue.labNumber) FROM Queue maxQueue WHERE maxQueue.labNumber <= ?2 AND maxQueue.queueNumber > 3)
-            AND queue.queueNumber = (SELECT MAX(maxQueue.queueNumber) FROM Queue maxQueue WHERE
-                    maxQueue.labNumber = (SELECT MAX(maxLabQueue.labNumber) FROM Queue maxLabQueue WHERE maxLabQueue.labNumber <= ?2 AND maxLabQueue.queueNumber > 3))""")
+            AND queue.labNumber = (SELECT MAX(maxQueue.labNumber)
+                                   FROM Queue maxQueue
+                                   WHERE maxQueue.discipline = ?1 AND maxQueue.labNumber <= ?2 AND maxQueue.queueNumber > 3)
+            AND queue.queueNumber = (SELECT MAX(maxQueue.queueNumber)
+                                     FROM Queue maxQueue
+                                     WHERE maxQueue.discipline = ?1 AND maxQueue.labNumber = (SELECT MAX(maxLabQueue.labNumber)
+                                                                                              FROM Queue maxLabQueue
+                                                                                              WHERE maxLabQueue.discipline = ?1 AND maxLabQueue.labNumber <= ?2 AND maxLabQueue.queueNumber > 3))""")
     Queue getLastByDisciplineAndLabNumber(Discipline discipline, int labNumber);
 
     @Query("SELECT queue FROM Queue queue WHERE queue.discipline = ?1 AND queue.queueNumber <= 3 ORDER BY queue.queueNumber")
