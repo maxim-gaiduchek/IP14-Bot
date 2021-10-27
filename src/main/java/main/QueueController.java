@@ -79,10 +79,10 @@ public class QueueController {
             if (userQueues.isEmpty()) {
                 sb.append("\nВас еще нет в очереди!");
             } else {
-                sb.append("\nВы заняли очередь на *").append(userQueues.stream()
+                sb.append("\nВы заняли очередь на *лабы номер ").append(userQueues.stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(", "))
-                ).append(" лабы*");
+                ).append("*");
             }
 
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
