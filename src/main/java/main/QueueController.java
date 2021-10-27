@@ -82,14 +82,14 @@ public class QueueController {
                 sb.append("\nВы заняли очередь на *").append(userQueues.stream()
                         .map(Object::toString)
                         .collect(Collectors.joining(", "))
-                ).append("*");
+                ).append(" лабы*");
             }
 
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
             format.setTimeZone(TimeZone.getTimeZone("GMT+3"));
             String date = format.format(new Date());
 
-            sb.append("\n _Обновлено ").append(date).append("_");
+            sb.append("\n_Обновлено ").append(date).append("_");
         }
 
         sender.editMessageTextAndInlineKeyboard(
