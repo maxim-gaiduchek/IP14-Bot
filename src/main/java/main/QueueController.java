@@ -79,14 +79,13 @@ public class QueueController {
             if (userQueues.isEmpty()) {
                 sb.append("\nВас еще нет в очереди!");
             } else {
-                sb.append("\nВы заняли очередь на *лабы номер ").append(userQueues.stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(", "))
-                ).append("*");
+                sb.append("\nВы заняли очередь на *лабы номер ")
+                        .append(userQueues.stream().map(Object::toString).collect(Collectors.joining(", ")))
+                        .append("*");
             }
 
             DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
-            format.setTimeZone(TimeZone.getTimeZone("GMT+3"));
+            format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
             String date = format.format(new Date());
 
             sb.append("\n_Обновлено ").append(date).append("_");
