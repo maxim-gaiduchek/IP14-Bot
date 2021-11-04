@@ -50,25 +50,33 @@ public class QueueController {
             int labNumber = Integer.parseInt(split[1]);
 
             StringBuilder sb = new StringBuilder("*Очередь на ").append(discipline.getTitle())
-                    .append(" (").append(labNumber).append(" лаба)*\n\n");
+                    .append(" (").append(labNumber).append(" лаба)*\n");
+            List<Queue> top3List = service.getFirst3(discipline);
             List<Queue> queueList = service.getLabQueue(discipline, labNumber);
 
+            if (!top3List.isEmpty()) {
+                sb.append("\n*3 несгораемых места:*\n");
+
+                for (Queue queue : top3List) {
+                    User user = queue.getUser();
+
+                    sb.append(queue.getQueueNumber())
+                            .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                            .append("](tg://user?id=").append(user.getChatId()).append(")").append("\n");
+                }
+            }
+
             if (queueList.isEmpty()) {
-                sb.append("Очередь пуста");
+                sb.append("\nОчередь на лабу пуста");
             } else {
+                sb.append("\nОстальная очередь\n");
+
                 for (Queue queue : queueList) {
                     User user = queue.getUser();
 
-                    if (user.getChatId().equals(chatId)) {
-                        sb.append(queue.getQueueNumber())
-                                .append(". *").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
-                                .append("* (").append(queue.getLabNumber()).append(" лаба)").append(" _- Вы_\n");
-                    } else {
-                        sb.append(queue.getQueueNumber())
-                                .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
-                                .append("](tg://user?id=").append(user.getChatId())
-                                .append(") (").append(queue.getLabNumber()).append(" лаба)\n");
-                    }
+                    sb.append(queue.getQueueNumber())
+                            .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                            .append("](tg://user?id=").append(user.getChatId()).append(")").append("\n");
                 }
 
                 DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
