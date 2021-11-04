@@ -238,9 +238,19 @@ public class Main extends TelegramLongPollingBot {
 
         switch (query) {
             case "queue-start" -> QueueController.sendDisciplineChoose(sender, chatId, messageId);
-            case "queue" -> QueueController.sendQueue(sender, chatId, messageId, text);
+            case "queue" -> {
+                if (message.isGroupMessage() || message.isSuperGroupMessage()) {
+                    QueueController.sendLabNumberChoose(sender, chatId, messageId, text);
+                } else {
+                    QueueController.sendQueue(sender, chatId, messageId, text);
+                }
+            }
+
+            case "choose-lab-num" -> QueueController.sendLabQueue(sender, chatId, messageId, text);
+
             case "add-lab" -> QueueController.sendLabNumberChoose(sender, chatId, messageId, text, true);
             case "add-lab-num" -> QueueController.addInQueue(sender, chatId, messageId, text);
+
             case "remove-lab" -> QueueController.sendLabNumberChoose(sender, chatId, messageId, text, false);
             case "remove-lab-num" -> QueueController.removeFromQueue(sender, chatId, messageId, text);
         }

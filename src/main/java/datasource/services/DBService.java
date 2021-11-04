@@ -35,6 +35,8 @@ public interface DBService {
 
     List<Queue> getFullQueue(Discipline discipline);
 
+    List<Queue> getLabQueue(Discipline discipline, int labNumber);
+
     List<Queue> getFirst3(Discipline discipline);
 
     void addQueue(Queue queue);

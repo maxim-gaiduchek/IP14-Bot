@@ -84,6 +84,11 @@ public class JpaRepositoriesService implements DBService {
     }
 
     @Override
+    public List<Queue> getLabQueue(Discipline discipline, int labNumber) {
+        return queueRepository.getAllByDisciplineAndLabNumber(discipline, labNumber);
+    }
+
+    @Override
     public List<Queue> getFirst3(Discipline discipline) {
         return queueRepository.getFirst3(discipline);
     }

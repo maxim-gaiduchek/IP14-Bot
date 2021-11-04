@@ -31,7 +31,8 @@ public class QueueController {
     public static void sendDisciplineChoose(SimpleSender sender, Message message) {
         Long chatId = message.getChatId();
 
-        if (message.isUserMessage() && service.isUserOfIP14(chatId)) {
+        if (message.isUserMessage() && service.isUserOfIP14(chatId)
+                || message.isSuperGroupMessage() || message.isGroupMessage()) {
             sender.sendStringAndInlineKeyboard(chatId, "Выбери дисциплину", getDisciplineChooseKeyboard());
         }
     }
@@ -39,6 +40,47 @@ public class QueueController {
     public static void sendDisciplineChoose(SimpleSender sender, Long chatId, Integer messageId) {
         if (service.isUserOfIP14(chatId)) {
             sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Выбери дисциплину", getDisciplineChooseKeyboard());
+        }
+    }
+
+    public static void sendLabQueue(SimpleSender sender, Long chatId, Integer messageId, String text) {
+        try {
+            String[] split = text.split("-");
+            Discipline discipline = Discipline.valueOf(split[0]);
+            int labNumber = Integer.parseInt(split[1]);
+
+            StringBuilder sb = new StringBuilder("*Очередь на ").append(discipline.getTitle())
+                    .append(" (").append(labNumber).append(" лаба)*\n\n");
+            List<Queue> queueList = service.getLabQueue(discipline, labNumber);
+
+            if (queueList.isEmpty()) {
+                sb.append("Очередь пуста");
+            } else {
+                for (Queue queue : queueList) {
+                    User user = queue.getUser();
+
+                    if (user.getChatId().equals(chatId)) {
+                        sb.append(queue.getQueueNumber())
+                                .append(". *").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                                .append("* (").append(queue.getLabNumber()).append(" лаба)").append(" _- Вы_\n");
+                    } else {
+                        sb.append(queue.getQueueNumber())
+                                .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                                .append("](tg://user?id=").append(user.getChatId())
+                                .append(") (").append(queue.getLabNumber()).append(" лаба)\n");
+                    }
+                }
+
+                DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
+                format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
+                String date = format.format(new Date());
+
+                sb.append("\n_Обновлено ").append(date).append("_");
+            }
+
+            sender.editMessageText(chatId, messageId, sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -93,6 +135,23 @@ public class QueueController {
 
         sender.editMessageTextAndInlineKeyboard(
                 chatId, messageId, sb.toString(), getEnterOrLeaveQueueKeyboard(discipline, userQueues.size()));
+    }
+
+    public static void sendLabNumberChoose(SimpleSender sender, Long chatId, Integer messageId, String text) {
+        try {
+            Discipline discipline = Discipline.valueOf(text);
+            List<Integer> numbers = new ArrayList<>();
+
+            for (int i = 1; i <= discipline.getMaxLabs(); i++) {
+                numbers.add(i);
+            }
+
+            List<List<InlineKeyboardButton>> keyboard = getLabNumberChooseKeyboard(numbers, discipline, "choose-lab-num");
+
+            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Выбери номер лабы", keyboard);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void sendLabNumberChoose(SimpleSender sender, Long chatId, Integer messageId, String text, boolean toAdd) {
@@ -255,9 +314,13 @@ public class QueueController {
         String title = discipline.toString();
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> updateRow = new ArrayList<>();
         List<InlineKeyboardButton> backRow = new ArrayList<>();
 
+        updateRow.add(InlineKeyboardButton.builder().text("Обновить").callbackData("queue_" + discipline).build());
         backRow.add(InlineKeyboardButton.builder().text("<< Назад").callbackData("queue-start").build());
+
+        keyboard.add(updateRow);
         keyboard.add(backRow);
 
         if (userInQueues < MAX_QUEUES) {

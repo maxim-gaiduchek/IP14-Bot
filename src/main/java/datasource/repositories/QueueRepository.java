@@ -38,6 +38,9 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
     @Query("SELECT queue FROM Queue queue WHERE queue.discipline = ?1 ORDER BY queue.queueNumber")
     List<Queue> getAllByDiscipline(Discipline discipline);
 
+    @Query("SELECT queue FROM Queue queue WHERE queue.discipline = ?1 AND queue.labNumber = ?2 ORDER BY queue.queueNumber")
+    List<Queue> getAllByDisciplineAndLabNumber(Discipline discipline, int labNumber);
+
     @Modifying
     @Transactional
     @Query("UPDATE Queue queue SET queue.queueNumber = queue.queueNumber + 1 WHERE queue.discipline = ?1 AND queue.queueNumber >= ?2")
