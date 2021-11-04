@@ -68,7 +68,7 @@ public class QueueController {
                                 .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
                                 .append("](tg://user?id=").append(user.getChatId())
                                 .append(") (").append(queue.getLabNumber()).append(" лаба)\n");
-                    }
+                    } //
                 }
 
                 DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
