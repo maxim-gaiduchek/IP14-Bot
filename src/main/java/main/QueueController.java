@@ -61,8 +61,9 @@ public class QueueController {
                     User user = queue.getUser();
 
                     sb.append(queue.getQueueNumber())
-                            .append(". *").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
-                            .append("* (").append(queue.getLabNumber()).append(" лаба)").append("\n");
+                            .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
+                            .append("](tg://user?id=").append(user.getChatId()).append(") *(")
+                            .append(queue.getLabNumber()).append(" лаба)*\n");
                 }
             }
 

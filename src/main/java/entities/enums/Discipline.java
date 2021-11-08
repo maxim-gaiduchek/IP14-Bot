@@ -2,8 +2,7 @@ package entities.enums;
 
 public enum Discipline {
 
-    PB("ОП", 5),
-    ADS("АСД", 5),
+    PB("ОП", 6),
     EBCZ("ЕБЦЗ", 9);
 
     private final String title;
