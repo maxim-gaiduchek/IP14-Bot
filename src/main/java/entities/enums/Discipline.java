@@ -2,7 +2,7 @@ package entities.enums;
 
 public enum Discipline {
 
-    PB("ОП", 8);
+    PB("ОП", 9);
 
     private final String title;
     private final int maxLabs;
