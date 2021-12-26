@@ -126,6 +126,8 @@ public class Main extends TelegramLongPollingBot {
             deadInsideCounter(chatId);
         } else if (text.contains("я люблю тебя") && message.isUserMessage()) {
             sendLove(chatId);
+        } else if (text.startsWith("я ")) {
+            sendMeToo(chatId, text, message.isUserMessage());
         }
 
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);
@@ -251,6 +253,12 @@ public class Main extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    private void sendMeToo(Long chatId, String text, boolean isUserMessage) {
+        if (isUserMessage || new Random().nextInt(100) == 0) {
+            sender.sendString(chatId, "Я тоже " + text.substring(2));
+        }
     }
 
     // callback parsing
