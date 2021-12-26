@@ -119,11 +119,13 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void parseText(Message message) {
-        String text = message.getText();
+        String text = message.getText().toLowerCase();
         Long chatId = message.getChatId();
 
         if (text.contains("1000-7")) {
             deadInsideCounter(chatId);
+        } else if (text.contains("я люблю тебя") && message.isUserMessage()) {
+            sendLove(chatId);
         }
 
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);
@@ -223,6 +225,32 @@ public class Main extends TelegramLongPollingBot {
 
         sender.sendString(chatId, sb.toString());
         sender.sendDocument(chatId, gifs[new Random().nextInt(gifs.length)]);
+    }
+
+    private void sendLove(Long chatId) {
+        new Thread(() -> {
+            try {
+                String[] stickers = {
+                        "CAACAgIAAxkBAAISs2HI7nwq1d5OKUY7OS6oUrz-8ZKGAALEEgACwHXwS3eA4YHGiwu-IwQ",
+                        "CAACAgIAAxkBAAISsmHI7nxMKOQoxlFT46qUjRqMqB0DAAJAEwACBJ4hSHyf1cbaZtpyIwQ",
+                        "CAACAgIAAxkBAAISsWHI7nwt0YX3PP3AdzpVd5Ze3Y6aAAJnDwAC2yjQSm9z_iesKpruIwQ",
+                        "CAACAgIAAxkBAAISsGHI7nyM7K7QDx3Y3TwyDHGLpoZgAAIREQACsIPpSNFR-ddEeFsaIwQ",
+                        "CAACAgIAAxkBAAISr2HI7nx-4ufiTDo617YX-vxhEQQ0AAKSAQACEBptIuuEW7yIvJNpIwQ"
+                };
+
+                sender.sendString(chatId, "а знаешь...");
+                Thread.sleep(300);
+                sender.sendString(chatId, "я тоже.........................................");
+                Thread.sleep(300);
+                sender.sendString(chatId, "ЛЮБЛЮ ТЕБЯ❤️❤️\uD83D\uDC96\uD83D\uDC97\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC96\uD83D\uDC9E❤️❤️\uD83D\uDC93\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9B\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC9A\uD83E\uDDE1\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC95\uD83D\uDC96\uD83D\uDC9A\uD83D\uDC9A\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC93❣️\uD83D\uDC95\uD83E\uDD0E\uD83D\uDC94\uD83D\uDC9F\uD83D\uDDA4\uD83D\uDC94\uD83D\uDC9A\uD83D\uDC98\uD83D\uDC9F\uD83D\uDC9C\uD83D\uDC97❣️\uD83D\uDC97\uD83D\uDDA4\uD83E\uDD0E\uD83D\uDC9E❣️\uD83D\uDC93\uD83D\uDC8C\uD83D\uDC9F\uD83D\uDC96");
+                Thread.sleep(300);
+                for (int i = 0; i < 5; i++) {
+                    sender.sendSticker(chatId, stickers[new Random().nextInt(stickers.length)]);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     // callback parsing

@@ -377,9 +377,17 @@ public class SimpleSender extends DefaultAbsSender {
     // sticker
 
     public Message sendSticker(String chatId, Sticker sticker) {
+        return sendSticker(chatId, sticker.getFileId());
+    }
+
+    public Message sendSticker(Long chatId, Sticker sticker) {
+        return sendSticker(chatId.toString(), sticker);
+    }
+
+    public Message sendSticker(String chatId, String stickerFileId) {
         SendSticker sendSticker = new SendSticker();
         sendSticker.setChatId(chatId);
-        sendSticker.setSticker(new InputFile(sticker.getFileId()));
+        sendSticker.setSticker(new InputFile(stickerFileId));
         try {
             return execute(sendSticker);
         } catch (TelegramApiException e) {
@@ -388,8 +396,8 @@ public class SimpleSender extends DefaultAbsSender {
         return null;
     }
 
-    public Message sendSticker(Long chatId, Sticker sticker) {
-        return sendSticker(chatId.toString(), sticker);
+    public Message sendSticker(Long chatId, String stickerFileId) {
+        return sendSticker(chatId.toString(), stickerFileId);
     }
 
     // contact
