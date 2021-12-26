@@ -3,9 +3,7 @@ package main;
 import datasource.DatasourceConfig;
 import datasource.services.DBService;
 import entities.Lecture;
-import entities.Queue;
 import entities.User;
-import entities.enums.Discipline;
 import entities.enums.LectureCount;
 import entities.enums.WeekCount;
 import entities.enums.WeekDay;
@@ -23,15 +21,16 @@ import utils.SimpleSender;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.TimeZone;
 
 public class Main extends TelegramLongPollingBot {
 
     private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
-    /*private static final String BOT_USERNAME = System.getenv("TEST_BOT_TELEGRAM_USERNAME");
-    private static final String BOT_TOKEN = System.getenv("TEST_BOT_TELEGRAM_TOKEN");*/
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
     public static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(DatasourceConfig.class);
@@ -124,7 +123,7 @@ public class Main extends TelegramLongPollingBot {
 
         if (text.contains("1000-7")) {
             deadInsideCounter(chatId);
-        } else if (text.contains("я люблю тебя") && message.isUserMessage()) {
+        } else if ((text.contains("я люблю тебя") || text.contains("я тебя люблю")) && message.isUserMessage()) {
             sendLove(chatId);
         } else if (text.startsWith("я ")) {
             sendMeToo(chatId, text, message.isUserMessage());
@@ -415,8 +414,10 @@ public class Main extends TelegramLongPollingBot {
             LectureCount count = lecture.getLectureCount();
 
             if (time.equals(count.getStartTime())) {
-                sendLectureInfo(lecture, "Пара уже начинается:", CHAT_ID);
-                return;
+                String msg = i == 0 ? "Первая пара уже начинается:" : "Пара уже начинается:";
+
+                sendLectureInfo(lecture, msg, CHAT_ID);
+                break;
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
                     sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
@@ -424,11 +425,9 @@ public class Main extends TelegramLongPollingBot {
                 } else {
                     sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:", CHAT_ID);
                 }
-                return;
+                break;
             }
         }
-
-        // sendLectureInfo(lectureList.get(0), "Пара уже начинается:", CHAT_ID);
     }
 
     private void sendCurrentLectureInfo(Long chatId) {
