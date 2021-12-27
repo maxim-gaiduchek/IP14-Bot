@@ -127,6 +127,8 @@ public class Main extends TelegramLongPollingBot {
             sendLove(chatId);
         } else if (text.startsWith("я ")) {
             sendMeToo(chatId, text, message.isUserMessage());
+        } else if (message.getChatId().equals(CHAT_ID)) {
+            frogOrCatAttack();
         }
 
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);
@@ -194,12 +196,6 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private void mentionMoms(Long chatId) {
-        if (CHAT_ID.equals(chatId)) {
-            sender.sendString(chatId, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
-        }
-    }
-
     private void mentionLeads(Long chatId, Integer messageId) {
         User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
 
@@ -238,6 +234,7 @@ public class Main extends TelegramLongPollingBot {
                         "CAACAgIAAxkBAAISsGHI7nyM7K7QDx3Y3TwyDHGLpoZgAAIREQACsIPpSNFR-ddEeFsaIwQ",
                         "CAACAgIAAxkBAAISr2HI7nx-4ufiTDo617YX-vxhEQQ0AAKSAQACEBptIuuEW7yIvJNpIwQ"
                 };
+                Random random = new Random();
 
                 sender.sendString(chatId, "а знаешь...");
                 Thread.sleep(1000);
@@ -246,7 +243,7 @@ public class Main extends TelegramLongPollingBot {
                 sender.sendString(chatId, "ЛЮБЛЮ ТЕБЯ❤️❤️\uD83D\uDC96\uD83D\uDC97\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC96\uD83D\uDC9E❤️❤️\uD83D\uDC93\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9B\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC9A\uD83E\uDDE1\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC95\uD83D\uDC96\uD83D\uDC9A\uD83D\uDC9A\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC93❣️\uD83D\uDC95\uD83E\uDD0E\uD83D\uDC94\uD83D\uDC9F\uD83D\uDDA4\uD83D\uDC94\uD83D\uDC9A\uD83D\uDC98\uD83D\uDC9F\uD83D\uDC9C\uD83D\uDC97❣️\uD83D\uDC97\uD83D\uDDA4\uD83E\uDD0E\uD83D\uDC9E❣️\uD83D\uDC93\uD83D\uDC8C\uD83D\uDC9F\uD83D\uDC96");
                 Thread.sleep(1000);
                 for (int i = 0; i < 5; i++) {
-                    sender.sendSticker(chatId, stickers[new Random().nextInt(stickers.length)]);
+                    sender.sendSticker(chatId, stickers[random.nextInt(stickers.length)]);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -257,6 +254,75 @@ public class Main extends TelegramLongPollingBot {
     private void sendMeToo(Long chatId, String text, boolean isUserMessage) {
         if (isUserMessage || new Random().nextInt(100) == 0) {
             sender.sendString(chatId, "Я тоже " + text.substring(2));
+        }
+    }
+
+    private void frogOrCatAttack() {
+        Random random = new Random();
+        int randomInt = random.nextInt(1000);
+
+        if (randomInt == 0) {
+            String[] stickersFileIds = new String[]{
+                    "CAACAgIAAxkBAAITOWHJr1qYCzve4_rrZW0z_zPwTJv1AAIcDQAC-u-AS2ytN0FC-tDTIwQ",
+                    "CAACAgQAAxkBAAITOmHJr1qjDGkBmlm5T1YrCl_ouSLsAAI5AQACJXRTIgdu4Mrb-QIPIwQ",
+                    "CAACAgQAAxkBAAITO2HJr1rFAAH4bYcQ39gBpa-gxGTCvwACLAEAAiV0UyLzppr2IgyE7iME",
+                    "CAACAgQAAxkBAAITPGHJr1rO1rpfpTiFkdqlmYzmqRMFAAIyAQACJXRTIuphJfNzKMopIwQ",
+                    "CAACAgQAAxkBAAITPWHJr1qJ4rJ3FXZ6A4XFJQRGthRRAAI4AQACJXRTIpvX60mnJc6tIwQ",
+                    "CAACAgQAAxkBAAITPmHJr1oQ8fN7UYJMxgYWmcKT79khAAI6AQACJXRTIhqsSe3Dmjn-IwQ",
+                    "CAACAgQAAxkBAAITP2HJr1q2mEErJ1jPIOa3HOtNM8xcAAI8AQACJXRTIsrJqHO6birLIwQ",
+                    "CAACAgQAAxkBAAITQGHJr1pzFzAqO7IZWRouoRlousXhAAJEAQACJXRTIvFetN4r4E8XIwQ",
+                    "CAACAgQAAxkBAAITQWHJr1qcWgcH6vVeHLqid8t3V41IAAJFAQACJXRTIslNGYc9TB5VIwQ",
+                    "CAACAgQAAxkBAAITQmHJr1qNaNXiZ0JNZl9-kucT5o3CAAJLAQACJXRTIt_bWs_SDAleIwQ",
+                    "CAACAgQAAxkBAAITQ2HJr1pMSva881GLCnkGJyFyzVnBAAJMAQACJXRTIkwLWVU6NivnIwQ",
+                    "CAACAgQAAxkBAAITRGHJr1oBdnKGwCBtXScZEggZ9HcvAAI0CAACVh6IUxj3zOyGdNcBIwQ",
+                    "CAACAgQAAxkBAAITRWHJr1qtQlRiXE6NL2PTjdLI041BAAIVDAACU5lhUTScbHHrMXCbIwQ",
+                    "CAACAgQAAxkBAAITRmHJr1rfhzEVSuOhe7K7U0T7mympAAIxAQACJXRTIr2bvUcqde3vIwQ",
+                    "CAACAgQAAxkBAAITR2HJr1qIjpnoowgVPqtMR472DOAbAAJDAQACJXRTIqtR7yjK1kRmIwQ",
+                    "CAACAgQAAxkBAAITSGHJr1oG8NlmZ6nzWoP0sZBD4ydpAAJGAQACJXRTIuI4Veb7RIoLIwQ",
+                    "CAACAgQAAxkBAAITSWHJr1o3m8KvWvI7J8T_hjuau_ecAAJNAQACJXRTItzV8nQdqX-SIwQ",
+                    "CAACAgQAAxkBAAITSmHJr1rl6AqViFlPyLXLHZP-3a5jAAJMAQACJXRTIkwLWVU6NivnIwQ",
+                    "CAACAgQAAxkBAAITS2HJr1ouF2QJoCp8UthhOaPX3tmlAAIPCQACjeOBU92eBLFIG-YrIwQ",
+                    "CAACAgQAAxkBAAITTGHJr1q2Kjuj5Tj8IMXagWPUTpVyAAIoCAACzMmJU99qv_dH6LAcIwQ"
+            };
+
+            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ЖАБАМИ");
+            for (int i = 0; i < 5; i++) {
+                sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+            }
+        } else if (randomInt == 1) {
+            String[] stickersFileIds = new String[]{
+                    "CAACAgQAAxkBAAITJWHJq1HyewU96ZdQKItLZFXxpU-AAAI1AAPOOQgNIPWFL5Vf2GMjBA",
+                    "CAACAgQAAxkBAAITJmHJq1Fbn22dVwxM3laJ5k_s3XSkAAKiAAPOOQgNInzkAjsaCnMjBA",
+                    "CAACAgQAAxkBAAITJ2HJq1HyTxDy0zcaq6UgOf9BfYY9AAJDAAPOOQgNg90jefVFXigjBA",
+                    "CAACAgQAAxkBAAITKGHJq1GGqmy9ioCh8_npTjtMFwoTAAKMAAPOOQgNIejK3IKPfGUjBA",
+                    "CAACAgQAAxkBAAITKWHJq1F1sdbaeam0DgPw0ZARlZM9AAKoAAPOOQgN2hWbG1Xxf5YjBA",
+                    "CAACAgQAAxkBAAITKmHJq1H4DKaDfn0MzXRSexcYYbkxAAKQAAPOOQgNBFktlyDTRKgjBA",
+                    "CAACAgQAAxkBAAITK2HJq1GlZXHTOqatwigr0qS3HcQ_AAK3AAPOOQgN7W0pp2rc4iUjBA",
+                    "CAACAgQAAxkBAAITLGHJq1GTncpg8IgI5CcZDiv11qjjAAI5AAPOOQgNSkvIj03SUvkjBA",
+                    "CAACAgQAAxkBAAITLWHJq1GoriZROj9m9zAcMiD0RNh6AAJ1AAPOOQgNE3iiCSs2WGwjBA",
+                    "CAACAgQAAxkBAAITLmHJq1HkoM-ymaOUo7FbyoAx3kPbAAJ6AAPOOQgNrUU4I9lPhJ4jBA",
+                    "CAACAgQAAxkBAAITL2HJq1GyO_tnqKiVkK2uYCGpIwABUQACywADzjkIDbOwR_74-CYhIwQ",
+                    "CAACAgQAAxkBAAITMGHJq1HICdC6hrsCFsLjJj7i0wZgAAI-AAPOOQgNP6Aj-lLbkC8jBA",
+                    "CAACAgQAAxkBAAITMWHJq1G0gzUtouR6D-UPOQ-DhEfiAAKyAAPOOQgN8XAQVapfOd0jBA",
+                    "CAACAgQAAxkBAAITMmHJq1FofN12caxdrkoESq5Y4DckAAKJAAPOOQgNfn_UJplquP8jBA",
+                    "CAACAgQAAxkBAAITM2HJq1FDf3zia2qpaSxMwatzlWzbAAJ9AAPOOQgNKBlAtyUPuOIjBA",
+                    "CAACAgQAAxkBAAITNGHJq1EnTwtEVKiIMW5i8TvPXLQgAALMAAPOOQgN32d8ZX5EuWQjBA",
+                    "CAACAgQAAxkBAAITNWHJq1EVeYGIL0h3pLKLJ8M7gzvXAAKRAAPOOQgNlePFtWiAKRMjBA",
+                    "CAACAgQAAxkBAAITNmHJq1Hj8hQ_tvFRJgKNuMWWJXKVAALJAAPOOQgN2sw1Ndxjaw0jBA",
+                    "CAACAgQAAxkBAAITN2HJq1EkKblTgtjWebcaf4aa3FQ7AAJ_AAPOOQgNwKZEUGFLdgojBA",
+                    "CAACAgQAAxkBAAITOGHJq1FP1prfsgaYk9_JqVBBWYuNAAKzAAPOOQgNTUXCPMgmcSIjBA"
+            };
+
+            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КОТАМИ");
+            for (int i = 0; i < 5; i++) {
+                sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+            }
+        }
+    }
+
+    private void mentionMoms(Long chatId) {
+        if (CHAT_ID.equals(chatId)) {
+            sender.sendString(chatId, "@ostrich\\_alexey @Pavelperov @andrey\\_rand");
         }
     }
 
