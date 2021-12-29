@@ -383,9 +383,9 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    case "07:00" -> sendSchedule(CHAT_ID);
+                    //case "07:00" -> sendSchedule(CHAT_ID);
                     case "08:00" -> sendBirthday();
-                    default -> sendOnLectureStartsOrEnds(time);
+                    //default -> sendOnLectureStartsOrEnds(time);
                 }
 
                 delay(60000, start);
