@@ -80,7 +80,7 @@ public class QueueController {
                             .append("](tg://user?id=").append(user.getChatId()).append(")").append("\n");
                 }
 
-                DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm");
+                DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
                 format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
                 String date = format.format(new Date());
 

@@ -259,7 +259,7 @@ public class Main extends TelegramLongPollingBot {
 
     private void frogOrCatAttack() {
         Random random = new Random();
-        int randomInt = random.nextInt(1000);
+        int randomInt = random.nextInt(2000);
 
         if (randomInt == 0) {
             String[] stickersFileIds = new String[]{
