@@ -93,6 +93,9 @@ public class Main extends TelegramLongPollingBot {
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
             case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
 
+            case "/week_1", "/week_1@ip_14_bot" -> sendWeekSchedule(WeekCount.FIRST, chatId, message.isUserMessage());
+            case "/week_2", "/week_2@ip_14_bot" -> sendWeekSchedule(WeekCount.SECOND, chatId, message.isUserMessage());
+
             case "/monday", "/monday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.MONDAY, chatId);
             case "/tuesday", "/tuesday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.TUESDAY, chatId);
             case "/wednesday", "/wednesday@ip_14_bot" -> sendWeekDaySchedule(WeekDay.WEDNESDAY, chatId);
@@ -546,6 +549,16 @@ public class Main extends TelegramLongPollingBot {
                 lecture.getLectureInfo();
 
         sender.sendStringWithDisabledWebPagePreview(chatId, msg);
+    }
+
+    private void sendWeekSchedule(WeekCount count, Long chatId, boolean isPrivateChat) {
+        if (isPrivateChat) {
+            for (int i = 1; i < 6; i++) { // i < 7 if there are Saturdays
+                sendSchedule(WeekDay.getWeekDayByCounter(i), count, chatId);
+            }
+        } else {
+            sender.sendString(chatId, "Эту команду можно использовать только [в лс бота!](https://t.me/ip_14_bot)");
+        }
     }
 
     // birthdays
