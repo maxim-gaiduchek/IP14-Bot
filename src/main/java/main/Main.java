@@ -89,7 +89,7 @@ public class Main extends TelegramLongPollingBot {
         switch (text) {
             case "/start", "/start@ip_14_bot", "/help", "/help@ip_14_bot" -> sendHelp(chatId);
 
-            case "/today", "/today@ip_14_bot" -> sendSchedule(chatId);
+            case "/today", "/today@ip_14_bot" -> sendScheduleForToday(chatId);
             case "/lecture", "/lecture@ip_14_bot" -> sendCurrentLectureInfo(chatId);
             case "/next_day", "/next_day@ip_14_bot" -> sendNextDaySchedule(chatId);
 
@@ -386,9 +386,9 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    //case "07:00" -> sendSchedule(CHAT_ID);
+                    case "07:00" -> sendScheduleForToday(CHAT_ID);
                     case "08:00" -> sendBirthday();
-                    //default -> sendOnLectureStartsOrEnds(time);
+                    default -> sendOnLectureStartsOrEnds(time);
                 }
 
                 delay(60000, start);
@@ -406,7 +406,7 @@ public class Main extends TelegramLongPollingBot {
 
     // lectures
 
-    private void sendSchedule(Long chatId) {
+    private void sendScheduleForToday(Long chatId) {
         sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount(), chatId);
     }
 
