@@ -79,13 +79,13 @@ public class QueueController {
                             .append(". [").append(user.getFormattedSurname()).append(" ").append(user.getFormattedName())
                             .append("](tg://user?id=").append(user.getChatId()).append(")").append("\n");
                 }
-
-                DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
-                format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
-                String date = format.format(new Date());
-
-                sb.append("\n_Обновлено ").append(date).append("_");
             }
+
+            DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
+            format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
+            String date = format.format(new Date());
+
+            sb.append("\n_Обновлено ").append(date).append("_");
 
             sender.editMessageText(chatId, messageId, sb.toString());
         } catch (Exception e) {
@@ -134,13 +134,13 @@ public class QueueController {
                         .append(userQueues.stream().map(Object::toString).collect(Collectors.joining(", ")))
                         .append("*");
             }
-
-            DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
-            format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
-            String date = format.format(new Date());
-
-            sb.append("\n_Обновлено ").append(date).append("_");
         }
+
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
+        String date = format.format(new Date());
+
+        sb.append("\n_Обновлено ").append(date).append("_");
 
         sender.editMessageTextAndInlineKeyboard(
                 chatId, messageId, sb.toString(), getEnterOrLeaveQueueKeyboard(discipline, userQueues.size()));
