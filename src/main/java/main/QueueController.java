@@ -68,7 +68,7 @@ public class QueueController {
             }
 
             if (queueList.isEmpty()) {
-                sb.append("\nОчередь на лабу пуста");
+                sb.append("\nОчередь на лабу пуста\n");
             } else {
                 sb.append("\nОстальная очередь\n");
 
@@ -108,7 +108,7 @@ public class QueueController {
         List<Integer> userQueues = new ArrayList<>();
 
         if (queueList.isEmpty()) {
-            sb.append("Очередь пуста");
+            sb.append("Очередь пуста\n");
         } else {
             for (Queue queue : queueList) {
                 User user = queue.getUser();

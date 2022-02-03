@@ -262,7 +262,7 @@ public class Main extends TelegramLongPollingBot {
 
     private void frogOrCatAttack() {
         Random random = new Random();
-        int randomInt = random.nextInt(2000);
+        int randomInt = random.nextInt(5000);
 
         if (randomInt == 0) {
             String[] stickersFileIds = new String[]{
@@ -391,15 +391,11 @@ public class Main extends TelegramLongPollingBot {
                     default -> sendOnLectureStartsOrEnds(time);
                 }
 
-                delay(60000, start);
-            }
-        }
-
-        private void delay(int delay, long startExecutionTime) {
-            try {
-                sleep(delay - (System.currentTimeMillis() - startExecutionTime));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    sleep(60000 - (System.currentTimeMillis() - start));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -477,6 +473,8 @@ public class Main extends TelegramLongPollingBot {
 
     private void sendOnLectureStartsOrEnds(String time) {
         List<Lecture> lectureList = getTodayLectures();
+        String fortyMinutesAgo = get40MinutesAgo(time);
+        String eightyMinutesAgo = get40MinutesAgo(fortyMinutesAgo);
 
         for (int i = 0; i < lectureList.size(); i++) {
             Lecture lecture = lectureList.get(i);
@@ -495,8 +493,20 @@ public class Main extends TelegramLongPollingBot {
                     sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:", CHAT_ID);
                 }
                 break;
+            } else if (fortyMinutesAgo.equals(count.getStartTime()) || eightyMinutesAgo.equals(count.getStartTime())) {
+                sendLectureInfo(lecture, "Пара продолжается:", CHAT_ID);
+                break;
             }
         }
+    }
+
+    private String get40MinutesAgo(String time) {
+        try {
+            return FORMAT_TIME.format(new Date(FORMAT_TIME.parse(time).getTime() - 40 * 60 * 1000));
+        } catch (ParseException ignored) {
+        }
+
+        return time;
     }
 
     private void sendCurrentLectureInfo(Long chatId) {
