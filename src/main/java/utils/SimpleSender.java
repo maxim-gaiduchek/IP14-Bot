@@ -4,7 +4,6 @@ import org.telegram.telegrambots.bots.DefaultAbsSender;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.KickChatMember;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.LeaveChat;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
@@ -665,6 +664,10 @@ public class SimpleSender extends DefaultAbsSender {
 
     // string
     public Serializable editMessageText(Long chatId, Integer messageId, String text) {
+        return editMessageText(chatId.toString(), messageId, text);
+    }
+
+    public Serializable editMessageText(String chatId, Integer messageId, String text) {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
         editMessageText.setMessageId(messageId);
@@ -679,6 +682,10 @@ public class SimpleSender extends DefaultAbsSender {
     }
 
     public Serializable editMessageText(Long chatId, Integer messageId, String text, boolean enableMarkdown) {
+        return editMessageText(chatId.toString(), messageId, text, enableMarkdown);
+    }
+
+    public Serializable editMessageText(String chatId, Integer messageId, String text, boolean enableMarkdown) {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
         editMessageText.setMessageId(messageId);
@@ -716,7 +723,15 @@ public class SimpleSender extends DefaultAbsSender {
         return editMessageTextAndInlineKeyboard(chatId, messageId, text, InlineKeyboardMarkup.builder().keyboard(keyboard).build());
     }
 
+    public Serializable editMessageTextAndInlineKeyboard(String chatId, Integer messageId, String text, List<List<InlineKeyboardButton>> keyboard) {
+        return editMessageTextAndInlineKeyboard(chatId, messageId, text, InlineKeyboardMarkup.builder().keyboard(keyboard).build());
+    }
+
     public Serializable editMessageTextAndInlineKeyboard(Long chatId, Integer messageId, String text, InlineKeyboardMarkup markup) {
+        return editMessageTextAndInlineKeyboard(chatId.toString(), messageId, text, markup);
+    }
+
+    public Serializable editMessageTextAndInlineKeyboard(String chatId, Integer messageId, String text, InlineKeyboardMarkup markup) {
         EditMessageText editMessageText = new EditMessageText();
 
         editMessageText.setChatId(chatId);
@@ -738,6 +753,10 @@ public class SimpleSender extends DefaultAbsSender {
     }
 
     public Serializable editMessageTextAndInlineKeyboard(Long chatId, Integer messageId, String text, InlineKeyboardMarkup markup, String parseMode) {
+        return editMessageTextAndInlineKeyboard(chatId.toString(), messageId, text, markup, parseMode);
+    }
+
+    public Serializable editMessageTextAndInlineKeyboard(String chatId, Integer messageId, String text, InlineKeyboardMarkup markup, String parseMode) {
         EditMessageText editMessageText = new EditMessageText();
 
         editMessageText.setChatId(chatId);
@@ -797,24 +816,6 @@ public class SimpleSender extends DefaultAbsSender {
 
     public Serializable deleteMessage(Long chatId, Integer messageId) {
         return deleteMessage(chatId.toString(), messageId);
-    }
-
-    // kicking chat member
-
-    public Serializable kickChatMember(Integer userId, String chatId) {
-        KickChatMember kickChatMember = new KickChatMember();
-        kickChatMember.setUserId(userId);
-        kickChatMember.setChatId(chatId);
-        try {
-            return execute(kickChatMember);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Serializable kickChatMember(Integer userId, Long chatId) {
-        return kickChatMember(userId, chatId.toString());
     }
 
     // leaving chat
