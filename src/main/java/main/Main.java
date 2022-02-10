@@ -395,8 +395,9 @@ public class Main extends TelegramLongPollingBot {
                         minuteDelay(start);
                     }
                     default -> {
-                        sendOnLectureStartsOrEnds(time);
-                        minuteDelay(start);
+                        if (sendOnLectureStartsOrEnds(time)) {
+                            minuteDelay(start);
+                        }
                     }
                 }
             }
@@ -482,7 +483,7 @@ public class Main extends TelegramLongPollingBot {
         sender.sendStringWithDisabledWebPagePreview(chatId, sb.toString());
     }
 
-    private void sendOnLectureStartsOrEnds(String time) {
+    private boolean sendOnLectureStartsOrEnds(String time) {
         List<Lecture> lectureList = getTodayLectures();
         String fortyMinutesAgo = get40MinutesAgo(time);
         String eightyMinutesAgo = get40MinutesAgo(fortyMinutesAgo);
@@ -495,7 +496,7 @@ public class Main extends TelegramLongPollingBot {
                 String msg = i == 0 ? "Первая пара уже начинается:" : "Пара уже начинается:";
 
                 sendLectureInfo(lecture, msg, CHAT_ID);
-                break;
+                return true;
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
                     sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
@@ -503,12 +504,14 @@ public class Main extends TelegramLongPollingBot {
                 } else {
                     sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:", CHAT_ID);
                 }
-                break;
+                return true;
             } else if (fortyMinutesAgo.equals(count.getStartTime()) || eightyMinutesAgo.equals(count.getStartTime())) {
                 sendLectureInfo(lecture, "Пара продолжается:", CHAT_ID);
-                break;
+                return true;
             }
         }
+
+        return false;
     }
 
     private String get40MinutesAgo(String time) {
