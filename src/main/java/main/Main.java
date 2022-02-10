@@ -388,24 +388,26 @@ public class Main extends TelegramLongPollingBot {
                 switch (time) {
                     case "07:00" -> {
                         sendScheduleForToday(CHAT_ID);
-                        minuteDelay(start);
+                        delay(60000, start);
                     }
                     case "08:00" -> {
                         sendBirthday();
-                        minuteDelay(start);
+                        delay(60000, start);
                     }
                     default -> {
                         if (sendOnLectureStartsOrEnds(time)) {
-                            minuteDelay(start);
+                            delay(60000, start);
                         }
                     }
                 }
+
+                delay(1000, start);
             }
         }
 
-        private void minuteDelay(long start) {
+        private void delay(long delay, long start) {
             try {
-                sleep(60000L - (System.currentTimeMillis() - start));
+                sleep(delay - (System.currentTimeMillis() - start));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
