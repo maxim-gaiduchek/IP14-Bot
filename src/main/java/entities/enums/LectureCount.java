@@ -2,7 +2,7 @@ package entities.enums;
 
 public enum LectureCount {
 
-    FIRST(1, "08:30", "10:05"),
+    FIRST(1, "11:36", "12:56"),
     SECOND(2, "10:25", "12:00"),
     THIRD(3, "12:20", "13:55"),
     FORTH(4, "14:15", "15:50"),

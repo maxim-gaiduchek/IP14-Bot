@@ -56,9 +56,7 @@ public class JpaRepositoriesService implements DBService {
 
     @Override
     public List<Lecture> getAllLectures(WeekDay weekDay, WeekCount weekCount) {
-        return lecturesRepository.getAllByWeekDayAndWeekCount(weekDay, weekCount).stream()
-                .sorted(Comparator.comparing(Lecture::getLectureCount))
-                .toList();
+        return lecturesRepository.getAllByWeekDayAndWeekCount(weekDay, weekCount);
     }
 
     // queue

@@ -407,7 +407,7 @@ public class Main extends TelegramLongPollingBot {
 
         private void delay(long delay, long start) {
             try {
-                sleep(delay - (System.currentTimeMillis() - start));
+                sleep(delay - (System.currentTimeMillis() - start) % delay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -583,7 +583,8 @@ public class Main extends TelegramLongPollingBot {
                 sendSchedule(WeekDay.getWeekDayByCounter(i), count, chatId);
             }
         } else {
-            sender.sendString(chatId, "Эту команду можно использовать только [в лс бота!](https://t.me/ip_14_bot)");
+            sender.sendStringWithDisabledWebPagePreview(chatId,
+                    "Эту команду можно использовать только [в лс бота!](https://t.me/ip_14_bot)");
         }
     }
 
