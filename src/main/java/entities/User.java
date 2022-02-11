@@ -73,7 +73,7 @@ public class User {
     }
 
     public String getBirthdayCommand() {
-        return "/" + (username != null ? (username + "\\_") : "") + "s\\_dr";
+        return Formatter.formatTelegramText("/" + (username != null ? (username + "_") : "") + "s_dr");
     }
 
     // core
