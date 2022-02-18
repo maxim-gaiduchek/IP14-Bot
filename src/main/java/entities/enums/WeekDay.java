@@ -22,7 +22,7 @@ public enum WeekDay {
     private static final DateFormat FORMAT = new SimpleDateFormat("EEE");
 
     static {
-        FORMAT.setTimeZone(TimeZone.getTimeZone("GMT+3"));
+        FORMAT.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
     }
 
     WeekDay(int count, String dayName, String prefix) {
