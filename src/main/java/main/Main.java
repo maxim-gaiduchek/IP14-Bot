@@ -40,6 +40,8 @@ public class Main extends TelegramLongPollingBot {
     private static final DateFormat FORMAT_DAY = new SimpleDateFormat("dd.MM");
     private static final DateFormat FORMAT_DATE = new SimpleDateFormat("dd.MM.yyyy");
 
+    private static final int NOTIFICATION_DELAY = 38; // in minutes
+
     static {
         FORMAT_TIME.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
         FORMAT_DAY.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
@@ -487,8 +489,8 @@ public class Main extends TelegramLongPollingBot {
 
     private boolean sendOnLectureStartsOrEnds(String time) {
         List<Lecture> lectureList = getTodayLectures();
-        String fortyMinutesAgo = get40MinutesAgo(time);
-        String eightyMinutesAgo = get40MinutesAgo(fortyMinutesAgo);
+        String firstNotification = get38MinutesAgo(time);
+        String secondNotification = get38MinutesAgo(firstNotification);
 
         for (int i = 0; i < lectureList.size(); i++) {
             Lecture lecture = lectureList.get(i);
@@ -507,7 +509,7 @@ public class Main extends TelegramLongPollingBot {
                     sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:", CHAT_ID);
                 }
                 return true;
-            } else if (fortyMinutesAgo.equals(count.getStartTime()) || eightyMinutesAgo.equals(count.getStartTime())) {
+            } else if (firstNotification.equals(count.getStartTime()) || secondNotification.equals(count.getStartTime())) {
                 sendLectureInfo(lecture, "Пара продолжается:", CHAT_ID);
                 return true;
             }
@@ -516,9 +518,9 @@ public class Main extends TelegramLongPollingBot {
         return false;
     }
 
-    private String get40MinutesAgo(String time) {
+    private String get38MinutesAgo(String time) {
         try {
-            return FORMAT_TIME.format(new Date(FORMAT_TIME.parse(time).getTime() - 40 * 60 * 1000));
+            return FORMAT_TIME.format(new Date(FORMAT_TIME.parse(time).getTime() - NOTIFICATION_DELAY * 60 * 1000));
         } catch (ParseException ignored) {
         }
 

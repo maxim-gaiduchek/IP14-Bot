@@ -105,10 +105,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-               "name='" + name + '\'' +
-               ", chatId=" + chatId +
-               ", username='" + username + '\'' +
-               ", birthday='" + birthday + '\'' +
-               '}';
+                "chatId=" + chatId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
+                ", birthday='" + birthday + '\'' +
+                '}';
     }
 }
