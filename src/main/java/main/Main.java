@@ -264,7 +264,7 @@ public class Main extends TelegramLongPollingBot {
 
     private void animalAttack() {
         Random random = new Random();
-        int randomInt = random.nextInt(5000);
+        int randomInt = random.nextInt(5000 * 5);
 
         if (randomInt == 0) {
             String[] stickersFileIds = new String[]{
@@ -315,42 +315,83 @@ public class Main extends TelegramLongPollingBot {
                     "CAACAgIAAxkBAAIaZGImC4NMi0sFCqdMj5w3uKW1aybZAAJcFQACAnDoSzaW1LugBne_IwQ",
                     "CAACAgIAAxkBAAIaZWImC4N4P9JfibHcYHZIaRiJStV7AAK8FQAC58fwSyjtkzH-ENmqIwQ",
                     "CAACAgIAAxkBAAIaZmImC4NrIO6oAY1R8n041DIQbc0dAAKBGAACbSzpSxtR7pCCvbJZIwQ",
-                    "CAACAgIAAxkBAAIaZ2ImC4OsEOrSTrsgc_881ZtEsMQFAAJoEQACZnuRSCxe_t_HNo0gIwQ"
+                    "CAACAgIAAxkBAAIae2ImEfJJfOlszuiTz_SqD0bXvMVkAAK8EAACDaXQSuRawUcmFtcUIwQ"
             };
 
             sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КОТАМИ");
             for (int i = 0; i < 5; i++) {
                 sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
-        }/* else if (randomInt == 2) {
+        } else if (randomInt == 2) {
             String[] stickersFileIds = new String[]{
-                    "CAACAgQAAxkBAAITJWHJq1HyewU96ZdQKItLZFXxpU-AAAI1AAPOOQgNIPWFL5Vf2GMjBA",
-                    "CAACAgQAAxkBAAITJmHJq1Fbn22dVwxM3laJ5k_s3XSkAAKiAAPOOQgNInzkAjsaCnMjBA",
-                    "CAACAgQAAxkBAAITJ2HJq1HyTxDy0zcaq6UgOf9BfYY9AAJDAAPOOQgNg90jefVFXigjBA",
-                    "CAACAgQAAxkBAAITKGHJq1GGqmy9ioCh8_npTjtMFwoTAAKMAAPOOQgNIejK3IKPfGUjBA",
-                    "CAACAgQAAxkBAAITKWHJq1F1sdbaeam0DgPw0ZARlZM9AAKoAAPOOQgN2hWbG1Xxf5YjBA",
-                    "CAACAgQAAxkBAAITKmHJq1H4DKaDfn0MzXRSexcYYbkxAAKQAAPOOQgNBFktlyDTRKgjBA",
-                    "CAACAgQAAxkBAAITK2HJq1GlZXHTOqatwigr0qS3HcQ_AAK3AAPOOQgN7W0pp2rc4iUjBA",
-                    "CAACAgQAAxkBAAITLGHJq1GTncpg8IgI5CcZDiv11qjjAAI5AAPOOQgNSkvIj03SUvkjBA",
-                    "CAACAgQAAxkBAAITLWHJq1GoriZROj9m9zAcMiD0RNh6AAJ1AAPOOQgNE3iiCSs2WGwjBA",
-                    "CAACAgQAAxkBAAITLmHJq1HkoM-ymaOUo7FbyoAx3kPbAAJ6AAPOOQgNrUU4I9lPhJ4jBA",
-                    "CAACAgQAAxkBAAITL2HJq1GyO_tnqKiVkK2uYCGpIwABUQACywADzjkIDbOwR_74-CYhIwQ",
-                    "CAACAgQAAxkBAAITMGHJq1HICdC6hrsCFsLjJj7i0wZgAAI-AAPOOQgNP6Aj-lLbkC8jBA",
-                    "CAACAgQAAxkBAAITMWHJq1G0gzUtouR6D-UPOQ-DhEfiAAKyAAPOOQgN8XAQVapfOd0jBA",
-                    "CAACAgQAAxkBAAITMmHJq1FofN12caxdrkoESq5Y4DckAAKJAAPOOQgNfn_UJplquP8jBA",
-                    "CAACAgQAAxkBAAITM2HJq1FDf3zia2qpaSxMwatzlWzbAAJ9AAPOOQgNKBlAtyUPuOIjBA",
-                    "CAACAgQAAxkBAAITNGHJq1EnTwtEVKiIMW5i8TvPXLQgAALMAAPOOQgN32d8ZX5EuWQjBA",
-                    "CAACAgQAAxkBAAITNWHJq1EVeYGIL0h3pLKLJ8M7gzvXAAKRAAPOOQgNlePFtWiAKRMjBA",
-                    "CAACAgQAAxkBAAITNmHJq1Hj8hQ_tvFRJgKNuMWWJXKVAALJAAPOOQgN2sw1Ndxjaw0jBA",
-                    "CAACAgQAAxkBAAITN2HJq1EkKblTgtjWebcaf4aa3FQ7AAJ_AAPOOQgNwKZEUGFLdgojBA",
-                    "CAACAgQAAxkBAAITOGHJq1FP1prfsgaYk9_JqVBBWYuNAAKzAAPOOQgNTUXCPMgmcSIjBA"
+                    "CgACAgQAAxkBAAIafGImEilqwRiXuIes9NpjWJXn7XFQAALFAgAC7ue9UiiSjYXQmAaiIwQ",
+                    "CgACAgQAAxkBAAIafWImEik5kdmggX4MxEZJ0PaIjQMWAAIFAwACiIe0UksXtvwuPDwyIwQ",
+                    "CgACAgQAAxkBAAIafmImEinQgXkimydfX-Yc5FuZf-jiAAIMAwAC1Gm9UuOufTW4ph29IwQ",
+                    "CgACAgQAAxkBAAIaf2ImEilP4Le4IRJ3UWHWEvAcgKrSAAIKAwACpaK0UtXSzJSLu9oBIwQ",
+                    "CgACAgQAAxkBAAIagGImEikj6HoR7_jZjAzo_3GwLxABAAIiAwAC79W0UlgFjQfE9MblIwQ",
+                    "CgACAgQAAxkBAAIagWImEinsaMUUcGMItyucnN-7gT9fAAIPAwACYCy8UhpSN_NsWXaVIwQ",
+                    "CgACAgQAAxkBAAIagmImEilroTMT0ErMcwdDjvJJ9AAB8QACCgMAAnEetVLvrT8Jy8nHdiME",
+                    "CgACAgQAAxkBAAIag2ImEiloN2M6U52sTF34mz4ezDdyAAIFAwACzJvMUvRY1B_guIQTIwQ",
+                    "CgACAgQAAxkBAAIahGImEinUS8bslndOKDgKGeV-d2HHAALnAgACAXe9Ug-fVDTp3MmlIwQ",
+                    "CgACAgQAAxkBAAIahWImEinK_Hys25-Ks8h5nLZrIKh6AAIYAwACxAe8UpzsLGmq7lBvIwQ",
+                    "CgACAgQAAxkBAAIahmImEikl7UGFtwRk6a3VyigTfcdcAAIMAwAC8lG1UmNCsiOMcCZ9IwQ",
+                    "CgACAgQAAxkBAAIah2ImEik8KO6KO-2IBtmK70jkApSwAAIqAwAC-9-0UlIR5dmjliAtIwQ",
+                    "CgACAgQAAxkBAAIaiGImEinbEnt-R2BdsMZA1Nrqg-lRAAIXAwACg0S9UrK9yXE1Ufs6IwQ",
+                    "CgACAgQAAxkBAAIaiWImEil_0Y1m0I7j9Nq5vUjfbl7cAAJjAwACciXtUmNJYf4v4Bs9IwQ",
+                    "CgACAgQAAxkBAAIaimImEim12iYZ6Ws1Xb-XVloq5C6lAALSAgACAfDEUpK6uKlrFcIOIwQ",
+                    "CgACAgIAAxkBAAIaj2ImFAzZaG-xPlJQtKWkNuoGqCokAAIgFAACn2Y5SGRTJWG8O7dZIwQ",
+                    "CgACAgQAAxkBAAIajGImEinioqTiX8D7PAXEVkvuMr1XAAJsAwACZYq1Uo2aTWA8dj4eIwQ",
+                    "CgACAgQAAxkBAAIajWImEin_7nsMt7d_n3EVZ_-WxpV5AALoAgACUUC1UmcTagVjDYavIwQ",
+                    "CgACAgQAAxkBAAIajmImEik8J6dhZof-9lSHc1Ml_yk_AAIQAwACO9ntUrJoHhi6aeO3IwQ",
+                    "AgACAgIAAxkBAAIakGImFNymhaBgH_xucAAB8XqvZq27IAAC4LoxG3f4MUn2BFyGUcu5xAEAAwIAA3MAAyME"
             };
 
             sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ХОМЯКАМИ");
             for (int i = 0; i < 5; i++) {
-                sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+                sender.sendDocument(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
-        }*/
+        } else if (randomInt == 3) {
+            String[] stickersFileIds = new String[]{
+                    "CgACAgQAAxkBAAIakWImGHLMrNs7aQABHw-6NZNNEUVVtgACjQIAAgVilVINZ99e9nOkpiME",
+                    "CgACAgQAAxkBAAIakmImGHI9Ng5Kyk6kWe7Xr4qSkrcNAALhAgAC26B1UxvpOZ9H6SEXIwQ",
+                    "CgACAgQAAxkBAAIak2ImGHIOmUjvbM5HWHFP0e1-WODOAAIyAwACefr1U71E3R4Laqo0IwQ",
+                    "CgACAgQAAxkBAAIalGImGHKE2gj1kDX12re9A_zISFztAAIOAwAC1Pq9UjLDl_GuypZbIwQ",
+                    "CgACAgQAAxkBAAIalWImGHIWn-IwvATuvxlziYl8DWSzAAI2AwACm0i1UuY93GuP1_NJIwQ",
+                    "CgACAgQAAxkBAAIalmImGHJIPm7Ddbujkgm_PJbK1WpwAAIRAwACl63UUqM71WmoE8oIIwQ",
+                    "CgACAgQAAxkBAAIal2ImGHLi_OPB2nellmUYiGpKYHciAAIcAwACa_G9UrTG3bPQYM9FIwQ",
+                    "CgACAgQAAxkBAAIamGImGHLOLMseadWKcweyOHFsV9SYAALkAgACKUa8UmvTgJBofaeZIwQ",
+                    "CgACAgQAAxkBAAIamWImGHLquLn1nV4K-ISUa-cWAUOqAAIDAwACHai9Uvu71R4cp87NIwQ",
+                    "CgACAgQAAxkBAAIammImGHKpFuahPdumgM-yj--AureoAAIGAwAC4Dm9UjgK6TyHp4ZaIwQ",
+                    "CgACAgQAAxkBAAIam2ImGHKGb81MCu6LJ0fJefJFy9gOAAJKAwACQiG1UlkC3me9zKZZIwQ",
+                    "CgACAgQAAxkBAAIanGImGHLtZKi9pplEyG7xyNJI6GxHAAL-AgACzD-9UhAMChuOuUtwIwQ",
+                    "CgACAgQAAxkBAAIanWImGHJuAAFFh4pzM5emfny3qrewFQACGAMAAqqWtVIkR4N9szEQqyM",
+                    "CgACAgQAAxkBAAIanmImGHLd2Igl-yzLHCeyUD-4Nk9bAALtAgACDg-8UhEjtJ2WnMjuIwQ",
+                    "CgACAgQAAxkBAAIan2ImGHJMf0vdt1EUj1pIE9cqp4xMAALdAgACGgncUr7Y3MS0sTQ5IwQ",
+                    "CgACAgQAAxkBAAIaoGImGHI7cw_TetbbatvffrHhwi-xAAILAwACCGjMUmxDjv00lpjSIwQ",
+                    "CgACAgQAAxkBAAIaoWImGHJrwC0CFP7_sF5JkzPc1efkAAJuAwACLPe8UnUnRSAYE2qhIwQ",
+                    "CgACAgQAAxkBAAIaomImGHKmqL1oUf25BdNH5WjcdiMpAAJMAwACu8W9Um3xSEa8xG2kIwQ",
+                    "CgACAgQAAxkBAAIao2ImGHL-aK4lkeKtF3u2ewNDbCLyAALaAgACiCy9UnWdTahrmjTDIwQ",
+                    "CgACAgQAAxkBAAIapGImGHJEtEUWNtFXcX4VOR7Q9NdGAAIqAwACC4q8UvYlBJCDfUAGIwQ",
+                    "CgACAgIAAxkBAAIapmImGVu0RyrIXI0dzKkz3r_g4wHJAAKgGAACd_gxSQF1IoIzP1KsIwQ"
+            };
+
+            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ЕЖАМИ");
+            for (int i = 0; i < 5; i++) {
+                sender.sendDocument(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+            }
+        } else if (randomInt == 4) {
+            String[] stickersFileIds = new String[]{
+                    "BAACAgIAAxkBAAIarGImGk9I273feSh8EWEHJ9wQy0AAA6kYAAJ3-DFJCsuhsgN_UfgjBA",
+                    "BAACAgIAAxkBAAIarWImGlhsC1maAWhgXtWyHKhkk1edAAKqGAACd_gxSRaDHfqLL-CIIwQ",
+                    "BAACAgIAAxkBAAIarmImGmttltNBz0Iy26sAARtiS2feMQACqxgAAnf4MUlMt4CZUIoQ9yME",
+                    "BAACAgIAAxkBAAIar2ImGnF4SKZZMatKqIre7YJ7MXKvAAKsGAACd_gxSf8iApHaoVtEIwQ"
+            };
+
+            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КАРЛИКАМИ");
+            for (int i = 0; i < 2; i++) {
+                sender.sendDocument(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+            }
+        }
     }
 
     private void mentionMoms(Long chatId) {
