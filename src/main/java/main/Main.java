@@ -133,7 +133,7 @@ public class Main extends TelegramLongPollingBot {
         } else if (text.startsWith("я ")) {
             sendMeToo(chatId, text, message.isUserMessage());
         } else if (message.getChatId().equals(CHAT_ID)) {
-            frogOrCatAttack();
+            animalAttack();
         }
 
         // if (text.contains("@мамочки") || text.contains("@мама")) mentionMoms(chatId);
@@ -262,7 +262,7 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
-    private void frogOrCatAttack() {
+    private void animalAttack() {
         Random random = new Random();
         int randomInt = random.nextInt(5000);
 
@@ -296,6 +296,34 @@ public class Main extends TelegramLongPollingBot {
             }
         } else if (randomInt == 1) {
             String[] stickersFileIds = new String[]{
+                    "CAACAgIAAxkBAAIaVGImC4MROWFhQgl1_pOUB8T546P6AAIHFwACytvZS_PuaI4CZskOIwQ",
+                    "CAACAgIAAxkBAAIaVWImC4NXTwM_PAABj5VEy3S4aT4h2wAC_RgAAloJ2EsSVt7qvN_c5SME",
+                    "CAACAgIAAxkBAAIaVmImC4MiP9T3eg959izClNmfdW23AAKBGQACeXNJSDejZYkEKOpyIwQ",
+                    "CAACAgIAAxkBAAIaV2ImC4PLP3DCXy4jYW3X1ijHjHdpAAIyFAACPqvoS10zAlUwGiEXIwQ",
+                    "CAACAgIAAxkBAAIaWGImC4Os6m2EYBzOD60btxH0gYIsAAIRGQACF8voS1AaxF-H6-kiIwQ",
+                    "CAACAgIAAxkBAAIaWWImC4NZn-4oj8nvTCcUbovo1z0tAAJ4FwACXl7pS5rgW1AxLutmIwQ",
+                    "CAACAgIAAxkBAAIaWmImC4MW_vI_LQbuCkUHOotIpTL7AAIPGAACN5joS79CT57DcATZIwQ",
+                    "CAACAgIAAxkBAAIaW2ImC4OVGAMEqK8tzhZ7gYHgKx38AAJGFwACl0XpS873AsVNdM42IwQ",
+                    "CAACAgIAAxkBAAIaXGImC4PSqWNuTff0GUdGp-E_ruwsAAIQFQACc5PoS1GR1zeY2qFQIwQ",
+                    "CAACAgIAAxkBAAIaXWImC4P0ZgiCk3xzfGjyrTHnynE5AAKLFQACvYzxS0ySmLTCdQV6IwQ",
+                    "CAACAgIAAxkBAAIaXmImC4NN6Bu9tYFaVgNTJogwSdevAAL2FwAClhLwS3r7AiwAAc4rlSME",
+                    "CAACAgIAAxkBAAIaX2ImC4Mc5AAB2TDC3yEr0A-wIx4ljwACmBcAAtIM6Es6Gdj5wk3wcyME",
+                    "CAACAgIAAxkBAAIaYGImC4Pw4cdxDsrpzh1i881v0dq1AAIpFwACWWrwS3X4I2eF1DEdIwQ",
+                    "CAACAgIAAxkBAAIaYWImC4PwMyV_QkvTeBn7Bopc05eAAAKBEAACf5wRSGWtXqSN60dKIwQ",
+                    "CAACAgIAAxkBAAIaYmImC4PSXDkFt5XT4jDkN1dR_Hr6AAJwEgACjW4ZSFFSQvmCO3VYIwQ",
+                    "CAACAgIAAxkBAAIaY2ImC4Md4vCVYNmcF5jEa-f6_PKqAAMUAALuRyBIpM31TzD6D6AjBA",
+                    "CAACAgIAAxkBAAIaZGImC4NMi0sFCqdMj5w3uKW1aybZAAJcFQACAnDoSzaW1LugBne_IwQ",
+                    "CAACAgIAAxkBAAIaZWImC4N4P9JfibHcYHZIaRiJStV7AAK8FQAC58fwSyjtkzH-ENmqIwQ",
+                    "CAACAgIAAxkBAAIaZmImC4NrIO6oAY1R8n041DIQbc0dAAKBGAACbSzpSxtR7pCCvbJZIwQ",
+                    "CAACAgIAAxkBAAIaZ2ImC4OsEOrSTrsgc_881ZtEsMQFAAJoEQACZnuRSCxe_t_HNo0gIwQ"
+            };
+
+            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КОТАМИ");
+            for (int i = 0; i < 5; i++) {
+                sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+            }
+        }/* else if (randomInt == 2) {
+            String[] stickersFileIds = new String[]{
                     "CAACAgQAAxkBAAITJWHJq1HyewU96ZdQKItLZFXxpU-AAAI1AAPOOQgNIPWFL5Vf2GMjBA",
                     "CAACAgQAAxkBAAITJmHJq1Fbn22dVwxM3laJ5k_s3XSkAAKiAAPOOQgNInzkAjsaCnMjBA",
                     "CAACAgQAAxkBAAITJ2HJq1HyTxDy0zcaq6UgOf9BfYY9AAJDAAPOOQgNg90jefVFXigjBA",
@@ -318,11 +346,11 @@ public class Main extends TelegramLongPollingBot {
                     "CAACAgQAAxkBAAITOGHJq1FP1prfsgaYk9_JqVBBWYuNAAKzAAPOOQgNTUXCPMgmcSIjBA"
             };
 
-            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КОТАМИ");
+            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ХОМЯКАМИ");
             for (int i = 0; i < 5; i++) {
                 sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
-        }
+        }*/
     }
 
     private void mentionMoms(Long chatId) {
@@ -388,19 +416,19 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    case "07:00" -> {
+                    /*case "07:00" -> {
                         sendScheduleForToday(CHAT_ID);
                         delay(60000, start);
-                    }
+                    }*/
                     case "08:00" -> {
                         sendBirthday();
                         delay(60000, start);
                     }
-                    default -> {
+                    /*default -> {
                         if (sendOnLectureStartsOrEnds(time)) {
                             delay(60000, start);
                         }
-                    }
+                    }*/
                 }
 
                 delay(1000, start);
