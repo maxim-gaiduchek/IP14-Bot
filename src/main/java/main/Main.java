@@ -389,7 +389,7 @@ public class Main extends TelegramLongPollingBot {
 
             sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КАРЛИКАМИ");
             for (int i = 0; i < 2; i++) {
-                sender.sendDocument(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
+                sender.sendVideo(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
         }
     }

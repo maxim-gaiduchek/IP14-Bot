@@ -285,10 +285,30 @@ public class SimpleSender extends DefaultAbsSender {
 
     // video
 
+    public Message sendVideo(String chatId, String fileId) {
+        SendVideo sendVideo = new SendVideo();
+
+        sendVideo.setChatId(chatId);
+        sendVideo.setVideo(new InputFile(fileId));
+
+        try {
+            return execute(sendVideo);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Message sendVideo(Long chatId, String fileId) {
+        return sendVideo(chatId.toString(), fileId);
+    }
+
     public Message sendVideo(String chatId, Video video) {
         SendVideo sendVideo = new SendVideo();
+
         sendVideo.setChatId(chatId);
         sendVideo.setVideo(new InputFile(video.getFileId()));
+
         try {
             return execute(sendVideo);
         } catch (TelegramApiException e) {
