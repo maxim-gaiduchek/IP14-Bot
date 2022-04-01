@@ -31,6 +31,7 @@ public class Main extends TelegramLongPollingBot {
     private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
+    private static final boolean TO_SEND_SCHEDULE;
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
     public static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(DatasourceConfig.class);
@@ -46,6 +47,12 @@ public class Main extends TelegramLongPollingBot {
         FORMAT_TIME.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
         FORMAT_DAY.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
         FORMAT_DATE.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
+
+        if (System.getenv("TO_SEND_SCHEDULE") != null) {
+            TO_SEND_SCHEDULE = Boolean.parseBoolean(System.getenv("TO_SEND_SCHEDULE"));
+        } else {
+            TO_SEND_SCHEDULE = true;
+        }
     }
 
     private Main() {
@@ -457,19 +464,21 @@ public class Main extends TelegramLongPollingBot {
                 String time = FORMAT_TIME.format(now);
 
                 switch (time) {
-                    /*case "07:00" -> {
-                        sendScheduleForToday(CHAT_ID);
-                        delay(60000, start);
-                    }*/
+                    case "07:00" -> {
+                        if (TO_SEND_SCHEDULE) {
+                            sendScheduleForToday(CHAT_ID);
+                            delay(60000, start);
+                        }
+                    }
                     case "08:00" -> {
                         sendBirthday();
                         delay(60000, start);
                     }
-                    /*default -> {
-                        if (sendOnLectureStartsOrEnds(time)) {
+                    default -> {
+                        if (TO_SEND_SCHEDULE && sendOnLectureStartsOrEnds(time)) {
                             delay(60000, start);
                         }
-                    }*/
+                    }
                 }
 
                 delay(1000, start);
