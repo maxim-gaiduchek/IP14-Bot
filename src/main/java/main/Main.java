@@ -31,7 +31,9 @@ public class Main extends TelegramLongPollingBot {
     private static final Long CHAT_ID = -1001598116577L;
     private static final String BOT_USERNAME = System.getenv("BOT_USERNAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
+
     private static final boolean TO_SEND_SCHEDULE;
+
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
     public static final ApplicationContext CONTEXT = new AnnotationConfigApplicationContext(DatasourceConfig.class);
