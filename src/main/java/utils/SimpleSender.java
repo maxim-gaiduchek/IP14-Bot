@@ -342,9 +342,17 @@ public class SimpleSender extends DefaultAbsSender {
     // video note
 
     public Message sendVideoNote(String chatId, VideoNote videoNote) {
+        return sendVideoNote(chatId, videoNote.getFileId());
+    }
+
+    public Message sendVideoNote(Long chatId, VideoNote videoNote) {
+        return sendVideoNote(chatId.toString(), videoNote.getFileId());
+    }
+
+    public Message sendVideoNote(String chatId, String fileId) {
         SendVideoNote sendVideoNote = new SendVideoNote();
         sendVideoNote.setChatId(chatId);
-        sendVideoNote.setVideoNote(new InputFile(videoNote.getFileId()));
+        sendVideoNote.setVideoNote(new InputFile(fileId));
         try {
             return execute(sendVideoNote);
         } catch (TelegramApiException e) {
@@ -353,8 +361,8 @@ public class SimpleSender extends DefaultAbsSender {
         return null;
     }
 
-    public Message sendVideoNote(Long chatId, VideoNote videoNote) {
-        return sendVideoNote(chatId.toString(), videoNote);
+    public Message sendVideoNote(Long chatId, String fileId) {
+        return sendVideoNote(chatId.toString(), fileId);
     }
 
     // voice

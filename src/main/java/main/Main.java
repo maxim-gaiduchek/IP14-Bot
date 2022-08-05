@@ -168,7 +168,7 @@ public class Main extends TelegramLongPollingBot {
                 /minutes\\_left - кількість хвилин до закінчення пари або початку нової
                 /lead - сумонить (кличить) старост
 
-                Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
+                Бот також може відповідати в оп: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
         sender.sendString(chatId, msg);
     }
@@ -177,7 +177,7 @@ public class Main extends TelegramLongPollingBot {
         List<Lecture> lectureList = getTodayLectures();
 
         if (lectureList.isEmpty()) {
-            sender.sendString(chatId, "Сегодня лекций нет");
+            sender.sendString(chatId, "Сьогодні лекцій немає");
             return;
         }
 
@@ -221,9 +221,9 @@ public class Main extends TelegramLongPollingBot {
     }
 
     private void mentionLeads(Long chatId, Integer messageId) {
-        User tym = service.getUser(1893274358L), sasha = service.getUser(564720531L);
+        User denis = service.getUser(680053344L);
 
-        sender.sendString(chatId, tym.getNameWithLink() + " " + sasha.getNameWithLink(), messageId);
+        sender.sendString(chatId, denis.getNameWithLink(), messageId);
     }
 
     /*private void mentionSanya(Long chatId, Integer messageId) {
@@ -549,12 +549,18 @@ public class Main extends TelegramLongPollingBot {
 
         if (lectureList.isEmpty()) {
             // CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ - гіфка день отдиха
+            // DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ - кружечок день отдиха
 
             if (day == WeekDay.SUNDAY) {
                 sender.sendStringWithDisabledNotifying(chatId, "Оп оп, вихідний, живем живем");
             } else {
                 sender.sendStringWithDisabledNotifying(chatId, "Пацани, сьогодні день отдиха");
-                sender.sendDocument(chatId, "CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ");
+
+                if (new Random().nextBoolean()) {
+                    sender.sendDocument(chatId, "CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ");
+                } else {
+                    sender.sendVideoNote(chatId, "DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ");
+                }
             }
 
             return;
@@ -681,7 +687,7 @@ public class Main extends TelegramLongPollingBot {
             }
         } else {
             sender.sendStringWithDisabledWebPagePreview(chatId,
-                    "Цю команду можна використовувати лише [в лп бота!](https://t.me/ip_14_bot)");
+                    "Цю команду можна використовувати лише [в оп бота](https://t.me/ip_14_bot)!");
         }
     }
 
