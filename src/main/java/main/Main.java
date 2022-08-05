@@ -260,7 +260,7 @@ public class Main extends TelegramLongPollingBot {
                 };
                 Random random = new Random();
 
-                sender.sendString(chatId, "а знаеш...");
+                sender.sendString(chatId, "а знаєш...");
                 Thread.sleep(1000);
                 sender.sendString(chatId, "я теж.........................................");
                 Thread.sleep(1000);
@@ -283,7 +283,7 @@ public class Main extends TelegramLongPollingBot {
 
     private void animalAttack() {
         Random random = new Random();
-        int randomInt = random.nextInt(10000);
+        int randomInt = random.nextInt(SEND_ATTACK_PER_MESSAGES);
 
         if (randomInt == 0) {
             String[] stickersFileIds = new String[]{
@@ -556,10 +556,10 @@ public class Main extends TelegramLongPollingBot {
             } else {
                 sender.sendStringWithDisabledNotifying(chatId, "Пацани, сьогодні день отдиха");
 
-                if (new Random().nextBoolean()) {
-                    sender.sendDocument(chatId, "CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ");
-                } else {
-                    sender.sendVideoNote(chatId, "DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ");
+                switch (new Random().nextInt(3)) {
+                    case 0 -> sender.sendDocument(chatId, "CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ");
+                    case 1 -> sender.sendVideoNote(chatId, "DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ");
+                    case 2 -> sender.sendVideoNote(chatId, "DQACAgIAAxkBAAIghGLti0NcMLWPWPoF2V6gTrO_YPsuAALIHAACJqhoS6E3qLKGmaBoKQQ");
                 }
             }
 
