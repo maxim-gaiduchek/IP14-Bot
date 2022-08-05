@@ -7,13 +7,13 @@ import java.util.TimeZone;
 
 public enum WeekDay {
 
-    MONDAY(1, "Понедельник", "пн"),
-    TUESDAY(2, "Вторник", "вт"),
-    WEDNESDAY(3, "Среда", "ср"),
-    THURSDAY(4, "Четверг", "чт"),
-    FRIDAY(5, "Пятница", "пт"),
-    SATURDAY(6, "Суббота", "сб"),
-    SUNDAY(7, "Воскресенье", "вс");
+    MONDAY(1, "Понеділок", "пн"),
+    TUESDAY(2, "Вівторок", "вт"),
+    WEDNESDAY(3, "Середа", "ср"),
+    THURSDAY(4, "Четвер", "чт"),
+    FRIDAY(5, "П'ятниця", "пт"),
+    SATURDAY(6, "Субота", "сб"),
+    SUNDAY(7, "Неділя", "нд");
 
     private final int count;
     private final String dayName;

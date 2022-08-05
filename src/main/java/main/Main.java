@@ -33,6 +33,7 @@ public class Main extends TelegramLongPollingBot {
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
 
     private static final boolean TO_SEND_SCHEDULE;
+    private static final int SEND_ATTACK_PER_MESSAGES;
 
     private final SimpleSender sender = new SimpleSender(BOT_TOKEN);
 
@@ -54,6 +55,12 @@ public class Main extends TelegramLongPollingBot {
             TO_SEND_SCHEDULE = Boolean.parseBoolean(System.getenv("TO_SEND_SCHEDULE"));
         } else {
             TO_SEND_SCHEDULE = true;
+        }
+
+        if (System.getenv("SEND_ATTACK_PER_MESSAGES") != null) {
+            SEND_ATTACK_PER_MESSAGES = Integer.parseInt(System.getenv("SEND_ATTACK_PER_MESSAGES")) * 5;
+        } else {
+            SEND_ATTACK_PER_MESSAGES = 2000 * 5;
         }
     }
 
@@ -117,7 +124,7 @@ public class Main extends TelegramLongPollingBot {
             case "/minutes_left", "/minutes_left@ip_14_bot" -> sendMinutesLeft(chatId);
             // case "/mom", "/mom@ip_14_bot" -> mentionMoms(chatId);
             case "/lead", "/lead@ip_14_bot" -> mentionLeads(chatId, message.getMessageId());
-            case "/sanya_dz", "/sanya_dz@ip_14_bot" -> mentionSanya(chatId, message.getMessageId());
+            // case "/sanya_dz", "/sanya_dz@ip_14_bot" -> mentionSanya(chatId, message.getMessageId());
 
             case "/queue", "/queue@ip_14_bot" -> QueueController.sendDisciplineChoose(sender, message);
         }
@@ -137,8 +144,11 @@ public class Main extends TelegramLongPollingBot {
 
         if (text.contains("1000-7")) {
             deadInsideCounter(chatId);
-        } else if ((text.contains("я люблю тебя") || text.contains("я тебя люблю")) && message.isUserMessage()) {
+        } else if (text.contains("я тебе кохаю") || text.contains("я тебе люблю") ||
+                text.contains("я люблю тебе") || text.contains("я кохаю тебе")) {
             sendLove(chatId);
+        } else if (text.contains("я люблю тебя") || text.contains("я тебя люблю")) {
+            sender.sendString(chatId, "Пішов нахуй мене російською кохати");
         } else if (text.startsWith("я ")) {
             sendMeToo(chatId, text, message.isUserMessage());
         } else if (message.getChatId().equals(CHAT_ID)) {
@@ -150,13 +160,13 @@ public class Main extends TelegramLongPollingBot {
 
     private void sendHelp(Long chatId) {
         String msg = """
-                /start, /help - все команды
-                /today - расписание на сегодня
-                /lecture - текущая лекция
-                /next\\_day - расписание на следующий день
-                /monday, /tuesday, /wednesday, /thursday, /friday - расписание на пн-пт
-                /minutes\\_left - сколько минут осталось до конца пары или начала новой
-                /lead - призывает старост
+                /start, /help - всі команди
+                /today - розклад на сьогодні
+                /lecture - поточна лекція
+                /next\\_day - розклад на наступний день
+                /monday, /tuesday, /wednesday, /thursday, /friday - розклад на пн-пт
+                /minutes\\_left - кількість хвилин до закінчення пари або початку нової
+                /lead - сумонить (кличить) старост
 
                 Бот также может отвечать в лс: @ip\\_14\\_bot"""; // /mom - призывает мамочек :З
 
@@ -181,7 +191,7 @@ public class Main extends TelegramLongPollingBot {
                 if (start.before(now) && end.after(now)) {
                     int minutes = (int) Math.floor((end.getTime() - now.getTime()) / (60.0 * 1000));
 
-                    sender.sendString(chatId, "До конца пары осталось: " + minutes + " минут(ы)");
+                    sender.sendString(chatId, "До кінця пари залишилось: " + minutes + " хвилин(и)");
                     return;
                 }
             }
@@ -192,20 +202,20 @@ public class Main extends TelegramLongPollingBot {
 
                 if (end.before(now)) {
                     if (i == lectureList.size() - 1) {
-                        sender.sendString(chatId, "Пары уже закончились");
+                        sender.sendString(chatId, "Пари вже закінчились");
                     } else {
                         Lecture nextLecture = lectureList.get(i + 1);
                         Date start = FORMAT_TIME.parse(nextLecture.getLectureCount().getStartTime());
 
                         int minutes = (int) Math.floor((start.getTime() - now.getTime()) / (60.0 * 1000));
 
-                        sender.sendString(chatId, "До начала новой пары осталось: " + minutes + " минут(ы)");
+                        sender.sendString(chatId, "До початку нової пари залишилось: " + minutes + " хвилин(и)");
                     }
                     return;
                 }
             }
 
-            sendLectureInfo(lectureList.get(0), "Первая пара:", chatId);
+            sendLectureInfo(lectureList.get(0), "Перша пара:", chatId);
         } catch (ParseException ignored) {
         }
     }
@@ -216,11 +226,11 @@ public class Main extends TelegramLongPollingBot {
         sender.sendString(chatId, tym.getNameWithLink() + " " + sasha.getNameWithLink(), messageId);
     }
 
-    private void mentionSanya(Long chatId, Integer messageId) {
+    /*private void mentionSanya(Long chatId, Integer messageId) {
         User sasha = service.getUser(564720531L);
 
         sender.sendString(chatId, sasha.getNameWithLink() + " ДЗ СКИНЬ ПО АНГЛУ", messageId);
-    }
+    }*/
 
     private void deadInsideCounter(Long chatId) {
         String[] gifs = {
@@ -250,11 +260,11 @@ public class Main extends TelegramLongPollingBot {
                 };
                 Random random = new Random();
 
-                sender.sendString(chatId, "а знаешь...");
+                sender.sendString(chatId, "а знаеш...");
                 Thread.sleep(1000);
-                sender.sendString(chatId, "я тоже.........................................");
+                sender.sendString(chatId, "я теж.........................................");
                 Thread.sleep(1000);
-                sender.sendString(chatId, "ЛЮБЛЮ ТЕБЯ❤️❤️\uD83D\uDC96\uD83D\uDC97\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC96\uD83D\uDC9E❤️❤️\uD83D\uDC93\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9B\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC9A\uD83E\uDDE1\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC95\uD83D\uDC96\uD83D\uDC9A\uD83D\uDC9A\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC93❣️\uD83D\uDC95\uD83E\uDD0E\uD83D\uDC94\uD83D\uDC9F\uD83D\uDDA4\uD83D\uDC94\uD83D\uDC9A\uD83D\uDC98\uD83D\uDC9F\uD83D\uDC9C\uD83D\uDC97❣️\uD83D\uDC97\uD83D\uDDA4\uD83E\uDD0E\uD83D\uDC9E❣️\uD83D\uDC93\uD83D\uDC8C\uD83D\uDC9F\uD83D\uDC96");
+                sender.sendString(chatId, "ЛЮБЛЮ ТЕБЕ❤️❤️\uD83D\uDC96\uD83D\uDC97\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC96\uD83D\uDC9E❤️❤️\uD83D\uDC93\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC95\uD83D\uDC9B\uD83D\uDC9A\uD83D\uDC97\uD83D\uDC9A\uD83E\uDDE1\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC9E\uD83D\uDC97\uD83D\uDC95\uD83D\uDC96\uD83D\uDC9A\uD83D\uDC9A\uD83D\uDC96\uD83D\uDC95\uD83D\uDC97\uD83D\uDC9E\uD83D\uDC99\uD83D\uDC93❣️\uD83D\uDC95\uD83E\uDD0E\uD83D\uDC94\uD83D\uDC9F\uD83D\uDDA4\uD83D\uDC94\uD83D\uDC9A\uD83D\uDC98\uD83D\uDC9F\uD83D\uDC9C\uD83D\uDC97❣️\uD83D\uDC97\uD83D\uDDA4\uD83E\uDD0E\uD83D\uDC9E❣️\uD83D\uDC93\uD83D\uDC8C\uD83D\uDC9F\uD83D\uDC96");
                 Thread.sleep(1000);
                 for (int i = 0; i < 5; i++) {
                     sender.sendSticker(chatId, stickers[random.nextInt(stickers.length)]);
@@ -273,7 +283,7 @@ public class Main extends TelegramLongPollingBot {
 
     private void animalAttack() {
         Random random = new Random();
-        int randomInt = random.nextInt(5000 * 5);
+        int randomInt = random.nextInt(10000);
 
         if (randomInt == 0) {
             String[] stickersFileIds = new String[]{
@@ -299,7 +309,7 @@ public class Main extends TelegramLongPollingBot {
                     "CAACAgQAAxkBAAITTGHJr1q2Kjuj5Tj8IMXagWPUTpVyAAIoCAACzMmJU99qv_dH6LAcIwQ"
             };
 
-            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ЖАБАМИ");
+            sender.sendString(CHAT_ID, "РАПТОВА АТАКА ЖАБАМИ");
             for (int i = 0; i < 5; i++) {
                 sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
@@ -327,7 +337,7 @@ public class Main extends TelegramLongPollingBot {
                     "CAACAgIAAxkBAAIae2ImEfJJfOlszuiTz_SqD0bXvMVkAAK8EAACDaXQSuRawUcmFtcUIwQ"
             };
 
-            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КОТАМИ");
+            sender.sendString(CHAT_ID, "РАПТОВА АТАКА КОТИКАМИ");
             for (int i = 0; i < 5; i++) {
                 sender.sendSticker(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
@@ -355,7 +365,7 @@ public class Main extends TelegramLongPollingBot {
                     "AgACAgIAAxkBAAIakGImFNymhaBgH_xucAAB8XqvZq27IAAC4LoxG3f4MUn2BFyGUcu5xAEAAwIAA3MAAyME"
             };
 
-            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ХОМЯКАМИ");
+            sender.sendString(CHAT_ID, "РАПТОВА АТАКА ХОМ'ЯКАМИ");
             for (int i = 0; i < 5; i++) {
                 sender.sendDocument(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
@@ -384,7 +394,7 @@ public class Main extends TelegramLongPollingBot {
                     "CgACAgIAAxkBAAIapmImGVu0RyrIXI0dzKkz3r_g4wHJAAKgGAACd_gxSQF1IoIzP1KsIwQ"
             };
 
-            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА ЕЖАМИ");
+            sender.sendString(CHAT_ID, "РАПТОВА АТАКА ЇЖАКАМИ");
             for (int i = 0; i < 5; i++) {
                 sender.sendDocument(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
@@ -396,7 +406,7 @@ public class Main extends TelegramLongPollingBot {
                     "BAACAgIAAxkBAAIar2ImGnF4SKZZMatKqIre7YJ7MXKvAAKsGAACd_gxSf8iApHaoVtEIwQ"
             };
 
-            sender.sendString(CHAT_ID, "ВНЕЗАПНАЯ АТАКА КАРЛИКАМИ");
+            sender.sendString(CHAT_ID, "РАПТОВА АТАКА КАРЛИКАМИ");
             for (int i = 0; i < 2; i++) {
                 sender.sendVideo(CHAT_ID, stickersFileIds[random.nextInt(stickersFileIds.length)]);
             }
@@ -517,7 +527,7 @@ public class Main extends TelegramLongPollingBot {
             }
         }
 
-        sender.sendString(chatId, "Лекций вообще нет");
+        sender.sendString(chatId, "Лекцій взагалі немає");
     }
 
     private void sendWeekDaySchedule(WeekDay day, Long chatId) {
@@ -538,10 +548,15 @@ public class Main extends TelegramLongPollingBot {
         List<Lecture> lectureList = service.getAllLectures(day, count);
 
         if (lectureList.isEmpty()) {
-            String msg = day == WeekDay.SUNDAY ?
-                    "Оп оп, выходной, живем живем" : "Сегодня выходной. Чиллим, дамы и господа";
+            // CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ - гіфка день отдиха
 
-            sender.sendStringWithDisabledNotifying(chatId, msg);
+            if (day == WeekDay.SUNDAY) {
+                sender.sendStringWithDisabledNotifying(chatId, "Оп оп, вихідний, живем живем");
+            } else {
+                sender.sendStringWithDisabledNotifying(chatId, "Пацани, сьогодні день отдиха");
+                sender.sendDocument(chatId, "CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ");
+            }
+
             return;
         }
 
@@ -558,7 +573,7 @@ public class Main extends TelegramLongPollingBot {
                 .append(", ")
                 .append(FORMAT_DATE.format(date))
                 .append(", ")
-                .append(count == WeekCount.FIRST ? "Первая неделя" : "Вторая неделя");
+                .append(count == WeekCount.FIRST ? "Перший тиждень" : "Другий тиждень");
 
         for (Lecture lecture : lectureList) {
             sb.append("\n\n").append(lecture.getLectureInfo());
@@ -577,20 +592,20 @@ public class Main extends TelegramLongPollingBot {
             LectureCount count = lecture.getLectureCount();
 
             if (time.equals(count.getStartTime())) {
-                String msg = i == 0 ? "Первая пара уже начинается:" : "Пара уже начинается:";
+                String msg = i == 0 ? "Перша пара вже починається:" : "Пара вже починається:";
 
                 sendLectureInfo(lecture, msg, CHAT_ID);
                 return true;
             } else if (time.equals(count.getEndTime())) {
                 if (i == lectureList.size() - 1) {
-                    sender.sendString(CHAT_ID, "Ура, пары завершились! Вот пары на следующий день");
+                    sender.sendString(CHAT_ID, "Ураааа, пари закінчились! Ось пари на наступний день");
                     sendNextDaySchedule(CHAT_ID);
                 } else {
-                    sendLectureInfo(lectureList.get(i + 1), "Пара завершилась. Следущая пара:", CHAT_ID);
+                    sendLectureInfo(lectureList.get(i + 1), "Пара закінчилась. Наступна пара:", CHAT_ID);
                 }
                 return true;
             } else if (firstNotification.equals(count.getStartTime()) || secondNotification.equals(count.getStartTime())) {
-                sendLectureInfo(lecture, "Пара продолжается:", CHAT_ID);
+                sendLectureInfo(lecture, "Пара продовжується:", CHAT_ID);
                 return true;
             }
         }
@@ -611,7 +626,7 @@ public class Main extends TelegramLongPollingBot {
         List<Lecture> lectureList = getTodayLectures();
 
         if (lectureList.isEmpty()) {
-            sender.sendString(chatId, "Сегодня лекций нет");
+            sender.sendString(chatId, "Сьогодні лекцій немає");
             return;
         }
 
@@ -623,7 +638,7 @@ public class Main extends TelegramLongPollingBot {
                 Date start = FORMAT_TIME.parse(count.getStartTime()), end = FORMAT_TIME.parse(count.getEndTime());
 
                 if (start.before(now) && end.after(now)) {
-                    sendLectureInfo(lecture, "Текущая пара:", chatId);
+                    sendLectureInfo(lecture, "Поточна пара:", chatId);
                     return;
                 }
             }
@@ -634,15 +649,15 @@ public class Main extends TelegramLongPollingBot {
 
                 if (end.before(now)) {
                     if (i == lectureList.size() - 1) {
-                        sender.sendString(chatId, "Пары уже закончились");
+                        sender.sendString(chatId, "Пари вже закінчились");
                     } else {
-                        sendLectureInfo(lectureList.get(i + 1), "Следущая пара:", chatId);
+                        sendLectureInfo(lectureList.get(i + 1), "Наступна пара:", chatId);
                     }
                     return;
                 }
             }
 
-            sendLectureInfo(lectureList.get(0), "Первая пара:", chatId);
+            sendLectureInfo(lectureList.get(0), "Перша пара:", chatId);
         } catch (ParseException ignored) {
         }
     }
@@ -666,7 +681,7 @@ public class Main extends TelegramLongPollingBot {
             }
         } else {
             sender.sendStringWithDisabledWebPagePreview(chatId,
-                    "Эту команду можно использовать только [в лс бота!](https://t.me/ip_14_bot)");
+                    "Цю команду можна використовувати лише [в лп бота!](https://t.me/ip_14_bot)");
         }
     }
 
@@ -678,8 +693,8 @@ public class Main extends TelegramLongPollingBot {
         int year = Integer.parseInt(FORMAT_DATE.format(now).substring(6));
 
         for (User user : service.getUsersByBirthday(date)) {
-            String msg = user.getNameWithLink() + " сегодня празднует свой *День рождения!* " +
-                    "Ей (ему) исполняется *" + user.getAge(year) + "* годиков!";
+            String msg = user.getNameWithLink() + " сьогодні святкує свій *День нарождення!* " +
+                    "Їй (йому) виповнюється *" + user.getAge(year) + "* рочків!";
 
             sender.sendString(CHAT_ID, msg);
             sender.sendString(CHAT_ID, user.getBirthdayCommand());
