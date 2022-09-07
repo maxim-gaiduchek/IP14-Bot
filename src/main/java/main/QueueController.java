@@ -33,13 +33,13 @@ public class QueueController {
 
         if (message.isUserMessage() && service.isUserOfIP14(chatId)
                 || message.isSuperGroupMessage() || message.isGroupMessage()) {
-            sender.sendStringAndInlineKeyboard(chatId, "Выбери дисциплину", getDisciplineChooseKeyboard());
+            sender.sendStringAndInlineKeyboard(chatId, "Оберіть дисципліну", getDisciplineChooseKeyboard());
         }
     }
 
     public static void sendDisciplineChoose(SimpleSender sender, Long chatId, Integer messageId) {
         if (service.isUserOfIP14(chatId)) {
-            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Выбери дисциплину", getDisciplineChooseKeyboard());
+            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Оберіть дисципліну", getDisciplineChooseKeyboard());
         }
     }
 
@@ -49,13 +49,13 @@ public class QueueController {
             Discipline discipline = Discipline.valueOf(split[0]);
             int labNumber = Integer.parseInt(split[1]);
 
-            StringBuilder sb = new StringBuilder("*Очередь на ").append(discipline.getTitle())
+            StringBuilder sb = new StringBuilder("*Черга на ").append(discipline.getTitle())
                     .append(" (").append(labNumber).append(" лаба)*\n");
             List<Queue> top3List = service.getFirst3(discipline);
             List<Queue> queueList = service.getLabQueue(discipline, labNumber);
 
             if (!top3List.isEmpty()) {
-                sb.append("\n*3 несгораемых места:*\n");
+                sb.append("\n*3 стійкі місця:*\n");
 
                 for (Queue queue : top3List) {
                     User user = queue.getUser();
@@ -68,9 +68,9 @@ public class QueueController {
             }
 
             if (queueList.isEmpty()) {
-                sb.append("\nОчередь на лабу пуста\n");
+                sb.append("\nЧерга на лабу порожня\n");
             } else {
-                sb.append("\nОстальная очередь\n");
+                sb.append("\nРешта черги\n");
 
                 for (Queue queue : queueList) {
                     User user = queue.getUser();
@@ -85,7 +85,7 @@ public class QueueController {
             format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
             String date = format.format(new Date());
 
-            sb.append("\n_Обновлено ").append(date).append("_");
+            sb.append("\n_Оновлено ").append(date).append("_");
 
             sender.editMessageText(chatId, messageId, sb.toString());
         } catch (Exception e) {
@@ -102,13 +102,13 @@ public class QueueController {
     }
 
     private static void sendQueue(SimpleSender sender, Long chatId, Integer messageId, Discipline discipline) {
-        StringBuilder sb = new StringBuilder("*Очередь на ").append(discipline.getTitle()).append("*\n\n");
+        StringBuilder sb = new StringBuilder("*Черга на ").append(discipline.getTitle()).append("*\n\n");
         List<Queue> queueList = service.getFullQueue(discipline);
 
         List<Integer> userQueues = new ArrayList<>();
 
         if (queueList.isEmpty()) {
-            sb.append("Очередь пуста\n");
+            sb.append("Черга порожня\n");
         } else {
             for (Queue queue : queueList) {
                 User user = queue.getUser();
@@ -128,9 +128,9 @@ public class QueueController {
             }
 
             if (userQueues.isEmpty()) {
-                sb.append("\nВас еще нет в очереди!");
+                sb.append("\nВас ще нема в черзі!");
             } else {
-                sb.append("\nВы заняли очередь на *лабы номер ")
+                sb.append("\nВи зайняли чергу на *лаби номер ")
                         .append(userQueues.stream().map(Object::toString).collect(Collectors.joining(", ")))
                         .append("*");
             }
@@ -140,7 +140,7 @@ public class QueueController {
         format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
         String date = format.format(new Date());
 
-        sb.append("\n_Обновлено ").append(date).append("_");
+        sb.append("\n_Оновлено ").append(date).append("_");
 
         sender.editMessageTextAndInlineKeyboard(
                 chatId, messageId, sb.toString(), getEnterOrLeaveQueueKeyboard(discipline, userQueues.size()));
@@ -157,7 +157,7 @@ public class QueueController {
 
             List<List<InlineKeyboardButton>> keyboard = getLabNumberChooseKeyboard(numbers, discipline, "choose-lab-num");
 
-            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Выбери номер лабы", keyboard);
+            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Оберіть номер лаби", keyboard);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -171,7 +171,7 @@ public class QueueController {
                     getAddLabNumberKeyboard(discipline, user) :
                     getRemoveLabNumberKeyboard(discipline, user);
 
-            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Выбери номер лабы", keyboard);
+            sender.editMessageTextAndInlineKeyboard(chatId, messageId, "Оберіть номер лаби", keyboard);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -249,19 +249,19 @@ public class QueueController {
                     String title = discipline.getTitle();
 
                     if (i == 0) {
-                        String msg = "*Сейчас твоя очередь сдавать лабу по " + title + "!*";
+                        String msg = "*Зараз твоя черга здавати лабу з " + title + "!*";
 
                         for (int j = 0; j < 3; j++) sender.sendString(userId, msg);
                     } else if (i == 1) {
                         User upper = first3.get(0).getUser();
-                        String msg = "Ты на *2 месте* в очереди по *" + title + "*. " +
-                                "Ты будешь сдавать следующим, после " + upper.getNameWithLink() + ". Готовся!";
+                        String msg = "Ти на *2 місці* у черзі з *" + title + "*. " +
+                                "Ти здаватимеш наступним, після " + upper.getNameWithLink() + ". Готуйся!";
 
                         sender.sendString(userId, msg);
                     } else if (i == 2) {
                         User upper = first3.get(1).getUser();
-                        String msg = "Ты на *3 месте* в очереди по *" + title + "* после " + upper.getNameWithLink() + ". " +
-                                "Ты будешь сдавать лабу в ближайшее время!";
+                        String msg = "Ти на *3 місці* у черзі по *" + title + "* після " + upper.getNameWithLink() + ". " +
+                                "Ти здаватимеш лабу найближчим часом!";
 
                         sender.sendString(userId, msg);
                     }
@@ -326,7 +326,7 @@ public class QueueController {
         List<InlineKeyboardButton> updateRow = new ArrayList<>();
         List<InlineKeyboardButton> backRow = new ArrayList<>();
 
-        updateRow.add(InlineKeyboardButton.builder().text("Обновить").callbackData("queue_" + discipline).build());
+        updateRow.add(InlineKeyboardButton.builder().text("Оновити").callbackData("queue_" + discipline).build());
         backRow.add(InlineKeyboardButton.builder().text("<< Назад").callbackData("queue-start").build());
 
         keyboard.add(updateRow);
@@ -335,14 +335,14 @@ public class QueueController {
         if (userInQueues < MAX_QUEUES) {
             List<InlineKeyboardButton> enterRow = new ArrayList<>();
 
-            enterRow.add(InlineKeyboardButton.builder().text("Встать в очередь").callbackData("add-lab_" + title).build());
+            enterRow.add(InlineKeyboardButton.builder().text("Встати в чергу").callbackData("add-lab_" + title).build());
             keyboard.add(enterRow);
         }
 
         if (userInQueues > 0) {
             List<InlineKeyboardButton> exitRow = new ArrayList<>();
 
-            exitRow.add(InlineKeyboardButton.builder().text("Выйти из очереди").callbackData("remove-lab_" + title).build());
+            exitRow.add(InlineKeyboardButton.builder().text("Вийти з черги").callbackData("remove-lab_" + title).build());
             keyboard.add(exitRow);
         }
 
