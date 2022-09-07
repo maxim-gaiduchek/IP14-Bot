@@ -2,7 +2,7 @@ package entities.enums;
 
 public enum LectureType {
 
-    LECTURE("Лекция"),
+    LECTURE("Лекція"),
     PRACTICE("Практика"),
     LABORATORY("Лабораторка");
 
