@@ -81,7 +81,7 @@ public class QueueController {
                 }
             }
 
-            DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
+            DateFormat format = new SimpleDateFormat("dd.MM.yyyy о HH:mm:ss");
             format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
             String date = format.format(new Date());
 
@@ -136,7 +136,7 @@ public class QueueController {
             }
         }
 
-        DateFormat format = new SimpleDateFormat("dd.MM.yyyy в HH:mm:ss");
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy о HH:mm:ss");
         format.setTimeZone(TimeZone.getTimeZone("Europe/Kiev"));
         String date = format.format(new Date());
 
