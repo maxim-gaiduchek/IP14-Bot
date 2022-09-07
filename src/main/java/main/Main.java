@@ -222,8 +222,9 @@ public class Main extends TelegramLongPollingBot {
 
     private void mentionLeads(Long chatId, Integer messageId) {
         User denis = service.getUser(680053344L);
+        User sanya = service.getUser(419822524L);
 
-        sender.sendString(chatId, denis.getNameWithLink(), messageId);
+        sender.sendString(chatId, denis.getNameWithLink() + " " + sanya.getNameWithLink(), messageId);
     }
 
     /*private void mentionSanya(Long chatId, Integer messageId) {
