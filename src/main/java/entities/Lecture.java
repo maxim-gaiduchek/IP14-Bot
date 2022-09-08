@@ -1,9 +1,6 @@
 package entities;
 
-import entities.enums.LectureCount;
-import entities.enums.LectureType;
-import entities.enums.WeekCount;
-import entities.enums.WeekDay;
+import entities.enums.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -45,8 +42,17 @@ public class Lecture {
     @Enumerated(EnumType.ORDINAL)
     private WeekCount weekCount;
 
-    public Lecture() {
+    private static final LecturesType LECTURES_TYPE;
 
+    static {
+        if (System.getenv("LECTURES_TYPE") != null) {
+            LECTURES_TYPE = LecturesType.valueOf(System.getenv("LECTURES_TYPE"));
+        } else {
+            LECTURES_TYPE = LecturesType.OFFLINE;
+        }
+    }
+
+    public Lecture() {
     }
 
     public Lecture(WeekDay weekDay, LectureCount lectureCount, WeekCount weekCount,
@@ -64,17 +70,20 @@ public class Lecture {
     // getters
 
     public String getLectureInfo() {
-        boolean isOnline = type == LectureType.LECTURE;
-
-        return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
-                type.getName() + "\n" +
-                "*Препод:* " + lecturer + (!isOnline ? (", *аудитория:* " + room) : "") + "\n" +
-                "*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет");
-
-        /*return "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
-                type.getName() + "\n" +
-                "*Препод:* " + lecturer + (!isOnline ? (", *аудитория:* " + room) : "") + "\n" +
-                (isOnline ? ("*Онлайн*, " + (link != null ? ("[линк тут](" + link + ")") : "ссылки нет")) : "Практика *очная*");*/
+        return switch (LECTURES_TYPE) {
+            case ONLINE -> "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
+                    type.getName() + "\n" +
+                    "*Викладач:* " + lecturer + "\n" +
+                    "*Онлайн*, " + (link != null ? ("[посилання](" + link + ")") : "посилання нема");
+            case MIXED -> "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
+                    type.getName() + "\n" +
+                    "*Викладач:* " + lecturer + (!(type == LectureType.LECTURE) ? (", *авдитория:* " + room) : "") + "\n" +
+                    ((type == LectureType.LECTURE) ? ("*Онлайн*, " +
+                            (link != null ? ("[посилання](" + link + ")") : "посилання нема")) : "Практика *очная*");
+            case OFFLINE -> "(" + lectureCount.getStartTime() + "-" + lectureCount.getEndTime() + ") *" + name + "*\n" +
+                    type.getName() + "\n" +
+                    "*Викладач:* " + lecturer + (!(type == LectureType.LECTURE) ? (", *авдитория:* " + room) : "");
+        };
     }
 
     public WeekDay getWeekDay() {
