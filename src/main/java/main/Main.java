@@ -510,7 +510,7 @@ public class Main extends TelegramLongPollingBot {
     // lectures
 
     private void sendScheduleForToday(Long chatId) {
-        sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount(), chatId);
+        sendSchedule(WeekDay.getCurrentWeekDay(), WeekCount.getCurrentWeekCount(), chatId, true);
     }
 
     private void sendNextDaySchedule(Long chatId) {
@@ -523,7 +523,7 @@ public class Main extends TelegramLongPollingBot {
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
             if (!service.getAllLectures(day, count).isEmpty()) {
-                sendSchedule(day, count, chatId);
+                sendSchedule(day, count, chatId, false);
                 return;
             }
         }
@@ -539,28 +539,31 @@ public class Main extends TelegramLongPollingBot {
             if (i == 8) count = count == WeekCount.FIRST ? WeekCount.SECOND : WeekCount.FIRST;
 
             if (!service.getAllLectures(day, count).isEmpty()) {
-                sendSchedule(day, count, chatId);
+                sendSchedule(day, count, chatId, false);
                 return;
             }
         }
     }
 
-    private void sendSchedule(WeekDay day, WeekCount count, Long chatId) {
+    private void sendSchedule(WeekDay day, WeekCount count, Long chatId, boolean chillDay) {
         List<Lecture> lectureList = service.getAllLectures(day, count);
 
         if (lectureList.isEmpty()) {
-            // CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ - гіфка день отдиха
-            // DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ - кружечок день отдиха
+            sender.sendStringWithDisabledNotifying(chatId, "*" + day.getDayName() + "* - пар немає");
 
-            if (day == WeekDay.SUNDAY) {
-                sender.sendStringWithDisabledNotifying(chatId, "Оп оп, вихідний, живем живем");
-            } else {
+            if (chillDay) {
+                // CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ - гіфка день отдиха
+                // DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ - кружечок день отдиха
+                // DQACAgIAAxkBAAIghGLti0NcMLWPWPoF2V6gTrO_YPsuAALIHAACJqhoS6E3qLKGmaBoKQQ - кружечок день отдиха
+                // CAACAgIAAxkBAAIilGMbi0RfiLJwx6romkdFmo1m4Wr_AAJXIQAC6lcBSKIVuI65hNOSKQQ - стікер день отдиха
+
                 sender.sendStringWithDisabledNotifying(chatId, "Пацани, сьогодні день отдиха");
 
-                switch (new Random().nextInt(3)) {
+                switch (new Random().nextInt(4)) {
                     case 0 -> sender.sendDocument(chatId, "CgACAgIAAxkBAAIgCWLtYuctQeJId5iSWTBxZ7oxU6pyAAI9HAACnjr5Sko8RfvJDjJ6KQQ");
                     case 1 -> sender.sendVideoNote(chatId, "DQACAgIAAxkBAAIgPWLthfoOcnR1UpZQqtKk-hfWaWeRAAIKGgACqbvQSrm1H6fGoG8mKQQ");
                     case 2 -> sender.sendVideoNote(chatId, "DQACAgIAAxkBAAIghGLti0NcMLWPWPoF2V6gTrO_YPsuAALIHAACJqhoS6E3qLKGmaBoKQQ");
+                    case 3 -> sender.sendSticker(chatId, "CAACAgIAAxkBAAIilGMbi0RfiLJwx6romkdFmo1m4Wr_AAJXIQAC6lcBSKIVuI65hNOSKQQ");
                 }
             }
 
@@ -683,8 +686,8 @@ public class Main extends TelegramLongPollingBot {
 
     private void sendWeekSchedule(WeekCount count, Long chatId, boolean isPrivateChat) {
         if (isPrivateChat) {
-            for (int i = 1; i < 6; i++) { // i < 7 if there are Saturdays
-                sendSchedule(WeekDay.getWeekDayByCounter(i), count, chatId);
+            for (int i = 1; i < 7; i++) { // i < 7 if there are Saturdays
+                sendSchedule(WeekDay.getWeekDayByCounter(i), count, chatId, false);
             }
         } else {
             sender.sendStringWithDisabledWebPagePreview(chatId,
