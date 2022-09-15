@@ -653,18 +653,28 @@ public class Main extends TelegramLongPollingBot {
                 }
             }
 
-            for (int i = lectureList.size() - 1; i >= 0; i--) {
-                Lecture lecture = lectureList.get(i);
-                Date end = FORMAT_TIME.parse(lecture.getLectureCount().getEndTime());
+            int i;
 
-                if (end.before(now)) {
-                    if (i == lectureList.size() - 1) {
-                        sender.sendString(chatId, "Пари вже закінчились");
-                    } else {
-                        sendLectureInfo(lectureList.get(i + 1), "Наступна пара:", chatId);
-                    }
+            for (i = 0; i < lectureList.size(); i++) {
+                Lecture lecture = lectureList.get(i);
+                Date start = FORMAT_TIME.parse(lecture.getLectureCount().getStartTime());
+
+                if (now.before(start)) {
+                    break;
+                }
+            }
+
+            if (i == lectureList.size() - 1) {
+                Lecture lecture = lectureList.get(i);
+                Date start = FORMAT_TIME.parse(lecture.getLectureCount().getStartTime());
+
+                if (now.before(start)) {
+                    sender.sendString(chatId, "Пари вже закінчились");
                     return;
                 }
+            } else {
+                sendLectureInfo(lectureList.get(i + 1), "Наступна пара:", chatId);
+                return;
             }
 
             sendLectureInfo(lectureList.get(0), "Перша пара:", chatId);
