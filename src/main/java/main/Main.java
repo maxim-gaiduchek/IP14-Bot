@@ -668,16 +668,16 @@ public class Main extends TelegramLongPollingBot {
                 Lecture lecture = lectureList.get(i);
                 Date start = FORMAT_TIME.parse(lecture.getLectureCount().getStartTime());
 
-                if (now.before(start)) {
+                if (start.before(now)) {
                     sender.sendString(chatId, "Пари вже закінчились");
                     return;
                 }
-            } else {
-                sendLectureInfo(lectureList.get(i + 1), "Наступна пара:", chatId);
+            } else if (i == 0) {
+                sendLectureInfo(lectureList.get(0), "Перша пара:", chatId);
                 return;
             }
 
-            sendLectureInfo(lectureList.get(0), "Перша пара:", chatId);
+            sendLectureInfo(lectureList.get(i), "Наступна пара:", chatId);
         } catch (ParseException ignored) {
         }
     }
