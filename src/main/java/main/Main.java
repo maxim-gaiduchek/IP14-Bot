@@ -655,7 +655,7 @@ public class Main extends TelegramLongPollingBot {
 
             int i;
 
-            for (i = 0; i < lectureList.size(); i++) {
+            for (i = 0; i < lectureList.size() - 1; i++) {
                 Lecture lecture = lectureList.get(i);
                 Date start = FORMAT_TIME.parse(lecture.getLectureCount().getStartTime());
 
