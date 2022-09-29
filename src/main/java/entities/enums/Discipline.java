@@ -2,7 +2,9 @@ package entities.enums;
 
 public enum Discipline {
 
-    DB("БД", 5);
+    DB("БД", 5),
+    AP("ПА", 5),
+    WEB("Веб", 5);
 
     private final String title;
     private final int maxLabs;
